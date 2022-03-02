@@ -38,8 +38,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		ay = MARIO_GRAVITY;
 	}
 
-	if (vy <= -0.6f && isRunningMax) {
-		vy = -0.6f;
+	if (vy <= -MARIO_JUMP_RUN_SPEED_Y && isJumpRunMax) {
+		vy = -MARIO_JUMP_RUN_SPEED_Y;
 		ay = MARIO_GRAVITY;
 	}
 	//change direction when run max speed
@@ -84,6 +84,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		isFlying = false;
 		isFlapping = false;
+		canFallSlow = true;
 		DebugOut(L"[INFO] mario raccoon fly time end\n");
 	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -101,7 +102,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
 		vy = 0;
-		if (e->ny < 0) isOnPlatform = true;
+		if (e->ny < 0) {
+			isOnPlatform = true;
+			isFlying = false;
+			canFallSlow = false;
+			isJumpRunMax = false;
+		}
 	}
 	else 
 	if (e->nx != 0 && e->obj->IsBlocking())
@@ -244,7 +250,7 @@ int CMario::GetAniIdBig()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (isRunningMax)
+		if (isJumpRunMax)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_JUMP_RUN_RIGHT;
@@ -296,11 +302,11 @@ int CMario::GetAniIdBig()
 			{
 				if (nx > 0)
 					aniId = ID_ANI_MARIO_BRACE_LEFT;
-				else if (isRunningMax)
+				else if (isJumpRunMax)
 					aniId = ID_ANI_MARIO_RUN_MAX_LEFT;
 				else if (isRunning)
 					aniId = ID_ANI_MARIO_RUNNING_LEFT;
-				else if (isWalking)
+				else if (isJumpRunMax)
 					aniId = ID_ANI_MARIO_WALKING_LEFT;
 
 			}
@@ -353,6 +359,13 @@ int CMario::GetAniIdRaccoon()
 					aniId = ID_ANI_MARIO_RACCOON_FALL_FLY_RIGHT;
 				else
 					aniId = ID_ANI_MARIO_RACCOON_FALL_FLY_LEFT;
+			}
+
+			if (isFallSlowing) {
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_RACCOON_FALL_SLOW_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_RACCOON_FALL_SLOW_LEFT;
 			}
 		}
 
@@ -532,14 +545,16 @@ void CMario::SetState(int state)
 	case MARIO_STATE_JUMP:
 		isJumpping = true;
 		if (isOnPlatform) {
+		
 			if (vy > -MARIO_JUMP_SPEED_MIN)
 			{
 				vy = -MARIO_JUMP_SPEED_MIN;
+				
 			}
 			if (isRunningMax)
 			{
+				isJumpRunMax = true;
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
-				ay = MARIO_GRAVITY;
 
 				if (level == MARIO_LEVEL_RACCOON) {
 					isFlying = true;
@@ -553,7 +568,10 @@ void CMario::SetState(int state)
 		ay = -MARIO_RACCOON_FLAPPING_SPEED;
 		isFlapping = true;
 		break;
-
+	case MARIO_RACCOON_STATE_FALL_SLOW:
+		isFallSlowing = true;
+		vy = -MARIO_RACCOON_FALL_SLOW_SPEED;
+		break;
 	case MARIO_STATE_SIT:
 		if (isOnPlatform && level != MARIO_LEVEL_SMALL)
 		{
@@ -580,6 +598,7 @@ void CMario::SetState(int state)
 		ax = 0.0f;
 		vx = 0.0f;
 		ay = MARIO_GRAVITY;
+
 		break;
 
 	case MARIO_STATE_DIE:
