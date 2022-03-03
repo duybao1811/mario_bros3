@@ -72,7 +72,7 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Koopa.cpp">
+    <ClCompile Include="Koopas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,7 +146,7 @@
     <ClInclude Include="Portal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Koopa.h">
+    <ClInclude Include="Koopas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
