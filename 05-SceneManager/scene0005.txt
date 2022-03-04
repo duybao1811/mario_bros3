@@ -5,6 +5,8 @@ coin.txt
 cloud.txt
 brick.txt
 koopas.txt
+fireball.txt
+
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -34,7 +36,6 @@ koopas.txt
 
 #KOOPAS 1: KOOPAS GREEN BASE 2:KOOPAS RED BASE 3: KOOPAS GREEN WING
 
-3	180	20	3
 
 #Portal 
 50	200	160	216	180	1

@@ -8,11 +8,12 @@
 #include "Koopas.h"
 #include "Coin.h"
 #include "Portal.h"
-
+#include "FireBall.h"
 #include "Collision.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+
 	vy += ay * dt;
 	vx += ax * dt + nx * powerStack * ax;
 
@@ -103,6 +104,28 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (GetTickCount64() - kick_start > MARIO_KICK_TIMEOUT && isKicking) {
 		kick_start = -1;
 		isKicking = false;
+	}
+
+	if (GetTickCount64() - shoot_start > 500 && isShooting) {
+		shoot_start = -1;
+		isShooting = false;
+	}
+
+	if (isShooting && level == MARIO_LEVEL_FIRE)
+	{
+		if (ListFire.size() < 2)
+		{
+			ShootFire();
+			isShooting = false;
+		}
+	}
+
+	for (size_t i = 0; i < ListFire.size(); i++)
+	{
+		ListFire[i]->Update(dt, coObjects);
+		if (ListFire[i]->GetState() == FIRE_BALL_DISAPPEAR) {
+			ListFire.erase(ListFire.begin() + i);
+		}
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -545,6 +568,13 @@ int CMario::GetAniIdFire()
 			else
 				aniId = ID_ANI_MARIO_FIRE_KICK_LEFT;
 		}
+		else if (isShooting) {
+			if (nx > 0) {
+				aniId = ID_ANI_MARIO_FIRE_SHOOT_FIRE_RIGHT;
+			}
+			else
+				aniId = ID_ANI_MARIO_FIRE_SHOOT_FIRE_LEFT;
+		}
 		else
 		{
 			if (vx == 0)
@@ -600,7 +630,12 @@ void CMario::Render()
 	else if (level == MARIO_LEVEL_FIRE)
 		aniId = GetAniIdFire();
 
+	for (int i = 0; i < ListFire.size(); i++)
+	{
+		ListFire[i]->Render();
+	}
 	animations->Get(aniId)->Render(x, y);
+
 
 	//RenderBoundingBox();
 	
@@ -623,6 +658,10 @@ void CMario::SetState(int state)
 		running_start = GetTickCount64();
 		ax = -MARIO_ACCEL_RUN_X;
 		nx = -1;
+		break;
+	case MARIO_STATE_RELEASE_RUN:
+		isRunning = false;
+		running_stop = GetTickCount64();
 		break;
 	case MARIO_STATE_WALKING_RIGHT:
 		ax = MARIO_ACCEL_WALK_X;
@@ -681,7 +720,11 @@ void CMario::SetState(int state)
 			y -= MARIO_SIT_HEIGHT_ADJUST;
 		}
 		break;
-
+	case MARIO_STATE_SHOOTING:
+		isShooting = true;
+		shoot_start = GetTickCount64();
+		canShoot = false;
+		break;
 	case MARIO_STATE_IDLE:
 		Decelerate();
 		ay = MARIO_GRAVITY;
@@ -708,6 +751,13 @@ void CMario::Decelerate()
 	{
 		ax = MARIO_DECELERATE_SPEED;
 	}
+}
+
+void CMario::ShootFire()
+{
+	CFireBall* fireBall = new CFireBall(x + 5, y + 5);
+	fireBall->SetState(FIRE_BALL_STATE_MARIO_SHOOT);
+	ListFire.push_back(fireBall);
 }
 
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
