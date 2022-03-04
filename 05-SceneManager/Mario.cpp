@@ -187,6 +187,10 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			koopas->SetState(KOOPAS_STATE_DEFEND);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		} 
+		else if (koopas->GetState() == KOOPAS_STATE_JUMP) {
+			koopas->SetState(KOOPAS_STATE_WALKING);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
 		else if (koopas->GetState() == KOOPAS_STATE_DEFEND)
 		{
 			koopas->SetState(KOOPAS_STATE_IS_KICKED);
@@ -283,7 +287,7 @@ int CMario::GetAniIdSmall()
 			}
 			else if (vx > 0)
 			{
-				if (ax < 0)
+				if (nx < 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_RIGHT;
 				else if (isRunningMax)
 					aniId = ID_ANI_MARIO_SMALL_RUN_MAX_RIGHT;
@@ -294,7 +298,7 @@ int CMario::GetAniIdSmall()
 			}
 			else // vx < 0
 			{
-				if (ax > 0)
+				if (nx > 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_LEFT;
 				else if (isRunningMax)
 					aniId = ID_ANI_MARIO_SMALL_RUN_MAX_LEFT;
