@@ -11,7 +11,7 @@
 #include "FireBall.h"
 #include "Collision.h"
 
-void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 	vy += ay * dt;
@@ -33,7 +33,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
-	
+
 	if (vx < 0 && nx > 0 && !isWalking)
 	{
 		vx = 0;
@@ -58,7 +58,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//change direction when run max speed
 
 	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
+	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -78,7 +78,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			isRunningMax = true;
 		}
 		DebugOut(L"[INFO] powerStack! %d \n", powerStack);
-		
+
 	}
 
 	if (GetTickCount64() - running_stop > POWER_STACK_LOST_TIME && powerStack && !isRunning)
@@ -92,7 +92,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		DebugOut(L"[INFO] powerStack! %d \n", powerStack);
 	}
-	
+
 	if (GetTickCount64() - flying_start > LIMIT_MARIO_RACCOON_FLY_TIME && isFlying)
 	{
 		isFlying = false;
@@ -106,9 +106,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		kick_start = -1;
 	}
 
-	if (GetTickCount64() - shoot_start > 500 && isShooting) {
-		isShooting = false;
+	if (GetTickCount64() - shoot_start > MARIO_FIRE_TIME_SHOOT_EFFECT && canShoot) {
 		shoot_start = -1;
+		canShoot = false;
 	}
 
 	if (isShooting && level == MARIO_LEVEL_FIRE)
@@ -116,6 +116,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (ListFire.size() < MARIO_FIRE_BALL_LIMIT)
 		{
 			ShootFire();
+			canShoot = true;
 			isShooting = false;
 		}
 	}
@@ -149,11 +150,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			canFallSlow = false;
 		}
 	}
-	else 
-	if (e->nx != 0 && e->obj->IsBlocking())
-	{
-		vx = 0;
-	}
+	else
+		if (e->nx != 0 && e->obj->IsBlocking())
+		{
+			vx = 0;
+		}
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
@@ -209,7 +210,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		{
 			koopas->SetState(KOOPAS_STATE_DEFEND);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-		} 
+		}
 		else if (koopas->GetState() == KOOPAS_STATE_JUMP) {
 			koopas->SetState(KOOPAS_STATE_WALKING);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -219,12 +220,12 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			koopas->SetState(KOOPAS_STATE_IS_KICKED);
 		}
 	}
-	else if(e->nx != 0)
+	else if (e->nx != 0)
 	{
 		if (koopas->GetState() == KOOPAS_STATE_DEFEND || koopas->GetState() == KOOPAS_STATE_UPSIDE) {
 			if (isRunning) {
 				isHoldTurtle = true;
-				powerStack = 0;		
+				powerStack = 0;
 			}
 			else {
 				SetState(MARIO_STATE_KICK);
@@ -233,7 +234,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		}
 	}
 	else if (e->ny > 0) {
-		
+
 	}
 }
 
@@ -373,7 +374,7 @@ int CMario::GetAniIdBig()
 					aniId = ID_ANI_MARIO_FALL_LEFT;
 			}
 		}
-		
+
 	}
 	else
 		if (isSitting)
@@ -384,7 +385,7 @@ int CMario::GetAniIdBig()
 				aniId = ID_ANI_MARIO_SIT_LEFT;
 		}
 		else if (isKicking) {
-			if (nx > 0) 
+			if (nx > 0)
 				aniId = ID_ANI_MARIO_KICK_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_KICK_LEFT;
@@ -445,9 +446,9 @@ int CMario::GetAniIdRaccoon()
 {
 	int aniId = -1;
 	if (!isOnPlatform)
-	{	
+	{
 		if (isFlying && isFlapping) {
-			if (nx >= 0) 
+			if (nx >= 0)
 				aniId = ID_ANI_MARIO_RACCOON_FLY_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_RACCOON_FLY_LEFT;
@@ -554,11 +555,11 @@ int CMario::GetAniIdRaccoon()
 
 	return aniId;
 }
-	
-	//
-	// Get animdation ID for FIRE Mario
-	//
-int CMario::GetAniIdFire() 
+
+//
+// Get animdation ID for FIRE Mario
+//
+int CMario::GetAniIdFire()
 {
 	int aniId = -1;
 	if (!isOnPlatform)
@@ -586,7 +587,7 @@ int CMario::GetAniIdFire()
 			}
 		}
 	}
-	else 
+	else
 		if (isSitting)
 		{
 			if (nx > 0)
@@ -600,7 +601,7 @@ int CMario::GetAniIdFire()
 			else
 				aniId = ID_ANI_MARIO_FIRE_KICK_LEFT;
 		}
-		else if (isShooting) {
+		else if (canShoot) {
 			if (nx > 0) {
 				aniId = ID_ANI_MARIO_FIRE_SHOOT_FIRE_RIGHT;
 			}
@@ -683,14 +684,14 @@ void CMario::Render()
 
 
 	//RenderBoundingBox();
-	
+
 	DebugOutTitle(L"Coins: %d", coin);
 }
 
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return; 
+	if (this->state == MARIO_STATE_DIE) return;
 
 	switch (state)
 	{
@@ -701,7 +702,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_RUNNING_LEFT:
 		running_start = GetTickCount64();
-		
+
 		nx = -1;
 		break;
 	case MARIO_STATE_RELEASE_RUN:
@@ -721,7 +722,7 @@ void CMario::SetState(int state)
 	case MARIO_STATE_JUMP:
 
 		if (isOnPlatform) {
-		
+
 			if (vy > -MARIO_JUMP_SPEED_MIN)
 			{
 				vy = -MARIO_JUMP_SPEED_MIN;
@@ -755,7 +756,7 @@ void CMario::SetState(int state)
 		{
 			state = MARIO_STATE_IDLE;
 			isSitting = true;
-			vx = 0; 
+			vx = 0;
 			vy = 0.0f;
 			y += MARIO_SIT_HEIGHT_ADJUST;
 		}
@@ -772,7 +773,6 @@ void CMario::SetState(int state)
 	case MARIO_STATE_SHOOTING:
 		isShooting = true;
 		shoot_start = GetTickCount64();
-
 		break;
 	case MARIO_STATE_IDLE:
 		Decelerate();
@@ -809,7 +809,7 @@ void CMario::ShootFire()
 	ListFire.push_back(fireBall);
 }
 
-void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
+void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (level != MARIO_LEVEL_SMALL)
 	{
@@ -820,18 +820,18 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
-		else 
+		else
 		{
-			left = x - MARIO_BIG_BBOX_WIDTH/2;
-			top = y - MARIO_BIG_BBOX_HEIGHT/2;
+			left = x - MARIO_BIG_BBOX_WIDTH / 2;
+			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		}
 	}
 	else
 	{
-		left = x - MARIO_SMALL_BBOX_WIDTH/2;
-		top = y - MARIO_SMALL_BBOX_HEIGHT/2;
+		left = x - MARIO_SMALL_BBOX_WIDTH / 2;
+		top = y - MARIO_SMALL_BBOX_HEIGHT / 2;
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
 	}
@@ -846,4 +846,3 @@ void CMario::SetLevel(int l)
 	}
 	level = l;
 }
-

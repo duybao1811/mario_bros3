@@ -20,3 +20,4 @@ height	240
 30	Textures\mario1.png
 40	Textures\enemies4.png
 50	Textures\effect.png
+60	Textures\misc1.png

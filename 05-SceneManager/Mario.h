@@ -240,6 +240,7 @@
 #define POWER_STACK_LOST_TIME 250
 #define LIMIT_MARIO_RACCOON_FLY_TIME 5000
 #define MARIO_KICK_TIMEOUT 300
+#define MARIO_FIRE_TIME_SHOOT_EFFECT 500
 #define MARIO_DELAY_SHOOT 500
 #define MARIO_TIME_DURING_SHOOT 300
 #define MARIO_POWER_FULL 7
@@ -298,6 +299,7 @@ public:
 	BOOLEAN isKicking = false;
 	BOOLEAN isShooting = false;
 	BOOLEAN isHoldTurtle = false;
+	BOOLEAN canShoot;
 	int powerStack = 0;
 
 	void SetIsRunning(BOOLEAN run) { isRunning = run; }
