@@ -45,7 +45,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A:
 		if (mario->GetLevel() == MARIO_LEVEL_FIRE) {
-			if (!mario->isShooting ) {
+			if (!mario->isShooting) {
 				mario->SetState(MARIO_STATE_SHOOTING);
 			}
 		}
@@ -69,8 +69,18 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
+	case DIK_RIGHT:
+		mario->SetState(MARIO_STATE_IDLE);
+		break;
+	case DIK_LEFT:
+		mario->SetState(MARIO_STATE_IDLE);
+		break;
 	case DIK_A:
 		mario->SetState(MARIO_STATE_RELEASE_RUN);
+		if (mario->isHoldTurtle) {
+		mario->isHoldTurtle = false;
+		mario->SetState(MARIO_STATE_KICK);
+		}
 		break;
 	}
 	
@@ -85,8 +95,8 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	{
 		if (!mario->isRunning && game->IsKeyDown(DIK_A))
 		{
-			mario->SetState(MARIO_STATE_RUNNING_RIGHT);
-			mario->SetIsRunning(true);
+				mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+				mario->SetIsRunning(true);
 		}
 		else
 		{
@@ -101,8 +111,8 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	{
 		if (!mario->isRunning && game->IsKeyDown(DIK_A))
 		{
-			mario->SetState(MARIO_STATE_RUNNING_LEFT);
-			mario->SetIsRunning(true);
+				mario->SetState(MARIO_STATE_RUNNING_LEFT);
+				mario->SetIsRunning(true);	
 		}
 		else
 		{
