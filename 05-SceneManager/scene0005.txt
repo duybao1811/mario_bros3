@@ -6,11 +6,13 @@ cloud.txt
 brick.txt
 koopas.txt
 items.txt
+goomba.txt
 
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas. 4: coin
+# 6 = question brick
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
@@ -39,3 +41,9 @@ items.txt
 #Portal 
 50	200	160	216	180	1
 
+#GOOMBA
+2	200	10	2
+############ question brick
+
+6	150	100	1
+6	250	100	2

@@ -10,6 +10,7 @@
 #include "Portal.h"
 #include "FireBall.h"
 #include "Collision.h"
+#include "QuestionBrick.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -140,21 +141,20 @@ void CMario::OnNoCollision(DWORD dt)
 }
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
-{
+{	
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
-		vy = 0;
 		if (e->ny < 0) {
 			isOnPlatform = true;
 			isFlying = false;
 			canFallSlow = false;
+			vy = 0;
+		}
+		else {
+			vy = 0;
+			ay = MARIO_GRAVITY;
 		}
 	}
-	else
-		if (e->nx != 0 && e->obj->IsBlocking())
-		{
-			vx = 0;
-		}
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
@@ -164,6 +164,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CQuestionBrick*>(e->obj))
+		OnCollisionWithQuestionBrick(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -232,12 +234,39 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 				koopas->SetState(KOOPAS_STATE_IS_KICKED);
 			}
 		}
+		else {
+			if (level > MARIO_LEVEL_SMALL)
+			{
+				level--;
+				StartUntouchable();
+			}
+			else
+			{
+				DebugOut(L">>> Mario DIE >>> \n");
+				SetState(MARIO_STATE_DIE);
+			}
+		}
 	}
 	else if (e->ny > 0) {
-
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
 	}
 }
 
+void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e) {
+	CQuestionBrick* questionBrick = dynamic_cast<CQuestionBrick*>(e->obj);
+	if (e->ny > 0 && !questionBrick -> isEmpty) {
+		questionBrick->SetSpeed(0, -QUESTION_BRICK_SPEED_UP);
+	}
+}
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {

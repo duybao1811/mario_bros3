@@ -64,6 +64,7 @@ protected:
 	BOOLEAN isKicked;
 	BOOLEAN isComeback;
 	BOOLEAN isUpside;
+	BOOLEAN isHeld;
 
 	int mario_nx;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -80,5 +81,4 @@ protected:
 public:
 	CKoopas(float x, float y, int model);
 	virtual void SetState(int state);
-	BOOLEAN isHeld;
 };
