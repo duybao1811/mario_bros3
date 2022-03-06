@@ -274,6 +274,8 @@ class CMario : public CGameObject
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithLeaf(LPCOLLISIONEVENT e);
+	void OnCollisionWithMushRoom(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -294,7 +296,6 @@ public:
 		isRunning = false;
 		coin = 0;
 		isRunningMax = false;
-	
 	}
 	BOOLEAN isSitting = false;
 	BOOLEAN isOnPlatform = false;

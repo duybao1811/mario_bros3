@@ -27,7 +27,7 @@ void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &botto
 	}
 	else
 	{	
-		if (model == GOOMBA_RED_SWING && state != GOOMBA_STATE_WALKING) {
+		if (model == GOOMBA_RED_WING && state != GOOMBA_STATE_WALKING) {
 			left = x - GOOMBA_BBOX_WIDTH / 2;
 			top = y - GOOMBA_RED_WING_BBOX_HEIGHT / 2;
 			right = left + GOOMBA_BBOX_WIDTH;
@@ -62,8 +62,6 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-
-
 }
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -78,7 +76,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	
-	if (model == GOOMBA_RED_SWING && state != GOOMBA_STATE_DIE) {
+	if (model == GOOMBA_RED_WING && state != GOOMBA_STATE_DIE && state != GOOMBA_STATE_WALKING) {
 		if (state == GOOMBA_RED_WING_STATE_WALKING && GetTickCount64() - wing_walk_start > LIMIT_TIME_WING_WALKING && isWalking) {
 			jumpStack = 0;
 			wing_walk_start = -1;
@@ -125,7 +123,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 void CGoomba::Render()
 {
 	int aniId = ID_ANI_GOOMBA_WALKING;
-	if (model == GOOMBA_RED_SWING) {
+	if (model == GOOMBA_RED_WING) {
 		if (state == GOOMBA_STATE_WALKING) {
 		aniId = ID_ANI_GOOMBA_RED_WALK;
 		}

@@ -1,16 +1,18 @@
 #include "QuestionBrick.h"
 #include "Leaf.h"
 #include "MushRoom.h"
-
+#include "Mario.h"
+#include "PlayScene.h"
+#include "Flower.h"
 CQuestionBrick::CQuestionBrick(float x, float y, int model) :CGameObject(x, y)
 {
 
-	this->ay = 0;
-	this->minY = y - 10;
-	this->startY = y;
-	this->x = x;
-	this->y = y;
 	this->model = model;
+
+	this->ay = 0;
+	this->minY = y - QUESTION_BRICK_BBOX_HEIGHT;
+	this->startY = y;
+	this->startX = x;
 }
 
 void CQuestionBrick::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -31,16 +33,43 @@ void CQuestionBrick::OnNoCollision(DWORD dt)
 void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
+	vx += ax * dt;
 
 	if (y <= minY)
 	{
-		vy = 0.1f;
+		vy = QUESTION_BRICK_SPEED_DOWN;
+
 	}
 	if (y > startY)
 	{
 		y = startY;
 		vy = 0;
 		isEmpty = true;
+		isUnbox = true;
+	}
+
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	/*CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();*/
+	if (isUnbox ) {
+		if (model == QUESTION_BRICK_ITEM) {
+			if (mario->GetLevel() == MARIO_LEVEL_SMALL) {
+				CMushRoom* mushroom = new CMushRoom(x, y, RED_MUSHROOM);
+				mushroom->SetState(MUSHROOM_STATE_UP);
+				objects.push_back(mushroom);
+			}
+			else if (mario->GetLevel() == MARIO_LEVEL_BIG) {
+				CLeaf* leaf = new CLeaf(x, y);
+				leaf->SetState(LEAF_STATE_UP);
+				objects.push_back(leaf);
+			}
+		}
+		
+		isUnbox = false;
+	}
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Update(dt, coObjects);
 	}
 
 	CGameObject::Update(dt, coObjects);
@@ -54,6 +83,11 @@ void CQuestionBrick::Render()
 
 	if (isEmpty) {
 		aniId = ID_ANI_QUESTION_BRICK_EMPTY;
+	}
+
+	for (int i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Render();
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);

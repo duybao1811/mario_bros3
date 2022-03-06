@@ -57,7 +57,7 @@ protected:
 	float ax;
 	float ay;
 
-	int model;
+
 	DWORD defend_start;
 
 	BOOLEAN isDefend;

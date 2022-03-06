@@ -11,6 +11,8 @@
 #include "FireBall.h"
 #include "Collision.h"
 #include "QuestionBrick.h"
+#include "Leaf.h"
+#include "MushRoom.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -79,7 +81,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isRunningMax = true;
 		}
 		DebugOut(L"[INFO] powerStack! %d \n", powerStack);
-
 	}
 
 	if (GetTickCount64() - running_stop > POWER_STACK_LOST_TIME && powerStack && !isRunning)
@@ -162,10 +163,14 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopas(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
+	else if (dynamic_cast<CLeaf*>(e->obj))
+		OnCollisionWithLeaf(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CQuestionBrick*>(e->obj))
 		OnCollisionWithQuestionBrick(e);
+	else if (dynamic_cast<CMushRoom*>(e->obj))
+		OnCollisionWithMushRoom(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -177,8 +182,19 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	{
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
-			goomba->SetState(GOOMBA_STATE_DIE);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			if (goomba->GetModel() == GOOMBA_BASE) {
+				goomba->SetState(GOOMBA_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+			else
+				if (state != GOOMBA_STATE_WALKING) {
+					goomba->SetState(GOOMBA_STATE_WALKING);
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+				}
+				else {
+					goomba->SetState(GOOMBA_STATE_DIE);
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+				}
 		}
 	}
 	else // hit by Goomba
@@ -266,6 +282,18 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e) {
 	if (e->ny > 0 && !questionBrick -> isEmpty) {
 		questionBrick->SetSpeed(0, -QUESTION_BRICK_SPEED_UP);
 	}
+}
+
+void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
+{
+	level = MARIO_LEVEL_RACCOON;
+	e->obj->Delete();
+}
+void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
+{
+	level = MARIO_LEVEL_BIG;
+	y -= 100;
+	e->obj->Delete();
 }
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)

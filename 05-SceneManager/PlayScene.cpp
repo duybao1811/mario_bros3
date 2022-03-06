@@ -11,7 +11,8 @@
 #include "Platform.h"
 #include "QuestionBrick.h"
 #include "SampleKeyEventHandler.h"
-
+#include "Leaf.h"
+#include "MushRoom.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):

@@ -10,6 +10,10 @@
 
 #define QUESTION_BRICK_MAX_HEIGHT 10 
 #define QUESTION_BRICK_SPEED_UP 0.1f
+#define QUESTION_BRICK_SPEED_DOWN 0.1f
+
+#define QUESTION_BRICK_ITEM 2
+#define QUESTION_BRICK_COIN 1
 
 class CQuestionBrick : public CGameObject
 {
@@ -19,20 +23,22 @@ protected:
 
 	float minY;
 	float startY;
+	float startX;
 	// model = 1: ra tiền
 	// model = 2: ra lá hoặc ra nấm đỏ hoặc ra hoa lửa tùy theo level mario
 	
-	int model;
+	vector<LPGAMEOBJECT> objects;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 1; };
+	virtual int IsCollidable() { return 0; };
 	virtual int IsBlocking() { return 1; }
 	virtual void OnNoCollision(DWORD dt);
 
 public:
+
 	CQuestionBrick(float x, float y, int model);
 	virtual void SetState(int state);
 	BOOLEAN isUnbox = false;

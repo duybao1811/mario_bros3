@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define GOOMBA_GRAVITY 0.002f
-#define GOOMBA_WALKING_SPEED 0.05f
+#define GOOMBA_WALKING_SPEED 0.03f
 
 
 #define GOOMBA_BBOX_WIDTH 16
@@ -27,20 +27,19 @@
 
 #define LIMIT_HIGH_LOW 0.25f
 #define LIMIT_HIGH_JUMP 0.4f
-#define LIMIT_TIME_WING_WALKING 1000
+#define LIMIT_TIME_WING_WALKING 5000
 #define LIMIT_JUMP_STACK 3
 
 #define JUMP_LOW_SPEED 0.25f
 #define JUMP_HIGH_SPEED 0.4f
 
 #define GOOMBA_BASE 1
-#define GOOMBA_RED_SWING 2
+#define GOOMBA_RED_WING 2
 class CGoomba : public CGameObject
 {
 protected:
 	float ax;				
 	float ay; 
-	int model;
 
 	ULONGLONG die_start;
 	ULONGLONG wing_walk_start;
@@ -51,7 +50,9 @@ protected:
 	BOOLEAN isJumpStart = false;
 	BOOLEAN isOnAir = false;
 	BOOLEAN isWalking = false;
+
 	int jumpStack = 0;
+	
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
@@ -65,4 +66,5 @@ protected:
 public: 	
 	CGoomba(float x, float y, int model);
 	virtual void SetState(int state);
+	int GetModel() { return model; }
 };
