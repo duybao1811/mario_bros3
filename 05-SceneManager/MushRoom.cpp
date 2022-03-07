@@ -12,9 +12,6 @@ CMushRoom::CMushRoom(float x, float y, int model) :CGameObject(x, y)
 
 	minY = y - MUSHROOM_BBOX_HEIGHT;
 	this->model = model;
-	
-	// SẼ XÓA SAU
-
 }
 
 void CMushRoom::GetBoundingBox(float& left, float& top, float& right, float& bottom)
