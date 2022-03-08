@@ -24,13 +24,15 @@ protected:
 	float vx;
 	float vy;
 
-	int nx;	 
-
+	int nx;
+	int ny;
 	int state;
 
 	bool isDeleted; 
 
 public: 
+
+
 	int model = 0;
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
@@ -39,6 +41,8 @@ public:
 
 	int GetState() { return this->state; }
 	int GetDirection() { return this->nx; }
+	void SetDirectionX(int nx) { this->nx = nx; }
+	void SetDirectionY(int ny) { this->ny = ny; }
 	virtual void Delete() { isDeleted = true;  }
 	bool IsDeleted() { return isDeleted; }
 
@@ -46,6 +50,7 @@ public:
 	float GetX() { return this->x; }
 	float GetY() { return this->y; }
 	void SetModel(int model) { this->model = model; }
+
 	int GetModel() { return model; }
 	CGameObject();
 	CGameObject(float x, float y) :CGameObject() { this->x = x; this->y = y; }
