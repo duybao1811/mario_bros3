@@ -6,6 +6,9 @@
 
 #include "debug.h"
 
+// SPEED
+#pragma region MARIO_SPEED
+#define MARIO_WALKING_SPEED_MAX 0.15f
 #define MARIO_WALKING_SPEED		0.15f
 #define MARIO_DECELERATE_SPEED 0.00012f
 #define MARIO_RUNNING_SPEED		0.2f
@@ -26,6 +29,9 @@
 #define MARIO_GRAVITY			0.0015f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
+
+#pragma endregion
+// STATE
 
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
@@ -52,8 +58,6 @@
 #define MARIO_STATE_SHOOTING 803
 #define MARIO_STATE_FALL 302
 
-
-#define MARIO_WALKING_SPEED_MAX 0.15f
 
 #pragma region ANIMATION_ID
 
@@ -231,12 +235,13 @@
 
 
 
-
+// LEVEL
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
 #define MARIO_LEVEL_RACCOON 3
 #define MARIO_LEVEL_FIRE 4
 
+// BBOX
 #define MARIO_BIG_BBOX_WIDTH  14
 #define MARIO_BIG_BBOX_HEIGHT 24
 #define MARIO_BIG_SITTING_BBOX_WIDTH  14
@@ -247,7 +252,7 @@
 #define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 12
 
-
+// TIME
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define POWER_STACK_TIME 250
 #define POWER_STACK_LOST_TIME 250
@@ -258,10 +263,15 @@
 #define MARIO_TIME_DURING_SHOOT 300
 #define MARIO_TRANSFORM_TIME_OUT 1000
 
+// LIME VALUE
+// Power stack
 #define MARIO_POWER_FULL 7
-#define MARIO_FIRE_BALL_LIMIT 2
-#define ADJUST_HEIGHT_MARIO_SMALL_TRANSFORM_BIG 10
 
+// fire ball
+#define MARIO_FIRE_BALL_LIMIT 2
+
+// ADJUST VALUE
+#define ADJUST_HEIGHT_MARIO_SMALL_TRANSFORM_BIG 10
 #define ADJUST_MARIO_SHOOT_FIRE_X 5
 #define ADJUST_MARIO_SHOOT_FIRE_Y 5
 
@@ -307,6 +317,8 @@ public:
 		coin = 0;
 		isRunningMax = false;
 	}
+
+	// DEFINE BOOLEAN VARIABLE
 	BOOLEAN isSitting = false;
 	BOOLEAN isOnPlatform = false;
 	BOOLEAN isRunning = false;
@@ -326,8 +338,8 @@ public:
 	BOOLEAN isAdjustHeight;
 	int powerStack = 0;
 
-	void SetIsRunning(BOOLEAN run) { isRunning = run; }
 
+	// TIME
 	ULONGLONG running_start;
 	ULONGLONG running_stop;
 	ULONGLONG flying_start;
@@ -336,6 +348,8 @@ public:
 	ULONGLONG transform_start;
 	
 	vector<LPGAMEOBJECT> ListFire;
+
+	void SetIsRunning(BOOLEAN run) { isRunning = run; }
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
