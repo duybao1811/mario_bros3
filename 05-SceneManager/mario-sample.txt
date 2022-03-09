@@ -9,7 +9,7 @@ height	240
 0	intro.txt
 1	scene01.txt
 2	scene02.txt
-5	scene0005.txt
+5	world_1-1.txt
 
 # id	file 
 [TEXTURES]
@@ -22,3 +22,5 @@ height	240
 50	Textures\effect.png
 60	Textures\misc1.png
 70	Textures\misc2.png
+80	Textures\world1-1_bank.png
+90	Textures\enemies5.png

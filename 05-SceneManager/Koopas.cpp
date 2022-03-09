@@ -4,6 +4,8 @@
 #include "Mario.h"
 #include "PlayScene.h"
 #include "Platform.h"
+#include "Goomba.h"
+#include "define.h"
 CKoopas::CKoopas(float x, float y, int model) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -17,6 +19,8 @@ CKoopas::CKoopas(float x, float y, int model) :CGameObject(x, y)
 	else {
 		SetState(KOOPAS_STATE_WALKING);
 	}
+
+	SetType(EType::ENEMY);
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -43,28 +47,8 @@ void CKoopas::OnNoCollision(DWORD dt)
 	y += vy * dt;
 };
 
-void CKoopas::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
-{
-	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
-
-	if (e->ny < 0) {
-		if (state == KOOPAS_STATE_WALKING && model == KOOPAS_RED) {
-			if ( x <= e->obj->GetX() - ADJUST_X_TO_RED_CHANGE_DIRECTION)
-			{
-				vy = 0;
-				vx = KOOPAS_WALKING_SPEED;
-			}
-			else if (x + KOOPAS_BBOX_WIDTH >= e->obj->GetX() + 520) {
-				vy = 0;
-				vx = -KOOPAS_WALKING_SPEED;
-			}
-		}
-	}
-}
 void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CKoopas*>(e->obj)) return;
 
 	if (e->ny != 0)
 	{
@@ -76,11 +60,41 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0)
 	{
-		vx = -vx;
+		if (e->obj->GetType() == EType::ENEMY) {
+			e->obj->SetState(ENEMY_STATE_IS_ATTACKED);
+		}
 	}
 
 	if (dynamic_cast<CPlatform*>(e->obj))
 		OnCollisionWithPlatform(e);
+}
+
+void CKoopas::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
+{
+	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
+
+	if (e->ny < 0) {
+		if (state == KOOPAS_STATE_WALKING && model == KOOPAS_RED) {
+			if (x <= e->obj->GetX() - ADJUST_X_TO_RED_CHANGE_DIRECTION)
+			{
+				vy = 0;
+				vx = KOOPAS_WALKING_SPEED;
+			}
+			else if (x + KOOPAS_BBOX_WIDTH >= e->obj->GetX() + 520) {
+				vy = 0;
+				vx = -KOOPAS_WALKING_SPEED;
+			}
+		}
+	}
+}
+
+void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (isKicked) {
+		if (e->nx != 0) {
+			
+		}
+	}
 }
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -93,11 +107,11 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (mario->isHoldTurtle) {
 		if (mario->GetDirection() > 0) {
-			x = mario->GetX() + KOOPAS_POSITION_ABSOLUTE_MARIO;
+			x = mario->GetX() + ADJUST_POSITION_KOOPAS_HELD;
 			y = mario->GetY();
 		}
 		else {
-			x = mario->GetX() - KOOPAS_POSITION_ABSOLUTE_MARIO;
+			x = mario->GetX() - ADJUST_POSITION_KOOPAS_HELD;
 			y = mario->GetY();
 		}
 		ay = 0;
