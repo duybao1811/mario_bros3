@@ -11,9 +11,6 @@ CLeaf::CLeaf(float x, float y) :CGameObject(x, y)
 	minY = y - LEAF_MAX_HEIGHT;
 	limitLeft = x;
 	limitRight = x + LEAF_MAX_RIGHT;
-
-	// SẼ XÓA SAU
-
 }
 
 void CLeaf::GetBoundingBox(float& left, float& top, float& right, float& bottom)

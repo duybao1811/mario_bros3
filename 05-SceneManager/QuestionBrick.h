@@ -43,5 +43,6 @@ public:
 	virtual void SetState(int state);
 	BOOLEAN isUnbox = false;
 	BOOLEAN isEmpty = false;
+	CGameObject* item = NULL;
 };
 

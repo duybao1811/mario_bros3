@@ -5,7 +5,7 @@
 #include "PlayScene.h"
 #include "Flower.h"
 #include "define.h"
-
+#include "QBCoin.h"
 CQuestionBrick::CQuestionBrick(float x, float y, int model) :CGameObject(x, y)
 {
 
@@ -72,6 +72,11 @@ void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				objects.push_back(flower);
 			}
 		}
+		else {
+			QBCoin* coin = new QBCoin(x, y);
+			coin->SetState(QB_COIN_STATE_UP);
+			objects.push_back(coin);
+		}
 		isUnbox = false;
 	}
 
@@ -79,6 +84,8 @@ void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		objects[i]->Update(dt, coObjects);
 	}
+
+
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
