@@ -273,6 +273,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 				isHoldTurtle = true;
 				isKicking = false;
 				powerStack = 0;
+				koopas->isHeld = true;
 			}
 			else {
 				SetState(MARIO_STATE_KICK);

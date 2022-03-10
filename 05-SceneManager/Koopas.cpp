@@ -124,20 +124,20 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::SetState(state);
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	if (mario->isHoldTurtle) {
+	if (mario->isHoldTurtle && isHeld) {
 		if (mario->GetDirection() > 0) {
-			x = mario->GetX() + ADJUST_POSITION_KOOPAS_HELD;
-			y = mario->GetY();
+			this->x = mario->GetX() + ADJUST_POSITION_KOOPAS_HELD;
+			this->y = mario->GetY();
 		}
 		else {
-			x = mario->GetX() - ADJUST_POSITION_KOOPAS_HELD;
-			y = mario->GetY();
+			this->x = mario->GetX() - ADJUST_POSITION_KOOPAS_HELD;
+			this->y = mario->GetY();
 		}
 		ay = 0;
-		isHeld = true;
 	}
 	else {
-		if (isHeld) {
+		if (this->isHeld) {
+			ay = KOOPAS_GRAVITY;
 			SetState(KOOPAS_STATE_IS_KICKED);
 		}
 	}
