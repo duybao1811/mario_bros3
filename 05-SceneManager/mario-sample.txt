@@ -24,3 +24,5 @@ height	240
 70	Textures\misc2.png
 80	Textures\world1-1_bank.png
 90	Textures\enemies5.png
+100	Textures\HUD.png
+110	Textures\Font1.png

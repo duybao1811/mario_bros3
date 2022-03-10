@@ -15,6 +15,7 @@ protected:
 	// A play scene has to have player, right? 
 	CMario* player = NULL;					
 	Map* map;
+
 	bool isTurnOnCamY = false;
 
 	void _ParseSection_SPRITES(string line);
