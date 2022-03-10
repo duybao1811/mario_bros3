@@ -9,10 +9,10 @@
 #include "EffectScore.h"
 CQuestionBrick::CQuestionBrick(float x, float y, int model) :CGameObject(x, y)
 {
-
 	this->model = model;
 
 	this->ay = 0;
+	this->ax = 0;
 	this->minY = y - QUESTION_BRICK_BBOX_HEIGHT;
 	this->startY = y;
 	this->startX = x;
@@ -67,7 +67,7 @@ void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				leaf->SetState(LEAF_STATE_UP);
 				scene->objects.insert(scene->objects.begin() + 1, leaf);
 			}
-			else if (mario->GetLevel() == MARIO_LEVEL_RACCOON) {
+			else if (mario->GetLevel() == MARIO_LEVEL_RACCOON || mario->GetLevel() == MARIO_LEVEL_FIRE) {
 				CFlower* flower = new CFlower(x, y);
 				flower->SetState(FLOWER_STATE_UP);
 				scene->objects.insert(scene->objects.begin() + 1, flower);

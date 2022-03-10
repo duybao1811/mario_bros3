@@ -58,7 +58,7 @@ protected:
 	float ay;
 
 
-	DWORD defend_start;
+	ULONGLONG defend_start;
 
 	BOOLEAN isDefend;
 	BOOLEAN isKicked;

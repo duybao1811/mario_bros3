@@ -24,6 +24,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	player = NULL;
+
 	key_handler = new CSampleKeyHandler(this);
 }
 
@@ -109,7 +110,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float y = (float)atof(tokens[2].c_str());
 	int model = 0;
 	if (tokens.size() >= 4) {
-		model = atof(tokens[3].c_str());
+		model = atoi(tokens[3].c_str());
 	}
 	CGameObject *obj = NULL;
 
@@ -299,9 +300,10 @@ void CPlayScene::Update(DWORD dt)
 	PurgeDeletedObjects();
 }
 
-void CPlayScene::SetCam(float cx, float cy)
+void CPlayScene::SetCam(int cx, int cy)
 {
-	float sw, sh, mw, mh;
+	int mw, mh;
+	int sw, sh;
 	CGame* game = CGame::GetInstance();
 	sw = game->GetScreenWidth();
 	sh = game->GetScreenHeight();

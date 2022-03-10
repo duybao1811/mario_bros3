@@ -24,7 +24,7 @@ protected:
 	float ay;
 
 	float minY;
-	int value;
+
 	BOOLEAN isFinish = false;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) { left = top = right = bottom = 0; }
@@ -34,7 +34,6 @@ protected:
 
 public:
 	CEffectScore(float x, float y, int model);
-	virtual void SetState(int state);
 	void SetScoreMario();
 };
 

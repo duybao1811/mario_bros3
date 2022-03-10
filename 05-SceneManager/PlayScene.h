@@ -14,7 +14,7 @@ class CPlayScene: public CScene
 protected: 
 	// A play scene has to have player, right? 
 	CMario* player = NULL;					
-	Map* map;
+	Map* map = NULL;
 
 	bool isTurnOnCamY = false;
 
@@ -37,7 +37,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
-	void SetCam(float cx, float cy);
+	void SetCam(int cx, int cy);
 	LPGAMEOBJECT GetPlayer() { return player; }
 
 	void Clear();

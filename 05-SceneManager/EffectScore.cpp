@@ -108,11 +108,3 @@ void CEffectScore::SetScoreMario() {
 		mario->hearth++;
 	}
 }
-
-void CEffectScore::SetState(int state)
-{
-	CGameObject::SetState(state);
-	switch (state)
-	{
-	}
-}

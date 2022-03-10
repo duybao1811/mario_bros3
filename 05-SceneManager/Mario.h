@@ -336,26 +336,26 @@ public:
 	BOOLEAN isWalking = false;
 	BOOLEAN isKicking = false;
 	BOOLEAN isShooting = false;
-	BOOLEAN isHoldTurtle;
-	BOOLEAN canShoot;
-	BOOLEAN isTransform;
-	BOOLEAN isAdjustHeight; //adjust height when transform
-	BOOLEAN isJumping;
+	BOOLEAN isHoldTurtle = false;
+	BOOLEAN canShoot = false;
+	BOOLEAN isTransform = false;
+	BOOLEAN isAdjustHeight = false; //adjust height when transform
+	BOOLEAN isJumping = false;
 	int powerStack = 0;
 
 
 	// TIME
-	ULONGLONG running_start;
-	ULONGLONG running_stop;
-	ULONGLONG flying_start;
+	ULONGLONG running_start = -1;
+	ULONGLONG running_stop = -1;
+	ULONGLONG flying_start = -1;
 	ULONGLONG kick_start = -1;
-	ULONGLONG shoot_start;
-	ULONGLONG transform_start;
+	ULONGLONG shoot_start = -1;
+	ULONGLONG transform_start = -1;
 	
 	vector<LPGAMEOBJECT> ListFire;
 	vector<LPGAMEOBJECT> ListEffect;
-	int score;
-	int hearth;
+	int score = 0;
+	int hearth = 0;
 
 	void SetIsRunning(BOOLEAN run) { isRunning = run; }
 
