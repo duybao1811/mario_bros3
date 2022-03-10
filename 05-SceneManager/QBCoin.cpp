@@ -1,4 +1,8 @@
 #include "QBCoin.h"
+#include "define.h"
+#include "EffectScore.h"
+#include "PlayScene.h"
+
 QBCoin::QBCoin(float x, float y) : CGameObject(x, y)
 {
 
@@ -22,6 +26,8 @@ void QBCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+
 	if (y <= minY)
 	{
 		y = minY;
@@ -30,7 +36,11 @@ void QBCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (y >= heightFinish && isFall)
 	{
-		isFinish = true;
+		isDeleted = true;
+	}
+	if (isDeleted) {
+		CEffectScore* score = new CEffectScore(x, y, SCORE_EFFECT_100);
+		scene->objects.push_back(score);
 	}
 
 	CGameObject::Update(dt, coObjects);
@@ -41,7 +51,7 @@ void QBCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void QBCoin::Render()
 {
 	int aniId = ID_ANI_QB_COIN;
-	if (isFinish) return;
+
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
 }

@@ -155,7 +155,6 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="define.cpp" />
-    <ClCompile Include="EffectDisappear.cpp" />
     <ClCompile Include="EffectScore.cpp" />
     <ClCompile Include="FireBall.cpp" />
     <ClCompile Include="FirePiranhaPlant.cpp" />
@@ -196,7 +195,6 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
-    <ClInclude Include="EffectDisappear.h" />
     <ClInclude Include="EffectScore.h" />
     <ClInclude Include="FireBall.h" />
     <ClInclude Include="FirePiranhaPlant.h" />

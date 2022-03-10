@@ -51,6 +51,10 @@ void CFirePiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
+	if (state == ENEMY_STATE_IS_FIRE_ATTACKED) {
+		isDeleted = true;
+	}
+
 	if (y <= minY) {
 		y = minY;
 		down_start = GetTickCount64();
@@ -78,9 +82,6 @@ void CFirePiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (size_t i = 0; i < ListFire.size(); i++)
 	{
 		ListFire[i]->Update(dt, coObjects);
-		if (ListFire[i]->GetState() == FIRE_BALL_DISAPPEAR) {
-			ListFire.erase(ListFire.begin() + i);
-		}
 	}
 	GetMarioRangeCurrent();
 	CGameObject::Update(dt, coObjects);

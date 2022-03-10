@@ -15,13 +15,14 @@
 #include "MushRoom.h"
 #include "Flower.h"
 #include "define.h"
+#include "EffectScore.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 	vy += ay * dt;
 	vx += ax * dt + nx * powerStack * ax;
-
+	
 	//limit move x
 	if (abs(vx) > MARIO_WALKING_SPEED) {
 		if (!isRunning) {
@@ -115,7 +116,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		kick_start = -1;
 	}
 
-	if (GetTickCount64() - transform_start > MARIO_TRANSFORM_TIME_OUT && isTransform)
+	if (level == MARIO_LEVEL_BIG && GetTickCount64() - transform_start > MARIO_TRANSFORM_TIME_OUT && isTransform)
+	{
+		isTransform = false;
+		transform_start = -1;
+	}
+
+	if (level == MARIO_LEVEL_RACCOON && GetTickCount64() - transform_start > MARIO_RACCOON_TRANSFORM_TIME_OUT && isTransform)
 	{
 		isTransform = false;
 		transform_start = -1;
@@ -149,10 +156,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (size_t i = 0; i < ListFire.size(); i++)
 	{
 		ListFire[i]->Update(dt, coObjects);
-		if (ListFire[i]->GetState() == FIRE_BALL_DISAPPEAR) {
+		if (ListFire[i]->isDeleted) {
 			ListFire.erase(ListFire.begin() + i);
 		}
 	}
+
+	for (size_t i = 0; i < ListEffect.size(); i++)
+	{
+		ListEffect[i]->Update(dt, coObjects);
+		if (ListEffect[i]->isDeleted) {
+			ListEffect.erase(ListEffect.begin() + i);
+		}
+	}
+
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
@@ -168,11 +184,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {	
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
-		if (e->ny < 0) {
+		if (e->ny < 0 ) {
 			isOnPlatform = true;
 			isFlying = false;
 			canFallSlow = false;
 			vy = 0;
+			isJumping = false;
 		}
 		else {
 			vy = 0;
@@ -193,6 +210,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CLeaf*>(e->obj))
 		OnCollisionWithLeaf(e);
+	else if (dynamic_cast<CFlower*>(e->obj))
+		OnCollisionWithFlower(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CQuestionBrick*>(e->obj))
@@ -213,15 +232,21 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			if (goomba->GetModel() == GOOMBA_BASE) {
 				goomba->SetState(GOOMBA_STATE_DIE);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				obj = new CEffectScore(goomba->GetX(),goomba->GetY(), SCORE_EFFECT_100);
+				ListEffect.push_back(obj);
 			}
 			else
-				if (state != GOOMBA_STATE_WALKING) {
-					goomba->SetState(GOOMBA_STATE_WALKING);
-					vy = -MARIO_JUMP_DEFLECT_SPEED;
-				}
-				else {
+				if (goomba->GetState() == GOOMBA_STATE_WALKING) {
 					goomba->SetState(GOOMBA_STATE_DIE);
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
+					obj = new CEffectScore(goomba->GetX(), goomba->GetY(), SCORE_EFFECT_100);
+					ListEffect.push_back(obj);
+				}
+				else {
+					goomba->SetState(GOOMBA_STATE_WALKING);
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+					obj = new CEffectScore(goomba->GetX(), goomba->GetY(), SCORE_EFFECT_100);
+					ListEffect.push_back(obj);
 				}
 		}
 	}
@@ -244,6 +269,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			}
 		}
 	}
+
 }
 
 void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
@@ -256,14 +282,20 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		{
 			koopas->SetState(KOOPAS_STATE_DEFEND);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			obj = new CEffectScore(koopas->GetX(), koopas->GetY(), SCORE_EFFECT_100);
+			ListEffect.push_back(obj);
 		}
 		else if (koopas->GetState() == KOOPAS_STATE_JUMP) {
 			koopas->SetState(KOOPAS_STATE_WALKING);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			obj = new CEffectScore(koopas->GetX(), koopas->GetY(), SCORE_EFFECT_100);
+			ListEffect.push_back(obj);
 		}
 		else if (koopas->GetState() == KOOPAS_STATE_DEFEND)
 		{
 			koopas->SetState(KOOPAS_STATE_IS_KICKED);
+			obj = new CEffectScore(koopas->GetX(), koopas->GetY(), SCORE_EFFECT_100);
+			ListEffect.push_back(obj);
 		}
 	}
 	else if (e->nx != 0)
@@ -316,7 +348,11 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e) {
 
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 {
+	transform_start = GetTickCount64();
+	isTransform = true;
 	level = MARIO_LEVEL_RACCOON;
+	obj = new CEffectScore(x, y, SCORE_EFFECT_1000);
+	ListEffect.push_back(obj);
 	e->obj->Delete();
 }
 void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
@@ -328,6 +364,8 @@ void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 		isTransform = true;
 		isAdjustHeight = true;
 		level = MARIO_LEVEL_BIG;
+		obj = new CEffectScore(x, y, SCORE_EFFECT_1000);
+		ListEffect.push_back(obj);
 		e->obj->Delete();
 	}
 	
@@ -336,6 +374,8 @@ void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e)
 {
 	level = MARIO_LEVEL_FIRE;
+	obj = new CEffectScore(x, y, SCORE_EFFECT_1000);
+	ListEffect.push_back(obj);
 	e->obj->Delete();
 }
 
@@ -661,6 +701,9 @@ int CMario::GetAniIdRaccoon()
 			else
 				aniId = ID_ANI_MARIO_RACCOON_KICK_LEFT;
 		}
+		else if (isTransform) {
+				aniId = ID_ANI_MARIO_RACCOON_TRANSFORM;
+		}
 		else if (isHoldTurtle) {
 			if (vx == 0)
 			{
@@ -853,8 +896,13 @@ void CMario::Render()
 	{
 		ListFire[i]->Render();
 	}
-	animations->Get(aniId)->Render(x, y);
 
+	for (int i = 0; i < ListEffect.size(); i++)
+	{
+		ListEffect[i]->Render();
+	}
+
+	animations->Get(aniId)->Render(x, y);
 
 	//RenderBoundingBox();
 
@@ -893,7 +941,7 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_JUMP:
-
+		isJumping = true;
 		if (isOnPlatform) {
 
 			if (vy > -MARIO_JUMP_SPEED_MIN)

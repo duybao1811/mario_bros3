@@ -29,6 +29,11 @@ void CPiranhaPlant::OnNoCollision(DWORD dt)
 
 void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+
+	if (state == ENEMY_STATE_IS_FIRE_ATTACKED) {
+		isDeleted = true;
+	}
+
 	vy += ay * dt;
 	vx += ax * dt;
 

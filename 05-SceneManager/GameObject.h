@@ -28,12 +28,12 @@ protected:
 	int ny;
 	int state;
 
-	bool isDeleted; 
+
 
 	int type;
 
 public: 
-
+	bool isDeleted;
 
 	int model = 0;
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }

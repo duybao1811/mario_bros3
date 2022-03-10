@@ -61,6 +61,12 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+	if (isDisappear && GetTickCount64() - start_disappear > DISAPPEAR_EFFECT_TIME_OUT) {
+		start_disappear = -1;
+		isDisappear = false;
+		isDeleted = true;
+	}
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -69,6 +75,9 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CFireBall::Render()
 {
 	int aniId = ID_ANI_FIRE_BALL;
+	if (isDisappear) {
+		aniId = ID_ANI_FIRE_BALL_DISAPPEAR;
+	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
 }
@@ -92,6 +101,13 @@ void CFireBall::SetState(int state)
 		vx = nx * FIRE_BALL_FPP_SHOOT_SPEED_X_FAR;
 		vy = ny * FIRE_BALL_FPP_SHOOT_SPEED_Y_FAR;
 		ay = 0;
+		break;
+	case FIRE_BALL_DISAPPEAR:
+		vx = 0;
+		vy = 0;
+		ay = 0;
+		start_disappear = GetTickCount64();
+		isDisappear = true;
 		break;
 	}
 }

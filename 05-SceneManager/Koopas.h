@@ -82,5 +82,6 @@ protected:
 public:
 	CKoopas(float x, float y, int model);
 	virtual void SetState(int state);
+
 	BOOLEAN isHeld;
 };

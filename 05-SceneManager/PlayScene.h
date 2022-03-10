@@ -29,6 +29,7 @@ protected:
 	
 public: 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> ListEffect;
 
 	CPlayScene(int id, LPCWSTR filePath);
 

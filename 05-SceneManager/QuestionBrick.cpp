@@ -6,6 +6,7 @@
 #include "Flower.h"
 #include "define.h"
 #include "QBCoin.h"
+#include "EffectScore.h"
 CQuestionBrick::CQuestionBrick(float x, float y, int model) :CGameObject(x, y)
 {
 
@@ -59,32 +60,26 @@ void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (mario->GetLevel() == MARIO_LEVEL_SMALL) {
 				CMushRoom* mushroom = new CMushRoom(x, y, RED_MUSHROOM);
 				mushroom->SetState(MUSHROOM_STATE_UP);
-				objects.push_back(mushroom);
+				scene->objects.insert(scene->objects.begin() + 1, mushroom);
 			}
 			else if (mario->GetLevel() == MARIO_LEVEL_BIG) {
 				CLeaf* leaf = new CLeaf(x, y);
 				leaf->SetState(LEAF_STATE_UP);
-				objects.push_back(leaf);
+				scene->objects.insert(scene->objects.begin() + 1, leaf);
 			}
 			else if (mario->GetLevel() == MARIO_LEVEL_RACCOON) {
 				CFlower* flower = new CFlower(x, y);
 				flower->SetState(FLOWER_STATE_UP);
-				objects.push_back(flower);
+				scene->objects.insert(scene->objects.begin() + 1, flower);
 			}
 		}
 		else {
 			QBCoin* coin = new QBCoin(x, y);
 			coin->SetState(QB_COIN_STATE_UP);
-			objects.push_back(coin);
+			scene->objects.insert(scene->objects.begin() + 1, coin);
 		}
 		isUnbox = false;
 	}
-
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt, coObjects);
-	}
-
 
 
 	CGameObject::Update(dt, coObjects);
@@ -98,11 +93,6 @@ void CQuestionBrick::Render()
 
 	if (isEmpty) {
 		aniId = ID_ANI_QUESTION_BRICK_EMPTY;
-	}
-
-	for (int i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Render();
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);

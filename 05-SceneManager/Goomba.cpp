@@ -84,7 +84,6 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isDeleted = true;
 		return;
 	}
-
 	
 	if (model == GOOMBA_RED_WING && state != GOOMBA_STATE_DIE && state != GOOMBA_STATE_WALKING) {
 		if (state == GOOMBA_RED_WING_STATE_WALKING && GetTickCount64() - wing_walk_start > LIMIT_TIME_WING_WALKING && isWalking) {

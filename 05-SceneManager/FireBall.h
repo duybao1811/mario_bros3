@@ -15,7 +15,9 @@
 #define FIRE_BALL_STATE_FPP_SHOOT_NEAR 400
 #define FIRE_BALL_STATE_FPP_SHOOT_FAR 500
 #define FIRE_BALL_DISAPPEAR 300
+
 #define ID_ANI_FIRE_BALL 100
+#define ID_ANI_FIRE_BALL_DISAPPEAR 115
 
 #define FIRE_BALL_FPP_SHOOT_SPEED_X_NEAR 0.03f
 #define	FIRE_BALL_FPP_SHOOT_SPEED_Y_NEAR 0.03f
@@ -24,12 +26,17 @@
 
 #define ADJUST_FPP_SHOOT_FIRE_BALL_HEIGHT 10
 
+#define DISAPPEAR_EFFECT_TIME_OUT 200
+
 class CFireBall : public CGameObject
 {
 protected:
 	float ax;
 	float ay;
 	int mario_nx;
+	BOOLEAN isDisappear = false;
+	ULONGLONG start_disappear;
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

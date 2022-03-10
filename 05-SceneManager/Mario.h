@@ -3,7 +3,7 @@
 
 #include "Animation.h"
 #include "Animations.h"
-
+#include "define.h"
 #include "debug.h"
 
 // SPEED
@@ -184,6 +184,7 @@
 #define ID_ANI_MARIO_RACCOON_FALL_SLOW_RIGHT 12029
 #define ID_ANI_MARIO_RACCOON_FALL_SLOW_LEFT	12030
 
+#define ID_ANI_MARIO_RACCOON_TRANSFORM 115
 // FIRE
 
 #define ID_ANI_MARIO_FIRE_IDLE_RIGHT 13001
@@ -262,6 +263,7 @@
 #define MARIO_DELAY_SHOOT 500
 #define MARIO_TIME_DURING_SHOOT 300
 #define MARIO_TRANSFORM_TIME_OUT 1000
+#define MARIO_RACCOON_TRANSFORM_TIME_OUT 300
 
 // LIME VALUE
 // Power stack
@@ -287,6 +289,7 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	
 	int coin; 
+	CGameObject* obj = NULL;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
@@ -302,6 +305,7 @@ class CMario : public CGameObject
 	int GetAniIdRaccoon();
 	int GetAniIdFire();
 	void ShootFire();
+
 public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
@@ -315,7 +319,7 @@ public:
 		isOnPlatform = false;
 		coin = 0;
 		isRunningMax = false;
-		isHoldTurtle = false;
+		SetType(EType::MARIO);
 	}
 
 	// DEFINE BOOLEAN VARIABLE
@@ -335,7 +339,8 @@ public:
 	BOOLEAN isHoldTurtle;
 	BOOLEAN canShoot;
 	BOOLEAN isTransform;
-	BOOLEAN isAdjustHeight;
+	BOOLEAN isAdjustHeight; //adjust height when transform
+	BOOLEAN isJumping;
 	int powerStack = 0;
 
 
@@ -348,6 +353,9 @@ public:
 	ULONGLONG transform_start;
 	
 	vector<LPGAMEOBJECT> ListFire;
+	vector<LPGAMEOBJECT> ListEffect;
+	int score;
+	int hearth;
 
 	void SetIsRunning(BOOLEAN run) { isRunning = run; }
 

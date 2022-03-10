@@ -82,9 +82,6 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 			mario->SetState(MARIO_STATE_KICK);
 		}
 		break;
-	case DIK_1:
-		mario->SetPosition(1780, 364);
-		break;
 	}
 	
 }

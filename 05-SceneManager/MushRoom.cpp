@@ -3,7 +3,7 @@
 #include "Leaf.h"
 #include "MushRoom.h"
 
-CMushRoom::CMushRoom(float x, float y, int model) :CGameObject(x, y)
+CMushRoom::CMushRoom(float x, float y, int model) : CGameObject(x, y)
 {
 	this->ay = 0;
 	this->ax = 0;

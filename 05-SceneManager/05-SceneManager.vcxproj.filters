@@ -117,9 +117,6 @@
     <ClCompile Include="Tail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EffectDisappear.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HUD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -240,9 +237,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tail.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectDisappear.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
