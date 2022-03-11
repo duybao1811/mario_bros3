@@ -19,8 +19,8 @@ void Map::SetMapData(int** mapData)
 }
 void Map::DrawMap()
 {
-	int FirstColumn = floor(CamX / TILE_WIDTH);
-	int LastColumn = ceil((CamX + CGame::GetInstance()->GetScreenWidth()) / TILE_WIDTH);
+	int FirstColumn = (int)floor(CamX / TILE_WIDTH);
+	int LastColumn = (int)ceil((CamX + CGame::GetInstance()->GetScreenWidth()) / TILE_WIDTH);
 	if (LastColumn >= NumofRowMap)
 		LastColumn = NumofColMap - 1;
 	for (int CurrentRow = 0; CurrentRow < NumofRowMap; CurrentRow++) {
@@ -28,7 +28,7 @@ void Map::DrawMap()
 		{
 			int index = TileMapData[CurrentRow][CurrentColumn] - 1;
 			if (index < TotalTile)
-				Tiles.at(index)->Draw(CurrentColumn * TILE_WIDTH, CurrentRow * TILE_HEIGHT - HUD_HEIGHT);
+				Tiles.at(index)->Draw((float)(CurrentColumn * TILE_WIDTH), float(CurrentRow * TILE_HEIGHT - HUD_HEIGHT));
 		}
 	}
 }

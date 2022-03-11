@@ -18,6 +18,7 @@
 #include "FirePiranhaPlant.h"
 #include "Map.h"
 #include "HUD.h"
+#include "GoldBrick.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -135,6 +136,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE: obj = new CPipe(x, y, model); break;
 	case OBJECT_TYPE_PIRANHA: obj = new CPiranhaPlant(x, y); break;
 	case OBJECT_TYPE_FIRE_PIRANHA: obj = new CFirePiranhaPlant(x, y, model); break;
+	case OBJECT_TYPE_GOLD_BRICK: obj = new CGoldBrick(x, y, model); break;
 	case OBJECT_TYPE_PLATFORM:
 	{
 
@@ -305,8 +307,8 @@ void CPlayScene::SetCam(float cx, float cy)
 	int mw, mh;
 	int sw, sh;
 	CGame* game = CGame::GetInstance();
-	sw = game->GetScreenWidth();
-	sh = game->GetScreenHeight();
+	sw = game->GetBackBufferWidth();
+	sh = game->GetBackBufferHeight();
 	mw = map->GetMapWidth();
 
 	mh = map->GetMapHeight();

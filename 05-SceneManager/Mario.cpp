@@ -16,6 +16,8 @@
 #include "Flower.h"
 #include "define.h"
 #include "EffectScore.h"
+#include "GoldBrick.h"
+#include "PButton.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -216,8 +218,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CQuestionBrick*>(e->obj))
 		OnCollisionWithQuestionBrick(e);
+	else if (dynamic_cast<CGoldBrick*>(e->obj))
+		OnCollisionWithGoldBrick(e);
 	else if (dynamic_cast<CMushRoom*>(e->obj))
 		OnCollisionWithMushRoom(e);
+	else if (dynamic_cast<PButton*>(e->obj))
+		OnCollisionWithPButton(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -319,6 +325,18 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e) {
 	}
 }
 
+void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e) {
+	CGoldBrick* goldBrick = dynamic_cast<CGoldBrick*>(e->obj);
+	if (e->ny > 0 && !goldBrick->isEmpty) {
+		goldBrick->SetState(GOLD_BRICK_STATE_UP);
+	}
+	if (goldBrick->GetType() == COIN) {
+		coin++;
+		score += 100;
+		e->obj->Delete();
+	}
+}
+
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 {
 	transform_start = GetTickCount64();
@@ -339,6 +357,11 @@ void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 		ListEffect.push_back(obj);
 		e->obj->Delete();
 	}
+	else if (e->obj->GetModel() == GREEN_MUSHROOM) {
+		obj = new CEffectScore(x, y, EFFECT_1_UP);
+		ListEffect.push_back(obj);
+		e->obj->Delete();
+	}
 }
 
 void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e)
@@ -351,14 +374,26 @@ void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
-	e->obj->Delete();
-	coin++;
+	if (e->obj->GetType() == COIN) {
+		score += 100;
+		coin++;
+		e->obj->Delete();
+	}
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+}
+
+void CMario::OnCollisionWithPButton(LPCOLLISIONEVENT e)
+{
+	PButton* button = dynamic_cast<PButton*>(e->obj);
+	if (e->ny < 0) {
+		button->SetIsPressed(true);
+		button->SetIsAdjustHeight(true);
+	}
 }
 
 //

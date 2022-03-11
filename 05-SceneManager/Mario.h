@@ -288,6 +288,7 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	
 	int coin; 
+
 	CGameObject* obj = NULL;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -295,9 +296,11 @@ class CMario : public CGameObject
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithGoldBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithLeaf(LPCOLLISIONEVENT e);
 	void OnCollisionWithMushRoom(LPCOLLISIONEVENT e);
 	void OnCollisionWithFlower(LPCOLLISIONEVENT e);
+	void OnCollisionWithPButton(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -317,9 +320,14 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		health = 0;
+		score = 0;
 		isRunningMax = false;
 		SetType(EType::MARIO);
 	}
+
+	int score;
+	int health;
 
 	// DEFINE BOOLEAN VARIABLE
 	BOOLEAN isSitting = false;
@@ -353,8 +361,7 @@ public:
 	
 	vector<LPGAMEOBJECT> ListFire;
 	vector<LPGAMEOBJECT> ListEffect;
-	int score = 0;
-	int hearth = 0;
+
 
 	void SetIsRunning(BOOLEAN run) { isRunning = run; }
 

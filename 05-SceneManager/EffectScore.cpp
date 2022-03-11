@@ -79,11 +79,9 @@ void CEffectScore::SetScoreMario() {
 	switch (model) {
 	case SCORE_EFFECT_100:
 		mario->score += 100;
-		DebugOut(L"[INFO] powerStack! %d \n", mario->score);
 		break;
 	case SCORE_EFFECT_200:
 		mario->score += 200;
-		DebugOut(L"[INFO] powerStack! %d \n", mario->score);
 		break;
 	case SCORE_EFFECT_400:
 		mario->score += 400;
@@ -93,7 +91,6 @@ void CEffectScore::SetScoreMario() {
 		break;
 	case SCORE_EFFECT_1000:
 		mario->score += 1000;
-		DebugOut(L"[INFO] powerStack! %d \n", mario->score);
 		break;
 	case SCORE_EFFECT_2000:
 		mario->score += 2000;
@@ -105,6 +102,6 @@ void CEffectScore::SetScoreMario() {
 		mario->score += 8000;
 		break;
 	case EFFECT_1_UP:
-		mario->hearth++;
+		mario->health++;
 	}
 }

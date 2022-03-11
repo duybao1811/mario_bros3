@@ -50,8 +50,8 @@
 #define RIGHT_BOTTOM_SIDE_FAR 8
 
 // TIME
-#define FPP_UP_TIME_OUT 6000
-#define FPP_DOWN_TIME_OUT 5000
+#define FPP_UP_TIME_OUT 4000
+#define FPP_DOWN_TIME_OUT 3000
 class CFirePiranhaPlant : public CGameObject
 {
 protected:
@@ -62,11 +62,11 @@ protected:
 	float startY;
 	int marioRange;
 
-	ULONGLONG down_start;
-	ULONGLONG up_start;
-	BOOLEAN isMarioSafeZone;
-	BOOLEAN startShoot, startDown;
-	BOOLEAN isBottom, isFar;
+	ULONGLONG down_start = -1;
+	ULONGLONG up_start = -1;
+	BOOLEAN isMarioSafeZone = false;
+	BOOLEAN startShoot = false, startDown = false;
+	BOOLEAN isBottom = false, isFar = false;
 	vector<LPGAMEOBJECT> ListFire;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
