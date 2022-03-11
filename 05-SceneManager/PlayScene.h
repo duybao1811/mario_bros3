@@ -37,7 +37,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
-	void SetCam(int cx, int cy);
+	void SetCam(float cx, float cy);
 	LPGAMEOBJECT GetPlayer() { return player; }
 
 	void Clear();

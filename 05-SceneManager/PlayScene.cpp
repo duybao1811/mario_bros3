@@ -300,7 +300,7 @@ void CPlayScene::Update(DWORD dt)
 	PurgeDeletedObjects();
 }
 
-void CPlayScene::SetCam(int cx, int cy)
+void CPlayScene::SetCam(float cx, float cy)
 {
 	int mw, mh;
 	int sw, sh;
@@ -316,18 +316,18 @@ void CPlayScene::SetCam(int cx, int cy)
 	if (cx <= 0)//Left Edge
 		cx = 0;
 	if (cx >= mw - sw)//Right Edge
-		cx = mw - sw;
+		cx = (float)mw - (float)sw;
 
 	//CamY
 	if (isTurnOnCamY)
-		cy -= sh/2;
+		cy -= (float)sh/2;
 	else
-		cy = mh - sh;
+		cy = (float)mh - (float)sh;
 
 	if (cy <= -HUD_HEIGHT)//Top Edge
 		cy = -HUD_HEIGHT;
 	if (cy + sh >= mh)//Bottom Edge
-		cy = mh - sh;
+		cy = (float)mh - (float)sh;
 
 	//Update CamY when Flying
 	if (player->isFlying)
@@ -335,7 +335,7 @@ void CPlayScene::SetCam(int cx, int cy)
 	if (cy >= mh - sh && !player->isFlying)
 		isTurnOnCamY = false;
 
-	game->SetCamPos(ceil(cx), ceil(cy));
+	game->SetCamPos(cx, cy);
 	map->SetCamPos(cx, cy);
 }
 

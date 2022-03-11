@@ -62,7 +62,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		if (e->obj->GetType() == EType::ENEMY) {
 			if (state == KOOPAS_STATE_IS_KICKED) {
-				e->obj->SetState(ENEMY_STATE_IS_ATTACKED);
+				e->obj->SetState(ENEMY_STATE_IS_KOOPAS_ATTACKED);
 			}
 		}
 		else if (e->obj->GetType() == EType::OBJECT) {
@@ -78,7 +78,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 
 int CKoopas::IsCollidable()
 {
-	if (state == ENEMY_STATE_IS_FIRE_ATTACKED) {
+	if (state == ENEMY_STATE_IS_FIRE_ATTACKED || state == ENEMY_STATE_IS_KOOPAS_ATTACKED) {
 		return 0;
 	}
 	else {
@@ -133,7 +133,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			this->x = mario->GetX() - ADJUST_POSITION_KOOPAS_HELD;
 			this->y = mario->GetY();
 		}
-		ay = 0;
+		vy = 0;
 	}
 	else {
 		if (this->isHeld) {
@@ -150,9 +150,16 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// end defend and start walking
 	if (GetTickCount64() - defend_start > KOOPAS_DEFEND_TIMEOUT && (isDefend || isUpside) && !isKicked) {
+
+
 		SetState(KOOPAS_STATE_WALKING);
 		defend_start = -1;
 		vy = -KOOPAS_COMBACK_HEIGHT_ADJUST;
+
+		if (mario->isHoldTurtle) {
+			mario->isHoldTurtle = false;
+			mario->SetHurt();
+		}
 	}
 
 	CGameObject::Update(dt, coObjects);
@@ -175,7 +182,7 @@ void CKoopas::Render()
 
 	if (model == KOOPAS_GREEN || model == KOOPAS_GREEN_WING)
 	{
-		if (state == ENEMY_STATE_IS_FIRE_ATTACKED) {
+		if (state == ENEMY_STATE_IS_FIRE_ATTACKED || state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_TAIL_ATTACKED) {
 			aniId = ID_ANI_KOOPAS_IS_UPSIDE;
 		}
 		if (vx > 0)
@@ -318,10 +325,13 @@ void CKoopas::SetState(int state)
 	{
 	case KOOPAS_STATE_WALKING:
 		vx = -KOOPAS_WALKING_SPEED;
+		vy = 0;
+		ay = KOOPAS_GRAVITY;
 		isComeback = false;
 		isDefend = false;
 		isUpside = false;
 		isKicked = false;
+		isHeld = false;
 		break;
 	case KOOPAS_STATE_DEFEND:
 		isDefend = true;
@@ -345,14 +355,24 @@ void CKoopas::SetState(int state)
 		vx = mario->GetDirection() * KOOPAS_IS_KICKED_SPEED;
 		break;
 	case KOOPAS_STATE_JUMP:
-		vx = 0.04f;
+		vx = KOOPAS_RED_WING_SPEED_X;
 		isComeback = false;
 		isDefend = false;
 		isUpside = false;
 		isKicked = false;
 		break;
 	case ENEMY_STATE_IS_FIRE_ATTACKED:
-		vy = -0.3f;
+		ay = KOOPAS_GRAVITY;
+		vy = -KOOPAS_SPEED_Y_IS_FIRE_ATTACKED;
+		vx = 0;
+		break;
+	case ENEMY_STATE_IS_KOOPAS_ATTACKED:
+		ay = KOOPAS_GRAVITY;
+		vx = 0;
+		break;
+	case ENEMY_STATE_IS_TAIL_ATTACKED:
+		ay = KOOPAS_GRAVITY;
+		vy = -KOOPAS_SPEED_Y_IS_TAIL_ATTACKED;
 		break;
 	}
 

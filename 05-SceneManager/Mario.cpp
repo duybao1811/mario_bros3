@@ -129,7 +129,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (isTransform) {
-		ay = MARIO_GRAVITY;
+		ay = 0;
 		vx = 0;
 	}
 
@@ -256,16 +256,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				SetHurt();
 			}
 		}
 	}
@@ -313,29 +304,11 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			}
 		}
 		else {
-			if (level > MARIO_LEVEL_SMALL)
-			{
-				level--;
-				StartUntouchable();
-			}
-			else
-			{
-				DebugOut(L">>> Mario DIE >>> \n");
-				SetState(MARIO_STATE_DIE);
-			}
+			SetHurt();
 		}
 	}
 	else if (e->ny > 0) {
-		if (level > MARIO_LEVEL_SMALL)
-		{
-			level = MARIO_LEVEL_SMALL;
-			StartUntouchable();
-		}
-		else
-		{
-			DebugOut(L">>> Mario DIE >>> \n");
-			SetState(MARIO_STATE_DIE);
-		}
+		SetHurt();
 	}
 }
 
@@ -357,8 +330,6 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 }
 void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 {
-	CMushRoom* mushroom = dynamic_cast<CMushRoom*>(e->obj);
-
 	if (e->obj->GetModel() == RED_MUSHROOM) {
 		transform_start = GetTickCount64();
 		isTransform = true;
@@ -368,7 +339,6 @@ void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 		ListEffect.push_back(obj);
 		e->obj->Delete();
 	}
-	
 }
 
 void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e)
@@ -1009,6 +979,19 @@ void CMario::SetState(int state)
 	}
 
 	CGameObject::SetState(state);
+}
+
+void CMario::SetHurt() {
+	if (level > MARIO_LEVEL_SMALL)
+	{
+		level--;
+		StartUntouchable();
+	}
+	else
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
+	}
 }
 
 void CMario::Decelerate()

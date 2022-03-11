@@ -61,7 +61,7 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
-	if (isDisappear && GetTickCount64() - start_disappear > DISAPPEAR_EFFECT_TIME_OUT) {
+	if (isDisappear && GetTickCount64() - start_disappear > 200) {
 		start_disappear = -1;
 		isDisappear = false;
 		isDeleted = true;
@@ -94,12 +94,12 @@ void CFireBall::SetState(int state)
 		break;
 	case FIRE_BALL_STATE_FPP_SHOOT_NEAR:
 		vx = nx * FIRE_BALL_FPP_SHOOT_SPEED_X_NEAR;
-		vy = ny * FIRE_BALL_FPP_SHOOT_SPEED_Y_NEAR;
+		vy = ny * FIRE_BALL_FPP_SHOOT_SPEED_Y;
 		ay = 0;
 		break;
 	case FIRE_BALL_STATE_FPP_SHOOT_FAR:
 		vx = nx * FIRE_BALL_FPP_SHOOT_SPEED_X_FAR;
-		vy = ny * FIRE_BALL_FPP_SHOOT_SPEED_Y_FAR;
+		vy = ny * FIRE_BALL_FPP_SHOOT_SPEED_Y;
 		ay = 0;
 		break;
 	case FIRE_BALL_DISAPPEAR:

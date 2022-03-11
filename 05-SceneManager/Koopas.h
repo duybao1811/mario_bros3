@@ -4,13 +4,17 @@
 #define KOOPAS_GRAVITY 0.002f
 #define KOOPAS_WALKING_SPEED 0.02f
 #define KOOPAS_IS_KICKED_SPEED 0.18f
+#define KOOPAS_SPEED_Y_IS_FIRE_ATTACKED 0.4f
+#define KOOPAS_SPEED_Y_IS_TAIL_ATTACKED 0.4f
+#define KOOPAS_RED_WING_SPEED_X 0.3f
+
 
 #define KOOPAS_WING_GRAVITY 0.0002f
 #define KOOPAS_WING_JUMP_SPEED 0.15f
 #define KOOPAS_BBOX_WIDTH 16
 #define KOOPAS_BBOX_HEIGHT 26
 #define KOOPAS_BBOX_HEIGHT_DEFEND 16
-#define ADJUST_POSITION_KOOPAS_HELD 14
+#define ADJUST_POSITION_KOOPAS_HELD 13
 #define KOOPAS_COMBACK_HEIGHT_ADJUST 0.15f;
 
 #define KOOPAS_DEFEND_TIMEOUT 8000 // hết thời gian defend ( ra khỏi mai rùa và bắt đầu đi)
@@ -60,10 +64,6 @@ protected:
 
 	ULONGLONG defend_start;
 
-	BOOLEAN isDefend;
-	BOOLEAN isKicked;
-	BOOLEAN isComeback;
-	BOOLEAN isUpside;
 
 
 	int mario_nx;
@@ -84,4 +84,9 @@ public:
 	virtual void SetState(int state);
 
 	BOOLEAN isHeld;
+	BOOLEAN isDefend;
+	BOOLEAN isKicked;
+	BOOLEAN isComeback;
+	BOOLEAN isUpside;
+
 };

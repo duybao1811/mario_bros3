@@ -66,7 +66,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 
 int CGoomba::IsCollidable()
 {
-	if (state == ENEMY_STATE_IS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED) {
+	if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED || state == ENEMY_STATE_IS_TAIL_ATTACKED) {
 		return 0;
 	}
 	else {
@@ -132,7 +132,7 @@ void CGoomba::Render()
 {
 	int aniId = ID_ANI_GOOMBA_WALKING;
 	if (model == GOOMBA_BASE) {
-		if (state == ENEMY_STATE_IS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED)
+		if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED)
 		{
 			aniId = ID_ANI_GOOMBA_IS_ATTACKED;
 		}
@@ -150,7 +150,7 @@ void CGoomba::Render()
 		else if (state == GOOMBA_RED_WING_STATE_JUMP_HIGH || state == GOOMBA_RED_WING_STATE_JUMP_LOW) {
 			aniId = ID_ANI_GOOMBA_RED_WING_JUMP;
 		}
-		else if (state == ENEMY_STATE_IS_ATTACKED) {
+		else if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED) {
 			aniId = ID_ANI_GOOMBA_RED_WING_IS_ATTACKED;
 		}
 	}
@@ -197,7 +197,7 @@ void CGoomba::SetState(int state)
 		case GOOMBA_STATE_WALKING: 
 			vx = -GOOMBA_WALKING_SPEED;
 			break;
-		case ENEMY_STATE_IS_ATTACKED:
+		case ENEMY_STATE_IS_KOOPAS_ATTACKED:
 		case ENEMY_STATE_IS_FIRE_ATTACKED:
 			vy = -GOOMBA_IS_ATTACK_SPEED_Y;
 			break;
