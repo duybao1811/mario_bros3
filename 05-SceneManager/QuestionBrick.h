@@ -28,8 +28,7 @@ protected:
 	float startX;
 	// model = 1: ra tiền
 	// model = 2: ra lá hoặc ra nấm đỏ hoặc ra hoa lửa tùy theo level mario
-	
-	vector<LPGAMEOBJECT> objects;
+
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

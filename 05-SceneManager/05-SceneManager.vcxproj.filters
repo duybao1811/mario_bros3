@@ -147,6 +147,12 @@
     <ClCompile Include="PButton.cpp">
       <Filter>Items</Filter>
     </ClCompile>
+    <ClCompile Include="Break.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectAttack.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -271,6 +277,12 @@
     </ClInclude>
     <ClInclude Include="PButton.h">
       <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Break.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectAttack.h">
+      <Filter>Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

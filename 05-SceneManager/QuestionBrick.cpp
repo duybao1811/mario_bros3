@@ -7,6 +7,7 @@
 #include "define.h"
 #include "QBCoin.h"
 #include "EffectScore.h"
+
 CQuestionBrick::CQuestionBrick(float x, float y, int model) :CGameObject(x, y)
 {
 	this->model = model;

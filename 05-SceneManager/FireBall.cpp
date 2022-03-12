@@ -31,20 +31,16 @@ void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0 && state == FIRE_BALL_STATE_MARIO_SHOOT)
 	{
 		vy = -FIRE_BALL_BOUNCE_SPEED;
-		if (e->obj->GetType() == EType::ENEMY) {
-			e->obj->SetState(ENEMY_STATE_IS_FIRE_ATTACKED);
-			SetState(FIRE_BALL_DISAPPEAR);
-		}
+
 	}
 	else if (e->nx != 0)
 	{
-		if (e->obj->GetType() == EType::OBJECT) {
-			SetState(FIRE_BALL_DISAPPEAR);
-		}
-		if (e->obj->GetType() == EType::ENEMY) {
-			e->obj->SetState(ENEMY_STATE_IS_FIRE_ATTACKED);
-			SetState(FIRE_BALL_DISAPPEAR);
-		}
+		SetState(FIRE_BALL_DISAPPEAR);
+	}
+
+	if (e->obj->GetType() == ENEMY) {
+		e->obj->SetState(ENEMY_STATE_IS_FIRE_ATTACKED);
+		SetState(FIRE_BALL_DISAPPEAR);
 	}
 }
 

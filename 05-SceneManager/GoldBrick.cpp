@@ -2,6 +2,8 @@
 #include "PlayScene.h"
 #include "MushRoom.h"
 #include "PButton.h"
+#include "Break.h"
+
 CGoldBrick::CGoldBrick(float x, float y, int model) :CGameObject(x, y)
 {
 	this->model = model;
@@ -38,6 +40,9 @@ void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (y <= minY)
 	{
 		vy = GOLD_BRICK_SPEED_DOWN;
+		if (model == GOLD_BRICK_COIN) {
+			isBreak = true;
+		}
 	}
 	if (y > startY)
 	{
@@ -62,15 +67,41 @@ void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isUnbox = false;
 	}
 
-	if (isTransform && GetTickCount64() - transform_start > 2000) {
+	if (isBreak) {
+		CBreak* break1 = new CBreak(x, y);
+		break1->SetState(BREAK_STATE_TOP_RIGHT);
+		CBreak* break2 = new CBreak(x, y);
+		break2->SetState(BREAK_STATE_TOP_LEFT);
+		CBreak* break3 = new CBreak(x, y);
+		break3->SetState(BREAK_STATE_BOTTOM_RIGHT);
+		CBreak* break4 = new CBreak(x, y);
+		break4->SetState(BREAK_STATE_BOTTOM_LEFT);
+		scene->objects.insert(scene->objects.begin() + 1, break1);
+		scene->objects.insert(scene->objects.begin() + 1, break2);
+		scene->objects.insert(scene->objects.begin() + 1, break3);
+		scene->objects.insert(scene->objects.begin() + 1, break4);
+		isDeleted = true;
+		isBreak = false;
+	}
+
+	if (isTransform && GetTickCount64() - transform_start > GOLD_BRICK_COIN_TIME_OUT) {
+		SetState(GOLD_BRICK_STATE_NORMAL);
 		isTransform = false;
-		transform_start = -1;
 	}
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
+
+int CGoldBrick::IsBlocking() {
+	if (state == GOLD_BRICK_STATE_TRANSFORM_COIN) {
+		return 0;
+	}
+	else
+		return 1;
+
+}
 
 void CGoldBrick::Render()
 {
@@ -103,10 +134,18 @@ void CGoldBrick::SetState(int state)
 			vy = -GOLD_BRICK_SPEED_UP;
 			break;
 		case GOLD_BRICK_STATE_TRANSFORM_COIN:
-			transform_start = GetTickCount64();
-			isTransform = true;
 			if (type == GOLDBRICK) {
 				SetType(EType::COIN);
+				transform_start = GetTickCount64();
+				isTransform = true;
+			}
+			break;
+		case GOLD_BRICK_STATE_NORMAL:
+			if (type == COIN) {
+				DebugOut(L"[INFO] mario raccoon fly time end\n");
+				SetType(EType::GOLDBRICK);
+				transform_start = -1;
+				isTransform = false;
 			}
 			break;
 	}

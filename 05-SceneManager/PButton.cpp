@@ -45,14 +45,11 @@ int PButton::IsBlocking() {
 void PButton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
-	if (isAdjustHeight) {
-		y = y + (P_BUTTON_BBOX_HEIGHT - P_BUTTON_IS_PRESSED_BBOX_HEIGHT);
-		isAdjustHeight = false;
-	}
-
 	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 
-	if (isPressed) {
+	if (isGoldBrickTransform) {
+		y = y + (P_BUTTON_BBOX_HEIGHT - P_BUTTON_IS_PRESSED_BBOX_HEIGHT);
+
 		for (size_t i = 0; i < scene->objects.size(); i++) {
 			if (scene->objects[i]->GetType() == GOLDBRICK) {
 				CGoldBrick* goldbrick = dynamic_cast<CGoldBrick*>(scene->objects[i]);
@@ -61,6 +58,7 @@ void PButton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
+		isGoldBrickTransform = false;
 	}
 
 	CGameObject::Update(dt, coObjects);

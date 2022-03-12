@@ -14,7 +14,7 @@ class CPlayScene: public CScene
 protected: 
 	// A play scene has to have player, right? 
 	CMario* player = NULL;					
-	Map* map = NULL;
+
 
 	bool isTurnOnCamY = false;
 
@@ -28,6 +28,9 @@ protected:
 	void LoadAssets(LPCWSTR assetFile);
 	
 public: 
+
+	Map* map = NULL;
+
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> ListEffect;
 

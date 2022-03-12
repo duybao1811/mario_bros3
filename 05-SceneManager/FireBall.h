@@ -32,9 +32,9 @@ class CFireBall : public CGameObject
 protected:
 	float ax;
 	float ay;
-	int mario_nx;
+	int mario_nx = 1;
 	BOOLEAN isDisappear = false;
-	ULONGLONG start_disappear;
+	ULONGLONG start_disappear = -1;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

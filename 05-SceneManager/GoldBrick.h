@@ -18,7 +18,9 @@
 
 #define GOLD_BRICK_STATE_UP 100
 #define GOLD_BRICK_STATE_TRANSFORM_COIN 200
+#define GOLD_BRICK_STATE_NORMAL 300
 
+#define GOLD_BRICK_COIN_TIME_OUT 5000
 class CGoldBrick : public CGameObject
 {
 protected:
@@ -28,7 +30,9 @@ protected:
 	float minY;
 	float startY;
 	float startX;
-	BOOLEAN isTransform;
+	BOOLEAN isTransform = false;
+
+	BOOLEAN isBreak = false;
 	// model = 1: ra nấm xanh
 	// model = 2: ra P button
 	// model = 3: có thể biến ra tiền
@@ -41,15 +45,15 @@ protected:
 	virtual void Render();
 
 	virtual int IsCollidable() { return 0; };
-	virtual int IsBlocking() { return 1; }
+	virtual int IsBlocking();
 	virtual void OnNoCollision(DWORD dt);
 
 public:
 
 	CGoldBrick(float x, float y, int model);
 	virtual void SetState(int state);
+	void SetBreak(int isBreak) { this->isBreak = isBreak; }
 	BOOLEAN isUnbox = false;
 	BOOLEAN isEmpty = false;
-	CGameObject* item = NULL;
 };
 

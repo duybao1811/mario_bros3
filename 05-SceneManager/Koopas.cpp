@@ -6,6 +6,9 @@
 #include "Goomba.h"
 #include "define.h"
 #include "QuestionBrick.h"
+#include "GoldBrick.h"
+#include "EffectAttack.h"
+
 CKoopas::CKoopas(float x, float y, int model) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -60,12 +63,15 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0)
 	{
-		if (e->obj->GetType() == EType::ENEMY) {
+		if (e->obj->GetType() == ENEMY) {
 			if (state == KOOPAS_STATE_IS_KICKED) {
+				CEffectAttack* effect = new CEffectAttack(x, y);
+				effect->SetState(EFFECT_ATTACK_STATE_SHOW);
+				effects.push_back(effect);
 				e->obj->SetState(ENEMY_STATE_IS_KOOPAS_ATTACKED);
 			}
 		}
-		else if (e->obj->GetType() == EType::OBJECT) {
+		else if (e->obj->GetType() == OBJECT || e->obj->GetType() == GOLDBRICK) {
 			vx = -vx;
 		}
 	}
@@ -74,6 +80,8 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPlatform(e);
 	else if (dynamic_cast<CQuestionBrick*>(e->obj))
 		OnCollisionWithQuestionBrick(e);
+	else if (dynamic_cast<CGoldBrick*>(e->obj))
+		OnCollisionWithGoldBrick(e);
 }
 
 int CKoopas::IsCollidable()
@@ -83,6 +91,15 @@ int CKoopas::IsCollidable()
 	}
 	else {
 		return 1;
+	}
+}
+
+void CKoopas::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
+{
+	CGoldBrick* goldbrick = dynamic_cast<CGoldBrick*>(e->obj);
+
+	if (e->nx != 0 && goldbrick->GetModel() == GOLD_BRICK_COIN) {
+		goldbrick->SetBreak(true);
 	}
 }
 
@@ -159,6 +176,14 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (mario->isHoldTurtle) {
 			mario->isHoldTurtle = false;
 			mario->SetHurt();
+		}
+	}
+
+	for (size_t i = 0; i < effects.size(); i++)
+	{
+		effects[i]->Update(dt, coObjects);
+		if (effects[i]->isDeleted) {
+			effects.erase(effects.begin() + i);
 		}
 	}
 
@@ -311,6 +336,12 @@ void CKoopas::Render()
 			}
 		}
 	}
+
+	for (int i = 0; i < effects.size(); i++)
+	{
+		effects[i]->Render();
+	}
+
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();

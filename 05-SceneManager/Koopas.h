@@ -64,7 +64,7 @@ protected:
 
 	ULONGLONG defend_start;
 
-
+	vector<LPGAMEOBJECT> effects;
 
 	int mario_nx;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -78,6 +78,7 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithGoldBrick(LPCOLLISIONEVENT e);
 
 public:
 	CKoopas(float x, float y, int model);

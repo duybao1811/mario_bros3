@@ -18,6 +18,7 @@
 #include "EffectScore.h"
 #include "GoldBrick.h"
 #include "PButton.h"
+#include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -25,6 +26,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt + nx * powerStack * ax;
 	
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+
+	if (x <= MARIO_BIG_BBOX_WIDTH) {
+		x = MARIO_BIG_BBOX_WIDTH;
+	}
+	if (x + MARIO_BIG_BBOX_WIDTH >= scene->map->GetMapWidth()) {
+		x = scene->map->GetMapWidth() - MARIO_BIG_BBOX_WIDTH;
+	}
+	if (y <= 0) {
+		y = 0;
+	}
+
 	//limit move x
 	if (abs(vx) > MARIO_WALKING_SPEED) {
 		if (!isRunning) {
@@ -199,17 +212,22 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 	}
 	else if (e->nx != 0) {
-		if (e->obj->GetType() == OBJECT) {
+		if (e->obj->GetType() == OBJECT || e->obj->GetType() == GOLDBRICK) {
 			SetState(MARIO_STATE_RELEASE_RUN);
 		}
+	}
+
+	if (e->obj->GetType() == COIN) {
+		coin++;
+		score += 100;
+		e->obj->Delete();
 	}
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CKoopas*>(e->obj))
 		OnCollisionWithKoopas(e);
-	else if (dynamic_cast<CCoin*>(e->obj))
-		OnCollisionWithCoin(e);
+
 	else if (dynamic_cast<CLeaf*>(e->obj))
 		OnCollisionWithLeaf(e);
 	else if (dynamic_cast<CFlower*>(e->obj))
@@ -330,11 +348,6 @@ void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e) {
 	if (e->ny > 0 && !goldBrick->isEmpty) {
 		goldBrick->SetState(GOLD_BRICK_STATE_UP);
 	}
-	if (goldBrick->GetType() == COIN) {
-		coin++;
-		score += 100;
-		e->obj->Delete();
-	}
 }
 
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
@@ -372,15 +385,6 @@ void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e)
 	e->obj->Delete();
 }
 
-void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
-{
-	if (e->obj->GetType() == COIN) {
-		score += 100;
-		coin++;
-		e->obj->Delete();
-	}
-}
-
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
@@ -392,7 +396,7 @@ void CMario::OnCollisionWithPButton(LPCOLLISIONEVENT e)
 	PButton* button = dynamic_cast<PButton*>(e->obj);
 	if (e->ny < 0) {
 		button->SetIsPressed(true);
-		button->SetIsAdjustHeight(true);
+		button->SetGoldBrickTransform(true);
 	}
 }
 
