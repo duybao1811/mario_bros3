@@ -129,7 +129,7 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_JUMP);
 	}
 	else if (game->IsKeyDown(DIK_5)) {
-		mario->SetPosition(1992, 300);
+		mario->SetPosition(2266, 20);
 	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);	

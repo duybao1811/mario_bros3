@@ -19,6 +19,7 @@
 #include "Map.h"
 #include "HUD.h"
 #include "GoldBrick.h"
+#include "ColorBlock.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -137,22 +138,22 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIRANHA: obj = new CPiranhaPlant(x, y); break;
 	case OBJECT_TYPE_FIRE_PIRANHA: obj = new CFirePiranhaPlant(x, y, model); break;
 	case OBJECT_TYPE_GOLD_BRICK: obj = new CGoldBrick(x, y, model); break;
+	case OBJECT_TYPE_COLOR_BLOCK:
+	{
+		float width = (float)atof(tokens[3].c_str());
+		float height = (float)atof(tokens[4].c_str());
+
+		obj = new CColorBlock(x, y, width, height);
+		break;
+	}
 	case OBJECT_TYPE_PLATFORM:
 	{
 
 		float cell_width = (float)atof(tokens[3].c_str());
 		float cell_height = (float)atof(tokens[4].c_str());
 		int length = atoi(tokens[5].c_str());
-		int sprite_begin = atoi(tokens[6].c_str());
-		int sprite_middle = atoi(tokens[7].c_str());
-		int sprite_end = atoi(tokens[8].c_str());
 
-		obj = new CPlatform(
-			x, y,
-			cell_width, cell_height, length,
-			sprite_begin, sprite_middle, sprite_end
-		);
-
+		obj = new CPlatform(x, y, cell_width, cell_height, length);
 		break;
 	}
 

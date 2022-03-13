@@ -19,6 +19,8 @@
 #include "GoldBrick.h"
 #include "PButton.h"
 #include "PlayScene.h"
+#include "Pipe.h"
+#include "ColorBlock.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -184,6 +186,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	if (isGoThroughBlockColor) {
+		y -= ADJUST_MARIO_COLLISION_WITH_COLOR_BLOCK;
+		vy = -MARIO_JUMP_SPEED_MAX;
+		isGoThroughBlockColor = false;
+	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
@@ -211,7 +218,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			ay = MARIO_GRAVITY;
 		}
 	}
-	else if (e->nx != 0) {
+	else if (e->nx != 0 && e->obj->IsBlocking()) {
 		if (e->obj->GetType() == OBJECT || e->obj->GetType() == GOLDBRICK) {
 			SetState(MARIO_STATE_RELEASE_RUN);
 		}
@@ -242,6 +249,15 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithMushRoom(e);
 	else if (dynamic_cast<PButton*>(e->obj))
 		OnCollisionWithPButton(e);
+	else if (dynamic_cast<CColorBlock*>(e->obj))
+		OnCollisionWithColorBlock(e);
+}
+
+void CMario::OnCollisionWithColorBlock(LPCOLLISIONEVENT e) {
+
+	if (e->ny > 0) {
+		isGoThroughBlockColor = true;
+	}
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -345,9 +361,10 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e) {
 
 void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e) {
 	CGoldBrick* goldBrick = dynamic_cast<CGoldBrick*>(e->obj);
-	if (e->ny > 0 && !goldBrick->isEmpty) {
-		goldBrick->SetState(GOLD_BRICK_STATE_UP);
+		if (e->ny > 0 && !goldBrick->isEmpty) {
+			goldBrick->SetState(GOLD_BRICK_STATE_UP);
 	}
+
 }
 
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)

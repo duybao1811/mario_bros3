@@ -1,6 +1,7 @@
 #include "Goomba.h"
 #include "debug.h"
 #include "define.h"
+#include "ColorBlock.h"
 CGoomba::CGoomba(float x, float y, int model):CGameObject(x, y)
 {
 	this->model = model;
@@ -62,6 +63,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
+
 }
 
 int CGoomba::IsCollidable()

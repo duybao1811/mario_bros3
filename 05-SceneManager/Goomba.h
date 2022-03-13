@@ -61,6 +61,7 @@ protected:
 
 	virtual int IsCollidable();
 	virtual int IsBlocking() { return 0; }
+
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);

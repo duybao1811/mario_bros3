@@ -153,6 +153,9 @@
     <ClCompile Include="EffectAttack.cpp">
       <Filter>Effect</Filter>
     </ClCompile>
+    <ClCompile Include="ColorBlock.cpp">
+      <Filter>Brick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -283,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="EffectAttack.h">
       <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorBlock.h">
+      <Filter>Brick</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

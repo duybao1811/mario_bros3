@@ -44,7 +44,6 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 0; };
 	virtual int IsBlocking();
 	virtual void OnNoCollision(DWORD dt);
 

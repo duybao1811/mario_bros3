@@ -29,6 +29,7 @@
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
 
+#define ADJUST_MARIO_COLLISION_WITH_COLOR_BLOCK 1
 #pragma endregion
 // STATE
 
@@ -279,10 +280,11 @@
 class CMario : public CGameObject
 {
 
+	BOOLEAN isGoThroughBlockColor = false;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
-
+	float vyStore;
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
@@ -300,6 +302,7 @@ class CMario : public CGameObject
 	void OnCollisionWithMushRoom(LPCOLLISIONEVENT e);
 	void OnCollisionWithFlower(LPCOLLISIONEVENT e);
 	void OnCollisionWithPButton(LPCOLLISIONEVENT e);
+	void OnCollisionWithColorBlock(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -323,6 +326,8 @@ public:
 		score = 0;
 		isRunningMax = false;
 		SetType(EType::MARIO);
+		this->x = x;
+		this->y = y;
 	}
 
 	int score;
