@@ -26,7 +26,7 @@
 #define KOOPAS_STATE_UPSIDE 400
 #define KOOPAS_STATE_JUMP 500
 
-#define ADJUST_X_TO_RED_CHANGE_DIRECTION 15
+#define ADJUST_X_TO_RED_CHANGE_DIRECTION 10
 #define KOOPAS_GREEN 1
 #define KOOPAS_RED 2
 #define KOOPAS_GREEN_WING 3
@@ -76,7 +76,7 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
+	void OnCollisionWithColorBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoldBrick(LPCOLLISIONEVENT e);
 

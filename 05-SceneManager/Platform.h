@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
-
+#include "define.h"
 // 
 // The most popular type of object in Mario! 
 // 
@@ -18,9 +18,10 @@ public:
 		this->length = length;
 		this->cellWidth = cell_width;
 		this->cellHeight = cell_height;
+		SetType(EType::OBJECT);
 	}
 	int GetLength() { return length; }
-	void Render() { };
+	void Render() { RenderBoundingBox(); }
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 };

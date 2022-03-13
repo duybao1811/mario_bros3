@@ -2,13 +2,13 @@
 #include "Game.h"
 #include "Mario.h"
 #include "PlayScene.h"
-#include "Platform.h"
 #include "Goomba.h"
 #include "define.h"
 #include "QuestionBrick.h"
 #include "GoldBrick.h"
 #include "EffectAttack.h"
-
+#include "ColorBlock.h"
+#include "debug.h"
 CKoopas::CKoopas(float x, float y, int model) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -76,8 +76,8 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 	}
 
-	if (dynamic_cast<CPlatform*>(e->obj))
-		OnCollisionWithPlatform(e);
+	if (dynamic_cast<CColorBlock*>(e->obj))
+		OnCollisionWithColorBlock(e);
 	else if (dynamic_cast<CQuestionBrick*>(e->obj))
 		OnCollisionWithQuestionBrick(e);
 	else if (dynamic_cast<CGoldBrick*>(e->obj))
@@ -99,7 +99,28 @@ void CKoopas::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e)
 	CGoldBrick* goldbrick = dynamic_cast<CGoldBrick*>(e->obj);
 
 	if (e->nx != 0 && goldbrick->GetModel() == GOLD_BRICK_COIN) {
-		goldbrick->SetBreak(true);
+		if (goldbrick->GetState() != GOLD_BRICK_STATE_TRANSFORM_COIN) {
+			if (state == KOOPAS_STATE_IS_KICKED) {
+				goldbrick->SetBreak(true);
+			}
+		}
+	}
+
+
+	if (model == KOOPAS_RED) {
+		if (e->ny < 0) {
+			if (state == KOOPAS_STATE_WALKING && model == KOOPAS_RED) {
+				if (x <= goldbrick->GetX() - ADJUST_X_TO_RED_CHANGE_DIRECTION)
+				{
+					vy = 0;
+					vx = KOOPAS_WALKING_SPEED;
+				}
+				else if (x >= goldbrick->GetX() + ADJUST_X_TO_RED_CHANGE_DIRECTION) {
+					vy = 0;
+					vx = -KOOPAS_WALKING_SPEED;
+				}
+			}
+		}
 	}
 }
 
@@ -112,20 +133,21 @@ void CKoopas::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 			questionBrick->SetState(QUESTION_BRICK_STATE_UP);
 		}
 	}
+
 }
 
-void CKoopas::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
+void CKoopas::OnCollisionWithColorBlock(LPCOLLISIONEVENT e)
 {
-	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
+	CColorBlock* block = dynamic_cast<CColorBlock*>(e->obj);
 
 	if (e->ny < 0) {
 		if (state == KOOPAS_STATE_WALKING && model == KOOPAS_RED) {
-			if (x <= e->obj->GetX() - ADJUST_X_TO_RED_CHANGE_DIRECTION)
+			if (x <= block->GetX() - block->GetWidth()/2)
 			{
 				vy = 0;
 				vx = KOOPAS_WALKING_SPEED;
 			}
-			else if (x + KOOPAS_BBOX_WIDTH >= e->obj->GetX() + 520) {
+			else if (x  >= block->GetX() + block->GetWidth()/2) {
 				vy = 0;
 				vx = -KOOPAS_WALKING_SPEED;
 			}
@@ -274,6 +296,9 @@ void CKoopas::Render()
 	}
 	else if (model == KOOPAS_RED)
 	{
+		if (state == ENEMY_STATE_IS_FIRE_ATTACKED || state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_TAIL_ATTACKED) {
+			aniId = ID_ANI_KOOPAS_RED_IS_UPSIDE;
+		}
 		if (vx > 0)
 		{
 			if (state == KOOPAS_STATE_WALKING)

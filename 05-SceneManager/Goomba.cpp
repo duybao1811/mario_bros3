@@ -152,7 +152,7 @@ void CGoomba::Render()
 		else if (state == GOOMBA_RED_WING_STATE_JUMP_HIGH || state == GOOMBA_RED_WING_STATE_JUMP_LOW) {
 			aniId = ID_ANI_GOOMBA_RED_WING_JUMP;
 		}
-		else if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED) {
+		else if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED) {
 			aniId = ID_ANI_GOOMBA_RED_WING_IS_ATTACKED;
 		}
 	}
