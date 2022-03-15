@@ -21,7 +21,7 @@ void Map::DrawMap()
 {
 	int FirstColumn = (int)floor(CamX / TILE_WIDTH);
 	int LastColumn = (int)ceil((CamX + CGame::GetInstance()->GetScreenWidth()) / TILE_WIDTH);
-	if (LastColumn >= NumofRowMap)
+	if (LastColumn >= NumofColMap)
 		LastColumn = NumofColMap - 1;
 	for (int CurrentRow = 0; CurrentRow < NumofRowMap; CurrentRow++) {
 		for (int CurrentColumn = 0; CurrentColumn <= LastColumn; CurrentColumn++)

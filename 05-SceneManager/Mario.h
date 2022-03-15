@@ -1,11 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "GameObject.h"
 
 #include "Animation.h"
 #include "Animations.h"
 #include "define.h"
 #include "debug.h"
-
+#include "Tail.h"
 // SPEED
 #pragma region MARIO_SPEED
 #define MARIO_WALKING_SPEED_MAX 0.1f
@@ -57,6 +57,8 @@
 
 #define MARIO_STATE_SHOOTING 803
 #define MARIO_STATE_FALL 302
+
+#define MARIO_RACCOON_STATE_ATTACK 900
 
 
 #pragma region ANIMATION_ID
@@ -183,6 +185,8 @@
 
 #define ID_ANI_MARIO_RACCOON_FALL_SLOW_RIGHT 12029
 #define ID_ANI_MARIO_RACCOON_FALL_SLOW_LEFT	12030
+#define ID_ANI_MARIO_RACCOON_ATTACK_RIGHT 12033
+#define ID_ANI_MARIO_RACCOON_ATTACK_LEFT 12034
 
 #define ID_ANI_MARIO_RACCOON_TRANSFORM 115
 // FIRE
@@ -263,12 +267,15 @@
 #define MARIO_DELAY_SHOOT 500
 #define MARIO_TIME_DURING_SHOOT 300
 #define MARIO_TRANSFORM_TIME_OUT 1000
-#define MARIO_RACCOON_TRANSFORM_TIME_OUT 300
+#define MARIO_RACCOON_TRANSFORM_TIME_OUT 500
+#define MARIO_RACCON_ATTACK_TIME_OUT 500
 
 // LIME VALUE
 // Power stack
 #define MARIO_POWER_FULL 7
+#define NUM_OF_EFFECT_MARIO_RACCOON_ATTACK 5 // số effect của raccoon quất đuôi tấn công
 
+#define POSITION_Y_OF_TAIL_MARIO 18 //khoảng cách từ đầu mario đến vị trí đuôi
 // fire ball
 #define MARIO_FIRE_BALL_LIMIT 2
 
@@ -284,7 +291,6 @@ class CMario : public CGameObject
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
-	float vyStore;
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
@@ -309,6 +315,7 @@ class CMario : public CGameObject
 	int GetAniIdRaccoon();
 	int GetAniIdFire();
 	void ShootFire();
+	void SetTail();
 
 public:
 	CMario(float x, float y) : CGameObject(x, y)
@@ -328,6 +335,7 @@ public:
 		SetType(EType::MARIO);
 		this->x = x;
 		this->y = y;
+		tail = new CTail(x,y);
 	}
 
 	int score;
@@ -352,6 +360,7 @@ public:
 	BOOLEAN isTransform = false;
 	BOOLEAN isAdjustHeight = false; //adjust height when transform
 	BOOLEAN isJumping = false;
+	BOOLEAN isAttack = false;
 	int powerStack = 0;
 
 
@@ -362,17 +371,20 @@ public:
 	ULONGLONG kick_start = -1;
 	ULONGLONG shoot_start = -1;
 	ULONGLONG transform_start = -1;
-	
+	ULONGLONG attack_start = -1;
+
 	vector<LPGAMEOBJECT> ListFire;
 	vector<LPGAMEOBJECT> ListEffect;
-
+	CTail* tail;
 
 	void SetIsRunning(BOOLEAN run) { isRunning = run; }
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
+
 	void Decelerate();
+
 	int IsCollidable()
 	{ 
 		return (state != MARIO_STATE_DIE); 

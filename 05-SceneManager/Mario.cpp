@@ -1,4 +1,4 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include "debug.h"
 
 #include "Mario.h"
@@ -21,6 +21,7 @@
 #include "PlayScene.h"
 #include "Pipe.h"
 #include "ColorBlock.h"
+#include "Tail.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -34,7 +35,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = MARIO_BIG_BBOX_WIDTH;
 	}
 	if (x + MARIO_BIG_BBOX_WIDTH >= scene->map->GetMapWidth()) {
-		x = scene->map->GetMapWidth() - MARIO_BIG_BBOX_WIDTH;
+		x = (float)(scene->map->GetMapWidth() - MARIO_BIG_BBOX_WIDTH);
 	}
 	if (y <= 0) {
 		y = 0;
@@ -145,6 +146,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		transform_start = -1;
 	}
 
+	if (isAttack && GetTickCount64() - attack_start > MARIO_RACCON_ATTACK_TIME_OUT) {
+		isAttack = false;
+		attack_start = -1;
+		tail = NULL;
+	}
+
+	if (isAttack) {
+		SetTail();
+	}
+
 	if (isTransform) {
 		ay = 0;
 		vx = 0;
@@ -160,6 +171,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		canShoot = false;
 	}
 
+	
+	if (isGoThroughBlockColor) {
+		y -= ADJUST_MARIO_COLLISION_WITH_COLOR_BLOCK;
+		vy = -MARIO_JUMP_SPEED_MAX;
+		isGoThroughBlockColor = false;
+	}
+
 	if (isShooting && level == MARIO_LEVEL_FIRE)
 	{
 		if (ListFire.size() < MARIO_FIRE_BALL_LIMIT)
@@ -168,6 +186,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			canShoot = true;
 			isShooting = false;
 		}
+	}
+	if (tail) {
+		tail->Update(dt, coObjects);
 	}
 
 	for (size_t i = 0; i < ListFire.size(); i++)
@@ -186,14 +207,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	if (isGoThroughBlockColor) {
-		y -= ADJUST_MARIO_COLLISION_WITH_COLOR_BLOCK;
-		vy = -MARIO_JUMP_SPEED_MAX;
-		isGoThroughBlockColor = false;
-	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -666,6 +681,12 @@ int CMario::GetAniIdRaccoon()
 			else
 				aniId = ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT;
 		}
+		else if (isAttack) {
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACCOON_ATTACK_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACCOON_ATTACK_LEFT;
+		}
 		else
 		{
 			if (isHoldTurtle) {
@@ -675,18 +696,10 @@ int CMario::GetAniIdRaccoon()
 					aniId = ID_ANI_MARIO_RACCOON_HOLD_JUMP_LEFT;
 			}
 			else {
-				if (isHoldTurtle) {
-					if (nx >= 0)
-						aniId = ID_ANI_MARIO_RACCOON_HOLD_JUMP_RIGHT;
-					else
-						aniId = ID_ANI_MARIO_RACCOON_HOLD_JUMP_LEFT;
-				}
-				else {
 				if (nx >= 0)
 					aniId = ID_ANI_MARIO_RACCOON_JUMP_WALK_RIGHT;
 				else
 					aniId = ID_ANI_MARIO_RACCOON_JUMP_WALK_LEFT;
-				}
 			}
 		}
 
@@ -710,6 +723,12 @@ int CMario::GetAniIdRaccoon()
 				else
 					aniId = ID_ANI_MARIO_RACCOON_FALL_SLOW_LEFT;
 			}
+			if (isHoldTurtle) {
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_RACCOON_HOLD_JUMP_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_RACCOON_HOLD_JUMP_LEFT;
+			}
 		}
 
 	}
@@ -720,6 +739,12 @@ int CMario::GetAniIdRaccoon()
 				aniId = ID_ANI_MARIO_RACCOON_SIT_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_RACCOON_SIT_LEFT;
+		}
+		else if (isAttack) {
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACCOON_ATTACK_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACCOON_ATTACK_LEFT;
 		}
 		else if (isKicking) {
 			if (nx > 0)
@@ -928,6 +953,10 @@ void CMario::Render()
 		ListEffect[i]->Render();
 	}
 
+	if (tail) {
+		tail->Render();
+	}
+
 	animations->Get(aniId)->Render(x, y);
 
 	//RenderBoundingBox();
@@ -998,6 +1027,11 @@ void CMario::SetState(int state)
 		isKicking = true;
 		kick_start = GetTickCount64();
 		break;
+	case MARIO_RACCOON_STATE_ATTACK:
+		attack_start = GetTickCount64();
+		isAttack = true;
+
+		break;
 	case MARIO_STATE_SIT:
 		if (isOnPlatform && level != MARIO_LEVEL_SMALL)
 		{
@@ -1067,6 +1101,53 @@ void CMario::ShootFire()
 	CFireBall* fireBall = new CFireBall(x + ADJUST_MARIO_SHOOT_FIRE_X, y + ADJUST_MARIO_SHOOT_FIRE_Y);
 	fireBall->SetState(FIRE_BALL_STATE_MARIO_SHOOT);
 	ListFire.push_back(fireBall);
+}
+
+void CMario::SetTail() {
+
+	if (!tail) {
+		tail = new CTail(x, y);
+	}
+
+	int timeAttack = (int)(GetTickCount64() - attack_start);
+
+	// animation đầu tiên và cuối cùng của đánh đuôi set vị trí
+	if ((timeAttack > 0 && timeAttack < MARIO_RACCON_ATTACK_TIME_OUT / NUM_OF_EFFECT_MARIO_RACCOON_ATTACK) || (timeAttack >= (MARIO_RACCON_ATTACK_TIME_OUT * 4 / NUM_OF_EFFECT_MARIO_RACCOON_ATTACK) && timeAttack < MARIO_RACCON_ATTACK_TIME_OUT)) {
+		if (nx > 0)
+		{
+			tail->SetPosition(x - TAIL_BBOX_WIDTH / 2, y + POSITION_Y_OF_TAIL_MARIO / 2 - TAIL_BBOX_HEIGHT / 2);
+		}
+		else {
+			tail->SetPosition(x + MARIO_BIG_BBOX_WIDTH - TAIL_BBOX_WIDTH / 2, y + POSITION_Y_OF_TAIL_MARIO / 2 - TAIL_BBOX_HEIGHT / 2);
+		}
+		tail->SetWidth(TAIL_BBOX_WIDTH);
+		tail->SetHeight(TAIL_BBOX_HEIGHT);
+	}
+
+	// animation thứ hai của đánh đuôi set vị trí
+	if (timeAttack >= (MARIO_RACCON_ATTACK_TIME_OUT * 1 / NUM_OF_EFFECT_MARIO_RACCOON_ATTACK) && timeAttack < (MARIO_RACCON_ATTACK_TIME_OUT * 2 / NUM_OF_EFFECT_MARIO_RACCOON_ATTACK)) {
+		tail->SetWidth(0);
+		tail->SetHeight(0);
+	}
+
+	// animation thứ ba của đánh đuôi set vị trí
+
+	if (timeAttack >= (MARIO_RACCON_ATTACK_TIME_OUT * 2 / NUM_OF_EFFECT_MARIO_RACCOON_ATTACK) && timeAttack < (MARIO_RACCON_ATTACK_TIME_OUT * 3 / NUM_OF_EFFECT_MARIO_RACCOON_ATTACK)) {
+		if (nx > 0) {
+			tail->SetPosition(x + MARIO_BIG_BBOX_WIDTH - TAIL_BBOX_WIDTH / 2, y + POSITION_Y_OF_TAIL_MARIO / 2 - TAIL_BBOX_HEIGHT / 2);
+		}
+		else {
+			tail->SetPosition(x - TAIL_BBOX_WIDTH / 2, y + POSITION_Y_OF_TAIL_MARIO / 2 - TAIL_BBOX_HEIGHT / 2);
+		}
+		tail->SetWidth(TAIL_BBOX_WIDTH);
+		tail->SetHeight(TAIL_BBOX_HEIGHT);
+	}
+	// animation thứ tư của đánh đuôi set vị trí
+	if (timeAttack >= (MARIO_RACCON_ATTACK_TIME_OUT * 3 / NUM_OF_EFFECT_MARIO_RACCOON_ATTACK) && timeAttack < (MARIO_RACCON_ATTACK_TIME_OUT * 4 / NUM_OF_EFFECT_MARIO_RACCOON_ATTACK)) {
+		tail->SetWidth(0);
+		tail->SetHeight(0);
+	}
+
 }
 
 void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)

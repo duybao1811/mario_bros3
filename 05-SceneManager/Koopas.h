@@ -6,6 +6,7 @@
 #define KOOPAS_IS_KICKED_SPEED 0.18f
 #define KOOPAS_SPEED_Y_IS_FIRE_ATTACKED 0.4f
 #define KOOPAS_SPEED_Y_IS_TAIL_ATTACKED 0.4f
+#define KOOPAS_SPEED_X_IS_TAIL_ATTACKED 0.05f
 #define KOOPAS_RED_WING_SPEED_X 0.03f
 
 
@@ -15,7 +16,8 @@
 #define KOOPAS_BBOX_HEIGHT 26
 #define KOOPAS_BBOX_HEIGHT_DEFEND 16
 #define ADJUST_POSITION_KOOPAS_HELD 13
-#define KOOPAS_COMBACK_HEIGHT_ADJUST 0.15f;
+#define KOOPAS_COMBACK_HEIGHT_ADJUST 0.15f
+#define KOOPAS_BOUNCE_SPEED 0.3f
 
 #define KOOPAS_DEFEND_TIMEOUT 8000 // hết thời gian defend ( ra khỏi mai rùa và bắt đầu đi)
 #define KOOPAS_COMBACK_START 6000 //thời gian tính từ lúc defend đến lúc có hiệu ứng comeback
@@ -67,6 +69,7 @@ protected:
 	vector<LPGAMEOBJECT> effects;
 
 	int mario_nx;
+	BOOLEAN isTailAttacked = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

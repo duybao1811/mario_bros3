@@ -56,9 +56,17 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0)
 	{
 		vy = 0;
-		if (model == KOOPAS_GREEN_WING && state == KOOPAS_STATE_JUMP) {
-			vy = -KOOPAS_WING_JUMP_SPEED;
-			ay = KOOPAS_WING_GRAVITY;
+
+		if (isTailAttacked) {
+			SetState(KOOPAS_STATE_UPSIDE);
+			vy = -KOOPAS_BOUNCE_SPEED;
+			isTailAttacked = false;
+		}
+		else {
+			if (model == KOOPAS_GREEN_WING && state == KOOPAS_STATE_JUMP) {
+				vy = -KOOPAS_WING_JUMP_SPEED;
+				ay = KOOPAS_WING_GRAVITY;
+			}
 		}
 	}
 	else if (e->nx != 0)
@@ -429,6 +437,8 @@ void CKoopas::SetState(int state)
 	case ENEMY_STATE_IS_TAIL_ATTACKED:
 		ay = KOOPAS_GRAVITY;
 		vy = -KOOPAS_SPEED_Y_IS_TAIL_ATTACKED;
+		vx = mario->GetDirection() * KOOPAS_SPEED_X_IS_TAIL_ATTACKED;
+		isTailAttacked = true;
 		break;
 	}
 

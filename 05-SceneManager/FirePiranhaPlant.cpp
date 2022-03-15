@@ -51,7 +51,7 @@ void CFirePiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	if (state == ENEMY_STATE_IS_FIRE_ATTACKED) {
+	if (state == ENEMY_STATE_IS_FIRE_ATTACKED || state == ENEMY_STATE_IS_TAIL_ATTACKED) {
 		isDeleted = true;
 	}
 

@@ -2,6 +2,8 @@
 #include "debug.h"
 #include "define.h"
 #include "ColorBlock.h"
+#include "PlayScene.h"
+
 CGoomba::CGoomba(float x, float y, int model):CGameObject(x, y)
 {
 	this->model = model;
@@ -134,7 +136,7 @@ void CGoomba::Render()
 {
 	int aniId = ID_ANI_GOOMBA_WALKING;
 	if (model == GOOMBA_BASE) {
-		if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED)
+		if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED || state == ENEMY_STATE_IS_TAIL_ATTACKED)
 		{
 			aniId = ID_ANI_GOOMBA_IS_ATTACKED;
 		}
@@ -152,7 +154,7 @@ void CGoomba::Render()
 		else if (state == GOOMBA_RED_WING_STATE_JUMP_HIGH || state == GOOMBA_RED_WING_STATE_JUMP_LOW) {
 			aniId = ID_ANI_GOOMBA_RED_WING_JUMP;
 		}
-		else if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED) {
+		else if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED || state == ENEMY_STATE_IS_TAIL_ATTACKED) {
 			aniId = ID_ANI_GOOMBA_RED_WING_IS_ATTACKED;
 		}
 	}
@@ -169,6 +171,8 @@ void CGoomba::Render()
 
 void CGoomba::SetState(int state)
 {
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
 	CGameObject::SetState(state);
 	switch (state)
 	{
@@ -202,6 +206,10 @@ void CGoomba::SetState(int state)
 		case ENEMY_STATE_IS_KOOPAS_ATTACKED:
 		case ENEMY_STATE_IS_FIRE_ATTACKED:
 			vy = -GOOMBA_IS_ATTACK_SPEED_Y;
+			break;
+		case ENEMY_STATE_IS_TAIL_ATTACKED:
+			vy = -GOOMBA_IS_ATTACK_SPEED_Y;
+			vx = mario->GetDirection() * GOOMBA_IS_ATTACK_SPEED_X;
 			break;
 	}
 }

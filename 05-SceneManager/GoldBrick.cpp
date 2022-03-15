@@ -34,22 +34,28 @@ void CGoldBrick::OnNoCollision(DWORD dt)
 
 void CGoldBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
 	vy += ay * dt;
 	vx += ax * dt;
 
 	if (y <= minY)
 	{
 		vy = GOLD_BRICK_SPEED_DOWN;
-		if (model == GOLD_BRICK_COIN) {
-			isBreak = true;
+		if (mario->GetLevel() != MARIO_LEVEL_SMALL) {
+			if (model == GOLD_BRICK_COIN) {
+				isBreak = true;
+			}
 		}
 	}
 	if (y > startY)
 	{
 		y = startY;
 		vy = 0;
-		isEmpty = true;
-		isUnbox = true;
+		if (mario->GetLevel() != MARIO_LEVEL_SMALL) {
+			isEmpty = true;
+			isUnbox = true;
+		}
 	}
 
 	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();

@@ -113,6 +113,15 @@ void CCollision::SweptAABB(
 	}
 
 }
+bool CCollision::CheckAABB(LPGAMEOBJECT objA, LPGAMEOBJECT objB)
+{
+	float aL, aT, aR, aB;
+	float bL, bT, bR, bB;
+	objA->GetBoundingBox(aL, aT, aR, aB);
+	objB->GetBoundingBox(bL, bT, bR, bB);
+
+	return (!(aL > bR || aT > bB || aR < bL || aB < bT));
+}
 
 /*
 	Extension of original SweptAABB to deal with two moving objects

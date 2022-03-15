@@ -44,6 +44,12 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_JUMP);
 		break;
 	case DIK_A:
+
+		if (!mario->isAttack) {
+			if (mario->GetLevel() == MARIO_LEVEL_RACCOON) {
+				mario->SetState(MARIO_RACCOON_STATE_ATTACK);
+			}
+		}
 		if (mario->GetLevel() == MARIO_LEVEL_FIRE) {
 			if (!mario->isShooting) {
 				mario->SetState(MARIO_STATE_SHOOTING);
@@ -120,10 +126,7 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			mario->SetState(MARIO_STATE_SIT_RELEASE);
 		}
 	}
-	else if (game->IsKeyDown(DIK_A))
-	{
-		
-	}
+
 	else if (game->IsKeyDown(DIK_S))
 	{
 		mario->SetState(MARIO_STATE_JUMP);
