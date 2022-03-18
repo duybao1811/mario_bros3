@@ -28,10 +28,13 @@ void CFireBall::OnNoCollision(DWORD dt)
 void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 
-	if (e->ny != 0 && state == FIRE_BALL_STATE_MARIO_SHOOT)
+	if (e->ny < 0 && state == FIRE_BALL_STATE_MARIO_SHOOT)
 	{
 		vy = -FIRE_BALL_BOUNCE_SPEED;
 
+	}
+	else if (e->ny > 0) {
+		ay = FIRE_BALL_GRAVITY;
 	}
 	else if (e->nx != 0)
 	{

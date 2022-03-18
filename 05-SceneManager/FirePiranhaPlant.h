@@ -60,7 +60,7 @@ protected:
 
 	float minY;
 	float startY;
-	int marioRange;
+	int marioRange = 0;
 
 	ULONGLONG down_start = -1;
 	ULONGLONG up_start = -1;

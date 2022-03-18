@@ -22,7 +22,9 @@ void CTail::OnCollisionWithGoldBrick(LPGAMEOBJECT& e)
 void CTail::OnCollisionWithQuestionBrick(LPGAMEOBJECT& e)
 {
 	CQuestionBrick* questionBrick = dynamic_cast<CQuestionBrick*>(e);
-	questionBrick->SetState(QUESTION_BRICK_STATE_UP);
+	if (!questionBrick->isEmpty) {
+		questionBrick->SetState(QUESTION_BRICK_STATE_UP);
+	}
 }
 
 void CTail::OnCollisionWithEnemy(LPGAMEOBJECT& e)

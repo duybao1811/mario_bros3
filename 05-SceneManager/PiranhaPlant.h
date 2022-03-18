@@ -20,12 +20,12 @@ protected:
 
 	float minY;
 	float startY;
-	ULONGLONG down_start;
-	ULONGLONG up_start;
-	BOOLEAN isMarioSafeZone;
+	ULONGLONG down_start = -1;
+	ULONGLONG up_start = -1;
+	BOOLEAN isMarioSafeZone = false;
 
 
-	BOOLEAN startUp, startDown;
+	BOOLEAN startUp = false, startDown = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

@@ -704,31 +704,40 @@ int CMario::GetAniIdRaccoon()
 		}
 
 		if (vy > 0) {
-			if (!isFlying) {
+			if (isAttack) {
 				if (nx >= 0)
-					aniId = ID_ANI_MARIO_RACCOON_FALL_RIGHT;
+					aniId = ID_ANI_MARIO_RACCOON_ATTACK_RIGHT;
 				else
-					aniId = ID_ANI_MARIO_RACCOON_FALL_LEFT;
+					aniId = ID_ANI_MARIO_RACCOON_ATTACK_LEFT;
 			}
 			else {
-				if (nx >= 0)
-					aniId = ID_ANI_MARIO_RACCOON_FALL_FLY_RIGHT;
-				else
-					aniId = ID_ANI_MARIO_RACCOON_FALL_FLY_LEFT;
-			}
+				if (!isFlying) {
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_RACCOON_FALL_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_RACCOON_FALL_LEFT;
+				}
+				else {
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_RACCOON_FALL_FLY_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_RACCOON_FALL_FLY_LEFT;
+				}
 
-			if (isFallSlowing) {
-				if (nx >= 0)
-					aniId = ID_ANI_MARIO_RACCOON_FALL_SLOW_RIGHT;
-				else
-					aniId = ID_ANI_MARIO_RACCOON_FALL_SLOW_LEFT;
+				if (isFallSlowing) {
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_RACCOON_FALL_SLOW_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_RACCOON_FALL_SLOW_LEFT;
+				}
+				if (isHoldTurtle) {
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_RACCOON_HOLD_JUMP_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_RACCOON_HOLD_JUMP_LEFT;
+				}
 			}
-			if (isHoldTurtle) {
-				if (nx >= 0)
-					aniId = ID_ANI_MARIO_RACCOON_HOLD_JUMP_RIGHT;
-				else
-					aniId = ID_ANI_MARIO_RACCOON_HOLD_JUMP_LEFT;
-			}
+			
 		}
 
 	}
