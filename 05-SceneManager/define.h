@@ -8,6 +8,8 @@
 #define TYPE_COIN 3
 #define TYPE_GOLDBRICK 4
 #define TYPE_COLOR_BLOCK 5
+
+#define		MARIO_DEFAULT_HEALTH 4
 enum EType {
 	MARIO = TYPE_MARIO,
 	OBJECT = TYPE_OBJECT,

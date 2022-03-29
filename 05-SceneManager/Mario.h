@@ -100,8 +100,9 @@
 #define ID_ANI_MARIO_KICK_RIGHT 10023
 #define ID_ANI_MARIO_KICK_LEFT 10024
 
-#define ID_ANI_MARIO_TRANSFORM_RIGHT 11027
-#define ID_ANI_MARIO_TRANSFORM_LEFT 11028
+#define ID_ANI_MARIO_IN_PIPE 10027
+
+#define ID_ANI_MARIO_IN_WORLD_MAP 10028
 
 // SMALL MARIO
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT 11001
@@ -137,6 +138,13 @@
 
 #define ID_ANI_MARIO_SMALL_KICK_RIGHT 11022
 #define ID_ANI_MARIO_SMALL_KICK_LEFT 11023
+
+#define ID_ANI_MARIO_TRANSFORM_RIGHT 11027
+#define ID_ANI_MARIO_TRANSFORM_LEFT 11028
+
+#define ID_ANI_MARIO_IN_PIPE 11029
+
+#define ID_ANI_MARIO_IN_WORLD_MAP 11030
 
 // RACCOON
 
@@ -189,6 +197,10 @@
 #define ID_ANI_MARIO_RACCOON_ATTACK_LEFT 12034
 
 #define ID_ANI_MARIO_RACCOON_TRANSFORM 115
+
+#define ID_ANI_MARIO_RACCOON_IN_PIPE 12035
+
+#define ID_ANI_MARIO_RACCOON_IN_WORLD_MAP 12036
 // FIRE
 
 #define ID_ANI_MARIO_FIRE_IDLE_RIGHT 13001
@@ -231,6 +243,9 @@
 #define ID_ANI_MARIO_FIRE_SHOOT_FIRE_RIGHT 13025
 #define ID_ANI_MARIO_FIRE_SHOOT_FIRE_LEFT 13026
 
+#define ID_ANI_MARIO_FIRE_IN_PIPE 13029
+
+#define ID_ANI_MARIO_FIRE_IN_WORLD_MAP 13030
 
 #define ID_ANI_MARIO_DIE 999
 
@@ -291,7 +306,7 @@ class CMario : public CGameObject
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
-	int level; 
+
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	
@@ -340,6 +355,7 @@ public:
 
 	int score;
 	int health;
+	int level;
 
 	// DEFINE BOOLEAN VARIABLE
 	BOOLEAN isSitting = false;

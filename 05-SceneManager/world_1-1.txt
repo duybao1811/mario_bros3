@@ -177,6 +177,9 @@ MODEL = 1 BIG FIREPIRANHA PLANT
 
 11	1584	136	208	1
 
+############### PORTAL ##############
+
+50	2264	132	2296	250	1
 
 [TILEMAP]
 Resources\Tilemap\world1-1.txt
