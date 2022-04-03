@@ -226,7 +226,6 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			isFlying = false;
 			canFallSlow = false;
 			vy = 0;
-			isJumping = false;
 		}
 		else {
 			vy = 0;
@@ -1005,7 +1004,7 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_JUMP:
-		isJumping = true;
+
 		if (isOnPlatform) {
 
 			if (vy > -MARIO_JUMP_SPEED_MIN)
