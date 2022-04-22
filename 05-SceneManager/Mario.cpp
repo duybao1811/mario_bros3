@@ -170,7 +170,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		shoot_start = -1;
 		canShoot = false;
 	}
-
 	
 	if (isGoThroughBlockColor) {
 		y -= ADJUST_MARIO_COLLISION_WITH_COLOR_BLOCK;
@@ -248,7 +247,6 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CKoopas*>(e->obj))
 		OnCollisionWithKoopas(e);
-
 	else if (dynamic_cast<CLeaf*>(e->obj))
 		OnCollisionWithLeaf(e);
 	else if (dynamic_cast<CFlower*>(e->obj))
@@ -268,7 +266,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 }
 
 void CMario::OnCollisionWithColorBlock(LPCOLLISIONEVENT e) {
-
+	CColorBlock* colorBlock = dynamic_cast<CColorBlock*>(e->obj);
 	if (e->ny > 0) {
 		isGoThroughBlockColor = true;
 	}
@@ -378,7 +376,6 @@ void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e) {
 		if (e->ny > 0 && !goldBrick->isEmpty) {
 			goldBrick->SetState(GOLD_BRICK_STATE_UP);
 	}
-
 }
 
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)

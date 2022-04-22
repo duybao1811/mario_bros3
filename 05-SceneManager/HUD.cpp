@@ -1,15 +1,25 @@
 #include "HUD.h"
-CHUD::CHUD(float x, float y)  : CGameObject(x, y) {
+#include "Font.h"
+#include <string>
+
+CHUD::CHUD(float x, float y) {
 
 	this->x = x;
 	this->y = y;
+	now_time = -1;
 }
 
-void CHUD::Update(DWORD dt) {
-	
-}
-
-void CHUD::Render()
+string CHUD::FillNumber(string s, UINT fillNumber)
 {
+	while (s.size() < fillNumber) {
+		s = "0" + s;
+	}
+	return s;
+}
+
+void CHUD::Render(CMario* mario, int RemainingTime)
+{
+	now_time = GetTickCount64();
 	CAnimations::GetInstance()->Get(ID_ANI_HUD)->Render(x, y);
+	font.Draw(x - 62, y + 5, FillNumber(std::to_string(mario->GetScore()), 7)); //score
 }

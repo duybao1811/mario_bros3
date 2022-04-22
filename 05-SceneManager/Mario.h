@@ -20,7 +20,7 @@
 #define MARIO_JUMP_RUN_SPEED_Y	0.5f
 #define MARIO_ACCEL_JUMP_Y 0.0005f
 #define MARIO_JUMP_SPEED_MIN 0.18f
-#define MARIO_JUMP_SPEED_MAX 0.28f
+#define MARIO_JUMP_SPEED_MAX 0.27f
 
 #define MARIO_RACCOON_FLAPPING_SPEED 0.0025f
 #define MARIO_RACCOON_FALL_SLOW_SPEED 0.03f
@@ -311,7 +311,7 @@ class CMario : public CGameObject
 
 	int untouchable; 
 	ULONGLONG untouchable_start;
-	
+
 	int coin; 
 
 	CGameObject* obj = NULL;
@@ -420,4 +420,6 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 	void SetHurt();
+
+	int GetScore() { return score; }
 };

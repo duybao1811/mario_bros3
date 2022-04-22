@@ -1,14 +1,21 @@
 #pragma once
 #include "GameObject.h"
+#include "Mario.h"
+#include "Font.h"
 
 #define ID_ANI_HUD 300
 
-class CHUD : public CGameObject
+class CHUD
 {
+	float x, y;
+	ULONGLONG now_time;
+	CFont font;
+
 public:
 	CHUD(float x, float y);
-	virtual void Render();
-	void Update(DWORD dt);
-	void GetBoundingBox(float& l, float& t, float& r, float& b) { l = r = t = b = 0; }
+	void Render(CMario* mario, int RemainingTime);
+	string FillNumber(string s, UINT fillNumber);
+	void GetBoundingBox(float& l, float& t, float& r, float& b) {}
+	~CHUD() {}
 };
 

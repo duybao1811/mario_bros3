@@ -33,6 +33,8 @@ protected:
 
 	virtual void OnNoCollision(DWORD dt);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual int IsCollidable() { return 1;  }
+	virtual int IsBlocking() { return 0; }
 public:
 	CMushRoom(float x, float y, int model);
 	virtual void SetState(int state);

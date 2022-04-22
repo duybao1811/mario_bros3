@@ -347,7 +347,7 @@ void CPlayScene::Render()
 	CGame* game = CGame::GetInstance();
 	CHUD* hud = new CHUD(game->GetCamX()+122, game->GetCamY() + game->GetScreenHeight() - HUD_HEIGHT + 8);
 
-	hud->Render();
+	hud->Render(player, 300);
 	
 	map->DrawMap();
 

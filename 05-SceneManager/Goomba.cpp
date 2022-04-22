@@ -10,6 +10,7 @@ CGoomba::CGoomba(float x, float y, int model):CGameObject(x, y)
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
 	die_start = -1;
+	nx = -1;
 	if (model == GOOMBA_BASE) {
 		SetState(GOOMBA_STATE_WALKING);
 	}
@@ -64,6 +65,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (e->nx != 0)
 	{
 		vx = -vx;
+		nx = -nx;
 	}
 
 }
@@ -97,10 +99,6 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(GOOMBA_RED_WING_STATE_JUMP_LOW);
 		}
 		else if (!isWalking) {
-
-			if (isOnPlatform && state == GOOMBA_RED_WING_STATE_JUMP_HIGH) {
-				
-			}
 
 			if (jumpStack == LIMIT_JUMP_STACK) { // high jump
 				SetState(GOOMBA_RED_WING_STATE_JUMP_HIGH);
@@ -189,7 +187,7 @@ void CGoomba::SetState(int state)
 			ay = 0; 
 			break;
 		case GOOMBA_RED_WING_STATE_WALKING:
-			vx = -GOOMBA_WALKING_SPEED;
+			vx = nx *GOOMBA_WALKING_SPEED;
 			wing_walk_start = GetTickCount64();
 			isWalking = true;
 			break;

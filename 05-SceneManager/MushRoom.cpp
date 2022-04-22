@@ -30,9 +30,6 @@ void CMushRoom::OnNoCollision(DWORD dt)
 
 void CMushRoom::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CMushRoom*>(e->obj)) return;
-
 	if (e->ny != 0)
 	{
 		vy = 0;

@@ -2,7 +2,7 @@
 
 CFont::CFont()
 {
-	Tex = CTextures::GetInstance()->Get(ID_TEX_FONT);
+	Tex = CTextures::GetInstance()->Get(ID_TEXT_FONT);
 }
 
 void CFont::Draw(float x, float y, const string &s) {

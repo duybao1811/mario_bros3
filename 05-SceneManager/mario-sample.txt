@@ -25,5 +25,5 @@ height	240
 80	Resources\Tilemap\world1-1_bank.png
 90	Textures\enemies5.png
 100	Textures\HUD.png
-110	Textures\Font1.png
+110	Textures\Font3.png
 31	Resources\Tilemap\world1-1-1_bank.png

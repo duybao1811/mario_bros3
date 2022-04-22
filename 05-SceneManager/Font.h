@@ -5,12 +5,12 @@
 #include "Game.h"
 #include "Textures.h"
 
-#define ID_TEX_FONT 110
+#define ID_TEXT_FONT 110
 #define NUM_OF_LETTER 26
 #define NUM_OF_NUMBER 10
 #define TILE_FONT_WIDTH 8
 #define	TILE_FONT_LETTER_HEIGHT 8
-#define TILE_FONT_NUMBER_HEIGHT 7
+#define TILE_FONT_NUMBER_HEIGHT 8
 #define SPACE_WIDTH 8
 #define NOTE_OF_EXCLAMATION_WIDTH 6
 #define TOP_LETTER 0

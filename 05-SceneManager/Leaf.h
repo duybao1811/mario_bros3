@@ -31,7 +31,8 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 	virtual void OnNoCollision(DWORD dt);
-
+	virtual int IsCollidable() { return 0; }
+	virtual int IsBlocking() { return 0; }
 public:
 	CLeaf(float x, float y);
 	virtual void SetState(int state);
