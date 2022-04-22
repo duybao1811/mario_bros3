@@ -106,7 +106,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			powerStack = MARIO_POWER_FULL;
 			isRunningMax = true;
 		}
-		DebugOut(L"[INFO] powerStack! %d \n", powerStack);
+		//DebugOut(L"[INFO] powerStack! %d \n", powerStack);
 	}
 
 	if (GetTickCount64() - running_stop > POWER_STACK_LOST_TIME && powerStack && !isRunning)
@@ -118,7 +118,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			powerStack = 0;
 		}
-		DebugOut(L"[INFO] powerStack! %d \n", powerStack);
+		//DebugOut(L"[INFO] powerStack! %d \n", powerStack);
 	}
 
 	if (GetTickCount64() - flying_start > LIMIT_MARIO_RACCOON_FLY_TIME && isFlying)
@@ -126,7 +126,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isFlying = false;
 		isFlapping = false;
 		canFallSlow = true;
-		DebugOut(L"[INFO] mario raccoon fly time end\n");
+		//DebugOut(L"[INFO] mario raccoon fly time end\n");
 	}
 
 	if (GetTickCount64() - kick_start > MARIO_KICK_TIMEOUT && isKicking) {
@@ -240,7 +240,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (e->obj->GetType() == COIN) {
 		coin++;
-		score += 100;
+		score += SCORE_GET_COIN;
 		e->obj->Delete();
 	}
 

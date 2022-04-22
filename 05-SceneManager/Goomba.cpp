@@ -54,7 +54,7 @@ void CGoomba::OnNoCollision(DWORD dt)
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return; 
-	if (dynamic_cast<CGoomba*>(e->obj)) return; 
+	//if (dynamic_cast<CGoomba*>(e->obj)) return; 
 
 	if (e->ny != 0 )
 	{
@@ -90,25 +90,32 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	
 	if (model == GOOMBA_RED_WING && state != GOOMBA_STATE_DIE && state != GOOMBA_STATE_WALKING) {
-		if (state == GOOMBA_RED_WING_STATE_WALKING && GetTickCount64() - wing_walk_start > LIMIT_TIME_WING_WALKING && isWalking) {
+		if (state == GOOMBA_RED_WING_STATE_WALKING && GetTickCount64() - wing_walk_start > LIMIT_TIME_WING_WALKING && isWalking) { //low jump
 			jumpStack = 0;
 			wing_walk_start = -1;
 			isWalking = false;
 			SetState(GOOMBA_RED_WING_STATE_JUMP_LOW);
 		}
 		else if (!isWalking) {
-			if (jumpStack == LIMIT_JUMP_STACK) {
+
+			if (isOnPlatform && state == GOOMBA_RED_WING_STATE_JUMP_HIGH) {
+				
+			}
+
+			if (jumpStack == LIMIT_JUMP_STACK) { // high jump
 				SetState(GOOMBA_RED_WING_STATE_JUMP_HIGH);
 				jumpStack = -1;
 			}
 			else {
-				if (jumpStack == -1)
+				if (jumpStack == -1 && isOnPlatform) // walking
+				{
 					SetState(GOOMBA_RED_WING_STATE_WALKING);
+				}
 				else 
 					if (isOnPlatform && isOnAir) {
 						jumpStack++;
 						isOnAir = false;
-						SetState(GOOMBA_RED_WING_STATE_JUMP_LOW);				
+						SetState(GOOMBA_RED_WING_STATE_JUMP_LOW);		
 					}
 			}
 		}
@@ -140,10 +147,14 @@ void CGoomba::Render()
 		{
 			aniId = ID_ANI_GOOMBA_IS_ATTACKED;
 		}
+		if (state == GOOMBA_STATE_DIE)
+		{
+			aniId = ID_ANI_GOOMBA_DIE;
+		}
 	}
 	if (model == GOOMBA_RED_WING) {
 		if (state == GOOMBA_STATE_WALKING) {
-		aniId = ID_ANI_GOOMBA_RED_WALK;
+			aniId = ID_ANI_GOOMBA_RED_WALK;
 		}
 		else if (state == GOOMBA_STATE_DIE) {
 			aniId = ID_ANI_GOOMBA_RED_DIE;
@@ -156,12 +167,6 @@ void CGoomba::Render()
 		}
 		else if (state == ENEMY_STATE_IS_KOOPAS_ATTACKED || state == ENEMY_STATE_IS_FIRE_ATTACKED || state == ENEMY_STATE_IS_TAIL_ATTACKED) {
 			aniId = ID_ANI_GOOMBA_RED_WING_IS_ATTACKED;
-		}
-	}
-	if (state == GOOMBA_STATE_DIE) 
-	{
-		if (model == GOOMBA_BASE) {
-			aniId = ID_ANI_GOOMBA_DIE;
 		}
 	}
 
@@ -185,7 +190,6 @@ void CGoomba::SetState(int state)
 			break;
 		case GOOMBA_RED_WING_STATE_WALKING:
 			vx = -GOOMBA_WALKING_SPEED;
-			ay = GOOMBA_GRAVITY;
 			wing_walk_start = GetTickCount64();
 			isWalking = true;
 			break;
@@ -196,7 +200,6 @@ void CGoomba::SetState(int state)
 			break;
 		case GOOMBA_RED_WING_STATE_JUMP_HIGH:
 			vy = -JUMP_HIGH_SPEED;
-			ay = GOOMBA_GRAVITY;
 			isOnPlatform = false;
 			isOnAir = true;
 			break;

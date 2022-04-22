@@ -299,6 +299,8 @@
 #define ADJUST_MARIO_SHOOT_FIRE_X 5
 #define ADJUST_MARIO_SHOOT_FIRE_Y 5
 
+#define SCORE_GET_COIN 100
+
 class CMario : public CGameObject
 {
 
