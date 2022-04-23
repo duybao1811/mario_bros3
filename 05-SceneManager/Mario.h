@@ -312,7 +312,10 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 
-	int coin; 
+	int coin;
+	int score;
+	int health;
+	int level;
 
 	CGameObject* obj = NULL;
 
@@ -354,10 +357,6 @@ public:
 		this->y = y;
 		tail = new CTail(x,y);
 	}
-
-	int score;
-	int health;
-	int level;
 
 	// DEFINE BOOLEAN VARIABLE
 	BOOLEAN isSitting = false;
@@ -422,4 +421,10 @@ public:
 	void SetHurt();
 
 	int GetScore() { return score; }
+	int GetCoin() { return coin; }
+	int GetHealth() { return health; }
+
+	void SetScore(int _score) { score = _score; }
+	void SetCoin(int _coin) { coin = _coin; }
+	void SetHealth(int _health) { health = _health; }
 };

@@ -23,4 +23,6 @@ void CHUD::Render(CMario* mario, int remainingTime)
 	CAnimations::GetInstance()->Get(ID_ANI_HUD)->Render(x, y);
 	font.Draw(x - 62, y + 5, FillNumber(std::to_string(mario->GetScore()), 7)); //score
 	font.Draw(x + 12, y + 5, FillNumber(std::to_string(remainingTime), 3));
+	font.Draw(x - 76, y -4, FillNumber(std::to_string(1), 1));
+	font.Draw(x + 20, y - 4, FillNumber(std::to_string(mario->GetCoin()), 1));
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #define HUD_HEIGHT 32
-
+#define HUD_WIDTH 272
 #define TYPE_MARIO 0
 #define TYPE_OBJECT 1
 #define TYPE_ENEMY 2

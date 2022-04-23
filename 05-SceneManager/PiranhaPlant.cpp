@@ -39,12 +39,12 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	if (y < minY) {
+	if (y <= minY) {
 		y = minY;
 		down_start = GetTickCount64();
 		startUp = true;
 	}
-	else if (y > startY) {
+	else if (y >= startY) {
 		y = startY;
 		up_start = GetTickCount64();
 		startDown = true;

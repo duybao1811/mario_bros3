@@ -109,6 +109,7 @@ effect.txt
 
 8	1800	360
 
+
 ##### FIRE PIRANHA PLANT 9 ######
 MODEL = 1 BIG FIREPIRANHA PLANT
 

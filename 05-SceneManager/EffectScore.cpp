@@ -78,30 +78,30 @@ void CEffectScore::SetScoreMario() {
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	switch (model) {
 	case SCORE_EFFECT_100:
-		mario->score += 100;
+		mario->SetScore(mario->GetScore() + 100);
 		break;
 	case SCORE_EFFECT_200:
-		mario->score += 200;
+		mario->SetScore(mario->GetScore() + 200);
 		break;
 	case SCORE_EFFECT_400:
-		mario->score += 400;
+		mario->SetScore(mario->GetScore() + 400);
 		break;
 	case SCORE_EFFECT_800:
-		mario->score += 800;
+		mario->SetScore(mario->GetScore() + 800);
 		break;
 	case SCORE_EFFECT_1000:
-		mario->score += 1000;
+		mario->SetScore(mario->GetScore() + 1000);
 		break;
 	case SCORE_EFFECT_2000:
-		mario->score += 2000;
+		mario->SetScore(mario->GetScore() + 2000);
 		break;
 	case SCORE_EFFECT_4000:
-		mario->score += 4000;
+		mario->SetScore(mario->GetScore() + 4000);
 		break;
 	case SCORE_EFFECT_8000:
-		mario->score += 8000;
+		mario->SetScore(mario->GetScore() + 8000);
 		break;
 	case EFFECT_1_UP:
-		mario->health++;
+		mario->SetHealth(mario->GetHealth() + 1);
 	}
 }

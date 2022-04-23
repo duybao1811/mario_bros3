@@ -78,6 +78,7 @@ void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			QBCoin* coin = new QBCoin(x, y);
 			coin->SetState(QB_COIN_STATE_UP);
 			scene->objects.insert(scene->objects.begin() + 1, coin);
+			mario->SetCoin(mario->GetCoin() + 1);
 		}
 		isUnbox = false;
 	}
