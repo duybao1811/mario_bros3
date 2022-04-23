@@ -165,6 +165,9 @@
     <ClCompile Include="GameTime.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Power.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipe.h">
@@ -299,11 +302,14 @@
     <ClInclude Include="Utils.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Backup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameTime.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Power.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Backup.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

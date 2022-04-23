@@ -36,3 +36,5 @@ enum EType {
 #define ID_ANI_SCORE_EFFECT_1_UP 508
 
 #define GAME_TIME_LIMIT 300
+
+#define MARIO_POWER_FULL 7

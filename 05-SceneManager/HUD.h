@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Mario.h"
 #include "Font.h"
+#include "Power.h"
 
 #define ID_ANI_HUD 300
 
@@ -11,7 +12,7 @@ class CHUD
 	ULONGLONG now_time;
 	int time;
 	CFont font;
-
+	CPower* power;
 public:
 	CHUD(float x, float y);
 	void Render(CMario* mario, int remainingTime);

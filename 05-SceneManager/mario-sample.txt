@@ -27,3 +27,4 @@ height	240
 100	Textures\HUD.png
 110	Textures\Font3.png
 31	Resources\Tilemap\world1-1-1_bank.png
+101	Textures\hud_source.png

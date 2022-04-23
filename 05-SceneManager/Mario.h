@@ -287,7 +287,7 @@
 
 // LIME VALUE
 // Power stack
-#define MARIO_POWER_FULL 7
+
 #define NUM_OF_EFFECT_MARIO_RACCOON_ATTACK 5 // số effect của raccoon quất đuôi tấn công
 
 #define POSITION_Y_OF_TAIL_MARIO 18 //khoảng cách từ đầu mario đến vị trí đuôi
@@ -329,6 +329,9 @@ class CMario : public CGameObject
 	void OnCollisionWithFlower(LPCOLLISIONEVENT e);
 	void OnCollisionWithPButton(LPCOLLISIONEVENT e);
 	void OnCollisionWithColorBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithPlant(LPCOLLISIONEVENT e);
+	void OnCollisionWithFireball(LPCOLLISIONEVENT e);
+
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

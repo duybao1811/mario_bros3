@@ -1,0 +1,19 @@
+#include "Power.h"
+#include "define.h"
+CPower::CPower(float x, float y, int stack) {
+	this->x = x;
+	this->y = y;
+	this->stack = stack;
+}
+
+void CPower::Render() {
+	CAnimations* animations = CAnimations::GetInstance();
+	for (int i = 0; i < stack; i++) {
+		if (i == MARIO_POWER_FULL - 1) {
+			animations->Get(POWER_MAX_ANI_ID)->Render(x + i * POWER_WIDTH + 5, y);
+		}
+		else {
+			animations->Get(POWER_ANI_ID)->Render(x + i * POWER_WIDTH, y);
+		}
+	}
+}

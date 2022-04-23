@@ -22,6 +22,8 @@
 #include "Pipe.h"
 #include "ColorBlock.h"
 #include "Tail.h"
+#include "FirePiranhaPlant.h"
+#include "PiranhaPlant.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -263,6 +265,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPButton(e);
 	else if (dynamic_cast<CColorBlock*>(e->obj))
 		OnCollisionWithColorBlock(e);
+	else if (dynamic_cast<CFirePiranhaPlant*>(e->obj))
+		OnCollisionWithPlant(e);
+	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
+		OnCollisionWithPlant(e);
+	else if (dynamic_cast<CFireBall*>(e->obj))
+		OnCollisionWithFireball(e);
 }
 
 void CMario::OnCollisionWithColorBlock(LPCOLLISIONEVENT e) {
@@ -320,8 +328,19 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
 
 	if (e->ny < 0)
-	{
-		if (koopas->GetState() == KOOPAS_STATE_WALKING || koopas->GetState() == KOOPAS_STATE_IS_KICKED)
+	{	
+		if (koopas->GetState() == KOOPAS_STATE_IS_KICKED) {
+			if (koopas->isDefend) {
+				koopas->SetState(KOOPAS_STATE_DEFEND);
+			}
+			else {
+				koopas->SetState(KOOPAS_STATE_UPSIDE);
+			}
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			obj = new CEffectScore(koopas->GetX(), koopas->GetY(), SCORE_EFFECT_100);
+			ListEffect.push_back(obj);
+		}
+		else if (koopas->GetState() == KOOPAS_STATE_WALKING)
 		{
 			koopas->SetState(KOOPAS_STATE_DEFEND);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -334,7 +353,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			obj = new CEffectScore(koopas->GetX(), koopas->GetY(), SCORE_EFFECT_100);
 			ListEffect.push_back(obj);
 		}
-		else if (koopas->GetState() == KOOPAS_STATE_DEFEND)
+		else if (koopas->GetState() == KOOPAS_STATE_DEFEND || koopas->GetState() == KOOPAS_STATE_UPSIDE)
 		{
 			koopas->SetState(KOOPAS_STATE_IS_KICKED);
 			obj = new CEffectScore(koopas->GetX(), koopas->GetY(), SCORE_EFFECT_100);
@@ -376,6 +395,17 @@ void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e) {
 		if (e->ny > 0 && !goldBrick->isEmpty) {
 			goldBrick->SetState(GOLD_BRICK_STATE_UP);
 	}
+}
+
+void CMario::OnCollisionWithPlant(LPCOLLISIONEVENT e) {
+	
+	if (e->nx != 0 || e->ny != 0) {
+		SetHurt();
+	}
+}
+
+void CMario::OnCollisionWithFireball(LPCOLLISIONEVENT e) {
+
 }
 
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
