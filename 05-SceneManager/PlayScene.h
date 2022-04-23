@@ -8,14 +8,14 @@
 #include "Goomba.h"
 #include "Koopas.h"
 #include "Map.h"
-
+#include "GameTime.h"
 class CPlayScene: public CScene
 {
 protected: 
 	// A play scene has to have player, right? 
 	CMario* player = NULL;					
-
-
+	GameTime* gameTime = new GameTime();
+	int gameTimeRemain = 0;
 	bool isTurnOnCamY = false;
 
 	void _ParseSection_SPRITES(string line);

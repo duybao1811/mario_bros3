@@ -9,11 +9,12 @@ class CHUD
 {
 	float x, y;
 	ULONGLONG now_time;
+	int time;
 	CFont font;
 
 public:
 	CHUD(float x, float y);
-	void Render(CMario* mario, int RemainingTime);
+	void Render(CMario* mario, int remainingTime);
 	string FillNumber(string s, UINT fillNumber);
 	void GetBoundingBox(float& l, float& t, float& r, float& b) {}
 	~CHUD() {}

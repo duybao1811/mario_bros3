@@ -162,6 +162,9 @@
     <ClCompile Include="Backup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipe.h">
@@ -298,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="Backup.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

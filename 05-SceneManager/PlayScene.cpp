@@ -292,7 +292,8 @@ void CPlayScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
-
+	gameTime->Update(dt);
+	gameTimeRemain = GAME_TIME_LIMIT - gameTime->GetTime();
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
@@ -347,7 +348,7 @@ void CPlayScene::Render()
 	CGame* game = CGame::GetInstance();
 	CHUD* hud = new CHUD(game->GetCamX()+122, game->GetCamY() + game->GetScreenHeight() - HUD_HEIGHT + 8);
 
-	hud->Render(player, 300);
+	hud->Render(player, gameTimeRemain);
 	
 	map->DrawMap();
 

@@ -6,7 +6,7 @@ CHUD::CHUD(float x, float y) {
 
 	this->x = x;
 	this->y = y;
-	now_time = -1;
+	now_time = GetTickCount64();
 }
 
 string CHUD::FillNumber(string s, UINT fillNumber)
@@ -17,9 +17,10 @@ string CHUD::FillNumber(string s, UINT fillNumber)
 	return s;
 }
 
-void CHUD::Render(CMario* mario, int RemainingTime)
+void CHUD::Render(CMario* mario, int remainingTime)
 {
 	now_time = GetTickCount64();
 	CAnimations::GetInstance()->Get(ID_ANI_HUD)->Render(x, y);
 	font.Draw(x - 62, y + 5, FillNumber(std::to_string(mario->GetScore()), 7)); //score
+	font.Draw(x + 12, y + 5, FillNumber(std::to_string(remainingTime), 3));
 }
