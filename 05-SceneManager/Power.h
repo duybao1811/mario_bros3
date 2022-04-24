@@ -4,6 +4,7 @@
 #define POWER_ANI_ID 301
 #define POWER_MAX_ANI_ID 302
 #define POWER_WIDTH 8
+#define SPACE_BETWEEN_POWER_AND_MAX 5
 
 class CPower : public CGameObject
 {
