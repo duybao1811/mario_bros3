@@ -41,12 +41,21 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	void SetCam(float cx, float cy);
-	LPGAMEOBJECT GetPlayer() { return player; }
+	CMario* GetPlayer() { return player; }
 
 	void Clear();
 	void PurgeDeletedObjects();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
+
+	void LoadBackup();
+	void BackUpPlayer();
+	void PutPlayer(CMario* m)
+	{
+		if (dynamic_cast<CMario*>(objects[0]))
+			objects[0] = m;
+	}
+	void SetPlayer(CMario* mario) { player = mario; }
 };
 
 typedef CPlayScene* LPPLAYSCENE;

@@ -80,6 +80,7 @@ effect.txt
 
 #Portal 
 
+50	362	-32	394	16	1	5
 
 [TILEMAP]
 Resources\Tilemap\world1-1-1.txt

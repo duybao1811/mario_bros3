@@ -15,7 +15,7 @@ void CBackUp::BackUpMario(CMario* mario)
 		health = mario->GetHealth();
 		score = mario->GetScore();
 		level = mario->GetLevel();
-
+		coin = mario->GetCoin();
 		//scene = CGame::GetInstance()->GetCurrentScene()->GetId();
 		//if (scene == 2 || scene == 5)
 		//	scene--;
@@ -31,6 +31,7 @@ void CBackUp::LoadBackUp(CMario* mario)
 		mario->SetHealth(health);
 		mario->SetScore(score);
 		mario->SetLevel(level);
+		mario->SetCoin(coin);
 	}
 
 }

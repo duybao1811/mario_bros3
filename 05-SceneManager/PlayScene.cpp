@@ -20,6 +20,8 @@
 #include "HUD.h"
 #include "GoldBrick.h"
 #include "ColorBlock.h"
+#include "Backup.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -161,7 +163,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		float r = (float)atof(tokens[3].c_str());
 		float b = (float)atof(tokens[4].c_str());
-		int scene_id = atoi(tokens[5].c_str());
+		int type = atoi(tokens[5].c_str());
+		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	break;
@@ -382,10 +385,12 @@ void CPlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
+	ListEffect.clear();
 	delete map;
+
 	map = nullptr;
 	isTurnOnCamY = false;
-	player = NULL;
+	player = nullptr;
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }
@@ -410,4 +415,18 @@ void CPlayScene::PurgeDeletedObjects()
 	objects.erase(
 		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 		objects.end());
+}
+
+void CPlayScene::LoadBackup()
+{
+	CBackUp* backup = CBackUp::GetInstance();
+	backup->LoadBackUp(player);
+}
+
+void CPlayScene::BackUpPlayer()
+{
+	if (player) {
+		CBackUp* backup = CBackUp::GetInstance();
+		backup->BackUpMario(player);
+	}
 }

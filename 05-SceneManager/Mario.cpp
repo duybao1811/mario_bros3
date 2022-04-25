@@ -446,7 +446,12 @@ void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
-	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+	if (e->ny < 0) {
+		CGame::GetInstance()->SwitchToExtraScene(p->GetSceneId(), 138, 38);
+	}
+	else {
+		CGame::GetInstance()->SwitchToMainScene(p->GetSceneId(), 2323, 350);
+	}
 }
 
 void CMario::OnCollisionWithPButton(LPCOLLISIONEVENT e)

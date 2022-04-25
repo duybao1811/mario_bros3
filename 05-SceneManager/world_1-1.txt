@@ -179,8 +179,12 @@ MODEL = 1 BIG FIREPIRANHA PLANT
 11	1584	136	208	1
 
 ############### PORTAL ##############
-
-50	2264	132	2296	250	2
+#type = 1: Go in extra scene
+#type = 2: Back
+#type = 3: Portal exit
+#	x	y	r	b	types	cene_id
+50	2264	132	2296	250	1	2
+#50	2328	360	2364	392	2	0
 
 [TILEMAP]
 Resources\Tilemap\world1-1.txt

@@ -1,5 +1,5 @@
 #include <fstream>
-
+#include <iostream>
 #include "Game.h"
 #include "debug.h"
 #include "Utils.h"
@@ -513,19 +513,70 @@ void CGame::Load(LPCWSTR gameFile)
 
 void CGame::SwitchScene()
 {
+
 	if (next_scene < 0 || next_scene == current_scene) return; 
 
-	DebugOut(L"[INFO] Switching to scene %d\n", next_scene);
-
+	if (dynamic_cast<CPlayScene*>(scenes[current_scene])) {
+		((CPlayScene*)scenes[current_scene])->BackUpPlayer();
+	}
 	scenes[current_scene]->Unload();
+	
+	if (prev_scene != -1)
+	{
+		((CPlayScene*)scenes[prev_scene])->SetPlayer(nullptr);
+		scenes[prev_scene]->Unload();
+		prev_scene = -1;
+	}
 
+	//CTextures::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
 
 	current_scene = next_scene;
+	LPSCENE s = scenes[current_scene];
+	this->SetKeyHandler(s->GetKeyEventHandler());
+
+		s->Load();
+	if (dynamic_cast<CPlayScene*>(scenes[current_scene]))
+		((CPlayScene*)scenes[current_scene])->LoadBackup();
+}
+
+void CGame::SwitchToExtraScene(int scene_id, float start_x, float start_y)
+{
+	BOOLEAN isLoad = true;
+	if (prev_scene == scene_id) {
+		isLoad = false;
+	}
+
+	prev_scene = current_scene;
+	next_scene = scene_id;
+	current_scene = next_scene;
+
+	LPSCENE s = scenes[scene_id];
+	this->SetKeyHandler(s->GetKeyEventHandler());
+	//CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (isLoad) {
+		s->Load();
+	}
+
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	mario->SetPosition(start_x, start_y);
+	mario->SetLevel(MARIO_LEVEL_RACCOON);
+
+}
+
+void CGame::SwitchToMainScene(int scene_id, float start_x, float start_y)
+{
+	prev_scene = current_scene;
+	next_scene = scene_id;
+	current_scene = next_scene;
 	LPSCENE s = scenes[next_scene];
 	this->SetKeyHandler(s->GetKeyEventHandler());
-	s->Load();
+
+	CMario* mario = ((CPlayScene*)scenes[next_scene])->GetPlayer();
+	mario->SetPosition(start_x, start_y);
+	((CPlayScene*)s)->PutPlayer(mario);
 }
 
 void CGame::InitiateSwitchScene(int scene_id)

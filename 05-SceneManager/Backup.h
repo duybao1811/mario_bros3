@@ -11,6 +11,7 @@ public:
 	int score = 0;
 	int level = MARIO_LEVEL_SMALL;
 	int scene = 0;
+	int coin = 0;
 	vector<int>cards;
 	static CBackUp* GetInstance();
 	void BackUpMario(CMario* mario);
