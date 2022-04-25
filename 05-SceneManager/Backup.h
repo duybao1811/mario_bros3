@@ -1,6 +1,8 @@
 #pragma once
 #include"Mario.h"
 #include "Define.h"
+#include "GameTime.h"
+
 class CBackUp
 {
 public:
@@ -12,6 +14,7 @@ public:
 	int level = MARIO_LEVEL_SMALL;
 	int scene = 0;
 	int coin = 0;
+	GameTime* gameTime = new GameTime();
 	vector<int>cards;
 	static CBackUp* GetInstance();
 	void BackUpMario(CMario* mario);

@@ -56,6 +56,12 @@ public:
 			objects[0] = m;
 	}
 	void SetPlayer(CMario* mario) { player = mario; }
+	GameTime* GetGameTime() {
+		return gameTime;
+	}
+	void SetGameTime(GameTime* _gameTime) {
+		gameTime = _gameTime;
+	}
 };
 
 typedef CPlayScene* LPPLAYSCENE;

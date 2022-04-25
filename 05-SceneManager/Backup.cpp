@@ -16,10 +16,7 @@ void CBackUp::BackUpMario(CMario* mario)
 		score = mario->GetScore();
 		level = mario->GetLevel();
 		coin = mario->GetCoin();
-		//scene = CGame::GetInstance()->GetCurrentScene()->GetId();
-		//if (scene == 2 || scene == 5)
-		//	scene--;
-		//cards = mario->cards;
+		gameTime = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetGameTime();
 	}
 
 }
@@ -32,6 +29,7 @@ void CBackUp::LoadBackUp(CMario* mario)
 		mario->SetScore(score);
 		mario->SetLevel(level);
 		mario->SetCoin(coin);
+		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->SetGameTime(gameTime);
 	}
 
 }

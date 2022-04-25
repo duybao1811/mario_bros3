@@ -99,7 +99,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isOnPlatform = false;
 	}
 
-	if (GetTickCount64() - running_start > POWER_STACK_TIME && isRunning && !isHoldTurtle)
+	if (GetTickCount64() - running_start > POWER_STACK_TIME && isRunning && !isHoldTurtle && vx != 0)
 	{
 		running_start = GetTickCount64();
 		powerStack++;
@@ -111,7 +111,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//DebugOut(L"[INFO] powerStack! %d \n", powerStack);
 	}
 
-	if (GetTickCount64() - running_stop > POWER_STACK_LOST_TIME && powerStack && !isRunning)
+	if (GetTickCount64() - running_stop > POWER_STACK_LOST_TIME && powerStack && (!isRunning || vx == 0))
 	{
 		running_stop = GetTickCount64();
 		isRunningMax = false;

@@ -521,6 +521,7 @@ void CGame::SwitchScene()
 	}
 	scenes[current_scene]->Unload();
 	
+	//reset prev scene
 	if (prev_scene != -1)
 	{
 		((CPlayScene*)scenes[prev_scene])->SetPlayer(nullptr);
@@ -528,15 +529,16 @@ void CGame::SwitchScene()
 		prev_scene = -1;
 	}
 
-	//CTextures::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
 
+	//load current scene
 	current_scene = next_scene;
 	LPSCENE s = scenes[current_scene];
 	this->SetKeyHandler(s->GetKeyEventHandler());
 
-		s->Load();
+	s->Load();
+
 	if (dynamic_cast<CPlayScene*>(scenes[current_scene]))
 		((CPlayScene*)scenes[current_scene])->LoadBackup();
 }
@@ -544,6 +546,9 @@ void CGame::SwitchScene()
 void CGame::SwitchToExtraScene(int scene_id, float start_x, float start_y)
 {
 	BOOLEAN isLoad = true;
+	if (dynamic_cast<CPlayScene*>(scenes[current_scene])) {
+		((CPlayScene*)scenes[current_scene])->BackUpPlayer();
+	}
 	if (prev_scene == scene_id) {
 		isLoad = false;
 	}
@@ -552,31 +557,38 @@ void CGame::SwitchToExtraScene(int scene_id, float start_x, float start_y)
 	next_scene = scene_id;
 	current_scene = next_scene;
 
-	LPSCENE s = scenes[scene_id];
+	LPSCENE s = scenes[next_scene];
 	this->SetKeyHandler(s->GetKeyEventHandler());
-	//CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
 	if (isLoad) {
 		s->Load();
 	}
 
-	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	CMario* mario = ((CPlayScene*)scenes[current_scene])->GetPlayer();
 	mario->SetPosition(start_x, start_y);
-	mario->SetLevel(MARIO_LEVEL_RACCOON);
 
+	if (dynamic_cast<CPlayScene*>(scenes[current_scene]))
+		((CPlayScene*)scenes[current_scene])->LoadBackup();
 }
 
 void CGame::SwitchToMainScene(int scene_id, float start_x, float start_y)
 {
+	if (dynamic_cast<CPlayScene*>(scenes[current_scene])) {
+		((CPlayScene*)scenes[current_scene])->BackUpPlayer();
+	}
 	prev_scene = current_scene;
 	next_scene = scene_id;
 	current_scene = next_scene;
+
 	LPSCENE s = scenes[next_scene];
 	this->SetKeyHandler(s->GetKeyEventHandler());
 
 	CMario* mario = ((CPlayScene*)scenes[next_scene])->GetPlayer();
 	mario->SetPosition(start_x, start_y);
 	((CPlayScene*)s)->PutPlayer(mario);
+
+	if (dynamic_cast<CPlayScene*>(scenes[current_scene]))
+		((CPlayScene*)scenes[current_scene])->LoadBackup();
 }
 
 void CGame::InitiateSwitchScene(int scene_id)
