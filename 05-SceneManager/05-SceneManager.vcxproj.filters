@@ -37,6 +37,9 @@
     <Filter Include="Game">
       <UniqueIdentifier>{e0353bc2-05c7-4f12-80d2-62555777c515}</UniqueIdentifier>
     </Filter>
+    <Filter Include="WorldMap">
+      <UniqueIdentifier>{d61dd034-2447-4221-a4b9-4a5816d1bf29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pipe.cpp">
@@ -159,14 +162,20 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Backup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameTime.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Power.cpp">
       <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Grass.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Backup.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>WorldMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,8 +317,14 @@
     <ClInclude Include="Power.h">
       <Filter>HUD</Filter>
     </ClInclude>
+    <ClInclude Include="Grass.h">
+      <Filter>WorldMap</Filter>
+    </ClInclude>
     <ClInclude Include="Backup.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>WorldMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

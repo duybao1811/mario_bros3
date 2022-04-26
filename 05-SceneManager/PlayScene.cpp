@@ -21,6 +21,8 @@
 #include "GoldBrick.h"
 #include "ColorBlock.h"
 #include "Backup.h"
+#include "Grass.h"
+#include "Door.h"
 
 using namespace std;
 
@@ -169,8 +171,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	break;
 
+	case OBJECT_TYPE_GRASS:
+	{
+		obj = new CGrass(x, y);
+		break;
+	}
+	case OBJECT_TYPE_DOOR:
+	{
+		int scene = atoi(tokens[3].c_str());
+		obj = new CDoor(x, y, scene);
+		break;
+	}
 
-	default:
+		default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
 		return;
 	}
