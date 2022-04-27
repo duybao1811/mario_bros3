@@ -63,4 +63,5 @@ void CDoor::Render()
 			ani = ID_ANI_DOOR_SCENE_1;
 	}
 	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	RenderBoundingBox();
 }

@@ -177,6 +177,18 @@
     <ClCompile Include="Door.cpp">
       <Filter>WorldMap</Filter>
     </ClCompile>
+    <ClCompile Include="WorldPlayer.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldScene.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldKey.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockObj.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipe.h">
@@ -324,6 +336,18 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
+      <Filter>WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldPlayer.h">
+      <Filter>WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldScene.h">
+      <Filter>WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldKey.h">
+      <Filter>WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockObj.h">
       <Filter>WorldMap</Filter>
     </ClInclude>
   </ItemGroup>

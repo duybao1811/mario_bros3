@@ -3,20 +3,20 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "GameObject.h"
-#include "Brick.h"
-#include "Mario.h"
 #include "Map.h"
 #include "GameTime.h"
+#include "WorldPlayer.h"
+#include "Mario.h"
 
-class CPlayScene: public CScene
+#define ADJUST_PADDING 10
+
+class CWorldScene : public CScene
 {
-protected: 
-	// A play scene has to have player, right? 
-	CMario* player = NULL;					
+	CWorldPlayer* player = NULL;
+	CMario* mario = NULL;
 	GameTime* gameTime = new GameTime();
 	int gameTimeRemain = 0;
 	bool isTurnOnCamY = false;
-
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 
@@ -25,42 +25,22 @@ protected:
 	void _ParseSection_TILEMAP(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
-	
-public: 
 
+public:
 	Map* map = NULL;
-
 	vector<LPGAMEOBJECT> objects;
-
-	CPlayScene(int id, LPCWSTR filePath);
-
+	CWorldScene(int id, LPCWSTR filePath);
+	CWorldPlayer* GetPlayer() { return player; }
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
-	void SetCam(float cx, float cy);
-	CMario* GetPlayer() { return player; }
-
 	void Clear();
 	void PurgeDeletedObjects();
-
-	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
-
 	void LoadBackup();
 	void BackUpPlayer();
-	void PutPlayer(CMario* m)
-	{
-		if (dynamic_cast<CMario*>(objects[0]))
-			objects[0] = m;
-	}
-	void SetPlayer(CMario* mario) { player = mario; }
-	GameTime* GetGameTime() {
-		return gameTime;
-	}
-	void SetGameTime(GameTime* _gameTime) {
-		gameTime = _gameTime;
-	}
+	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 };
 
-typedef CPlayScene* LPPLAYSCENE;
+typedef CWorldScene* LPWORLDSCENE;
 

@@ -21,11 +21,11 @@ void CHUD::Render(CMario* mario, int remainingTime)
 {
 	now_time = GetTickCount64();
 	CAnimations::GetInstance()->Get(ID_ANI_HUD)->Render(x, y);
-	font.Draw(x - 62, y + 5, FillNumber(std::to_string(mario->GetScore()), 7)); //score
-	font.Draw(x + 12, y + 5, FillNumber(std::to_string(remainingTime), 3));
-	font.Draw(x - 76, y -4, FillNumber(std::to_string(1), 1));
-	font.Draw(x + 20, y - 4, FillNumber(std::to_string(mario->GetCoin()), 1));
-	font.Draw(x - 86, y + 5, FillNumber(std::to_string(mario->GetHealth()), 1));
-	power = new CPower(x - 62, y - 3, mario->powerStack);
+	font.Draw(x - ADJUST_X_SCORE, y + ADJUST_Y_SCORE, FillNumber(std::to_string(mario->GetScore()), NUMBER_SCORE)); //score
+	font.Draw(x + ADJUST_X_TIME, y + ADJUST_Y_TIME, FillNumber(std::to_string(remainingTime), NUMBER_TIME));
+	font.Draw(x - ADJUST_X_WORLD, y - ADJUST_Y_WORLD, FillNumber(std::to_string(1), NUMBER_WORLD));
+	font.Draw(x + ADJUST_X_COIN, y - ADJUST_Y_COIN, FillNumber(std::to_string(mario->GetCoin()), NUMBER_COIN));
+	font.Draw(x - ADJUST_X_HEALTH, y + ADJUST_X_HEALTH, FillNumber(std::to_string(mario->GetHealth()), NUMBER_HEALTH));
+	power = new CPower(x - ADJUST_X_POWER, y - ADJUST_Y_POWER, mario->powerStack);
 	power->Render();
 }

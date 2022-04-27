@@ -8,9 +8,9 @@
 
 void CTail::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
 	left = x - width / 2;
-	right = x + width;
+	right = left + width;
 	top = y - height / 2;
-	bottom = y + height;
+	bottom = top + height;
 }
 
 void CTail::OnCollisionWithGoldBrick(LPGAMEOBJECT& e)
@@ -75,4 +75,6 @@ void CTail::Render() {
 	{
 		effects[i]->Render();
 	}
+
+	RenderBoundingBox();
 }

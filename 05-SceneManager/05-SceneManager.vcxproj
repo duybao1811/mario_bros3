@@ -151,6 +151,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Backup.cpp" />
+    <ClCompile Include="BlockObj.cpp" />
     <ClCompile Include="Break.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Coin.cpp" />
@@ -193,6 +194,9 @@
     <ClCompile Include="Tail.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="WorldKey.cpp" />
+    <ClCompile Include="WorldPlayer.cpp" />
+    <ClCompile Include="WorldScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -200,6 +204,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="Backup.h" />
+    <ClInclude Include="BlockObj.h" />
     <ClInclude Include="Break.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Coin.h" />
@@ -244,6 +249,9 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="WorldKey.h" />
+    <ClInclude Include="WorldPlayer.h" />
+    <ClInclude Include="WorldScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

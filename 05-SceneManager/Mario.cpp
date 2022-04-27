@@ -207,8 +207,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			ListEffect.erase(ListEffect.begin() + i);
 		}
 	}
-
-
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 

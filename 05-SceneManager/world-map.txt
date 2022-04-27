@@ -10,9 +10,6 @@ hud.txt
 # 6 = question brick, 7 = PIPE, 8 = piranhaplant, 9 = firePiranhaPlant
 # See OBJECT_TYPE constants in AssetIDs.h
 
-# MARIO
-0	76	350
-
 #GRASS
 
 12	16	-16
@@ -80,6 +77,13 @@ hud.txt
 13	129	113	6
 
 13	128	48	7
+
+############# BLOCK ##############
+
+14	66	18
+
+# MARIO
+0	32	16
 
 [TILEMAP]
 Resources\Tilemap\world-map.txt
