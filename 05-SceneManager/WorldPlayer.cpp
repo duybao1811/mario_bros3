@@ -23,21 +23,26 @@ void CWorldPlayer::OnNoCollision(DWORD dt)
 
 void CWorldPlayer::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->nx != 0 && e->obj->IsBlocking()) {
-		vx = 0;
-	}
 	if (dynamic_cast<CBlockObj*>(e->obj))
+		OnCollisionWithBlockObj(e);
+	if (dynamic_cast<CDoor*>(e->obj))
 		OnCollisionWithDoor(e);
-	
 }
 
-void CWorldPlayer::OnCollisionWithDoor(LPCOLLISIONEVENT e) {
-	if (e->nx != 0) {
-		vx = 0;
-		vy = 0;
-		DebugOut(L"[INFO] powerStack!");
-	}
+void CWorldPlayer::OnCollisionWithDoor(LPCOLLISIONEVENT e) 
+{
+	CDoor* door = dynamic_cast<CDoor*>(e->obj);
+	vx = 0;
+	vy = 0;
+	DebugOut(L"[INFO] powerStack! %d \n", door->GetScene());
+	sceneSwitch = door->GetScene();
 }
+
+void CWorldPlayer::OnCollisionWithBlockObj(LPCOLLISIONEVENT e)
+{
+
+}
+
 
 void CWorldPlayer::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {

@@ -1,6 +1,7 @@
 #include "WorldKey.h"
 #include "WorldPlayer.h"
 #include "WorldScene.h"
+#include "debug.h"
 
 void CWorldKey::OnKeyDown(int KeyCode)
 {
@@ -20,5 +21,13 @@ void CWorldKey::OnKeyDown(int KeyCode)
 	case DIK_DOWN:
 		player->SetState(MARIO_WORLD_MAP_STATE_WALK_BOTTOM);
 		break;
+	case DIK_S:
+	{
+		if (player->sceneSwitch != -1) {
+			CGame::GetInstance()->InitiateSwitchScene(player->sceneSwitch);
+			player->sceneSwitch = -1;
+		}
+		break;
+	}
 	}
 }
