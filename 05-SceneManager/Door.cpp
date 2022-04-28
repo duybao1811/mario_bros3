@@ -10,8 +10,8 @@ CDoor::CDoor(float x, float y, int scene) : CGameObject(x, y)
 void CDoor::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x - DOOR_BBOX_WIDTH/2;
-	right = left + DOOR_BBOX_HEIGHT/2;
 	top = y - DOOR_BBOX_HEIGHT/2;
+	right = left + DOOR_BBOX_WIDTH;
 	bottom = top + DOOR_BBOX_HEIGHT;
 }
 
@@ -63,5 +63,5 @@ void CDoor::Render()
 			ani = ID_ANI_DOOR_SCENE_1;
 	}
 	CAnimations::GetInstance()->Get(ani)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }

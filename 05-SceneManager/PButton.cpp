@@ -74,5 +74,5 @@ void PButton::Render()
 		aniId = ID_ANI_P_BUTTON_IS_PRESSED;
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }

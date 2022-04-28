@@ -1,6 +1,7 @@
 #include "EffectScore.h"
 #include "Mario.h"
 #include "PlayScene.h"
+#include "AssetIDs.h"
 
 CEffectScore::CEffectScore(float x, float y, int model) : CGameObject(x, y)
 {

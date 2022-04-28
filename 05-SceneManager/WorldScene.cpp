@@ -128,7 +128,11 @@ void CWorldScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_BLOCK_WORLD_MAP:
 	{
-		obj = new CBlockObj(x, y);
+		int allowLeft = atoi(tokens[3].c_str());
+		int allowRight = atoi(tokens[4].c_str());
+		int allowBottom = atoi(tokens[5].c_str());
+		int allowTop = atoi(tokens[6].c_str());
+		obj = new CBlockObj(x, y, allowLeft, allowRight, allowBottom, allowTop);
 		break;
 	}
 

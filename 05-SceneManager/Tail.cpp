@@ -16,7 +16,9 @@ void CTail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void CTail::OnCollisionWithGoldBrick(LPGAMEOBJECT& e)
 {
 	CGoldBrick* goldbrick = dynamic_cast<CGoldBrick*>(e);
-	goldbrick->SetBreak(true);	
+	if (!goldbrick->isEmpty) {
+		goldbrick->SetBreak(true);
+	}
 }
 
 void CTail::OnCollisionWithQuestionBrick(LPGAMEOBJECT& e)
@@ -76,5 +78,5 @@ void CTail::Render() {
 		effects[i]->Render();
 	}
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }

@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
-#define DOOR_BBOX_WIDTH 14
-#define DOOR_BBOX_HEIGHT 13
+#define DOOR_BBOX_WIDTH 16
+#define DOOR_BBOX_HEIGHT 14
 
 #define ID_ANI_DOOR_SCENE_1	101
 #define ID_ANI_DOOR_SCENE_2 102

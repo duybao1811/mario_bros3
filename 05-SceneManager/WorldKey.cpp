@@ -10,20 +10,29 @@ void CWorldKey::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_RIGHT:
-		player->SetState(MARIO_WORLD_MAP_STATE_WALK_RIGHT);
+		if (player->allowRight) {
+			player->SetState(MARIO_WORLD_MAP_STATE_WALK_RIGHT);
+		}
 		break;
 	case DIK_LEFT:
-		player->SetState(MARIO_WORLD_MAP_STATE_WALK_LEFT);
+		if (player->allowLeft)
+		{
+			player->SetState(MARIO_WORLD_MAP_STATE_WALK_LEFT);
+		}
 		break;
 	case DIK_UP:
-		player->SetState(MARIO_WORLD_MAP_STATE_WALK_TOP);
+		if (player->allowTop) {
+			player->SetState(MARIO_WORLD_MAP_STATE_WALK_TOP);
+		}
 		break;
 	case DIK_DOWN:
-		player->SetState(MARIO_WORLD_MAP_STATE_WALK_BOTTOM);
+		if (player->allowBottom) {
+			player->SetState(MARIO_WORLD_MAP_STATE_WALK_BOTTOM);
+		}
 		break;
 	case DIK_S:
 	{
-		if (player->sceneSwitch != -1) {
+		if (player->sceneSwitch != -1 && player->sceneSwitch != 0) {
 			CGame::GetInstance()->InitiateSwitchScene(player->sceneSwitch);
 			player->sceneSwitch = -1;
 		}
