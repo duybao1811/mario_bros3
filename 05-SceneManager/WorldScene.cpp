@@ -8,6 +8,7 @@
 #include "Door.h"
 #include "Backup.h"
 #include "BlockObj.h"
+#include "Hammer.h"
 
 using namespace std;
 
@@ -133,6 +134,11 @@ void CWorldScene::_ParseSection_OBJECTS(string line)
 		int allowBottom = atoi(tokens[5].c_str());
 		int allowTop = atoi(tokens[6].c_str());
 		obj = new CBlockObj(x, y, allowLeft, allowRight, allowBottom, allowTop);
+		break;
+	}
+	case OBJECT_HAMMER_WORLD_MAP:
+	{
+		obj = new CHammer(x, y);
 		break;
 	}
 

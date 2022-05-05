@@ -189,6 +189,9 @@
     <ClCompile Include="BlockObj.cpp">
       <Filter>WorldMap</Filter>
     </ClCompile>
+    <ClCompile Include="Hammer.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipe.h">
@@ -348,6 +351,9 @@
       <Filter>WorldMap</Filter>
     </ClInclude>
     <ClInclude Include="BlockObj.h">
+      <Filter>WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Hammer.h">
       <Filter>WorldMap</Filter>
     </ClInclude>
   </ItemGroup>
