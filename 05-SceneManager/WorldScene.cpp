@@ -9,6 +9,7 @@
 #include "Backup.h"
 #include "BlockObj.h"
 #include "Hammer.h"
+#include "Help.h"
 
 using namespace std;
 
@@ -139,6 +140,11 @@ void CWorldScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_HAMMER_WORLD_MAP:
 	{
 		obj = new CHammer(x, y);
+		break;
+	}
+	case OBJECT_HELP_WORLD_MAP:
+	{
+		obj = new CHelp(x, y);
 		break;
 	}
 

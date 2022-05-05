@@ -192,6 +192,9 @@
     <ClCompile Include="Hammer.cpp">
       <Filter>WorldMap</Filter>
     </ClCompile>
+    <ClCompile Include="Help.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipe.h">
@@ -354,6 +357,9 @@
       <Filter>WorldMap</Filter>
     </ClInclude>
     <ClInclude Include="Hammer.h">
+      <Filter>WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Help.h">
       <Filter>WorldMap</Filter>
     </ClInclude>
   </ItemGroup>
