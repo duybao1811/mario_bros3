@@ -39,6 +39,11 @@ void CFirePiranhaPlant::GetBoundingBox(float& left, float& top, float& right, fl
 	}
 }
 
+void CFirePiranhaPlant::OnCollisionWith(LPCOLLISIONEVENT e)
+{
+	if (!e->obj->IsBlocking()) return;
+}
+
 void CFirePiranhaPlant::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;

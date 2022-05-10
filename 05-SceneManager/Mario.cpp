@@ -397,6 +397,8 @@ void CMario::OnCollisionWithGoldBrick(LPCOLLISIONEVENT e) {
 
 void CMario::OnCollisionWithPlant(LPCOLLISIONEVENT e) {
 	
+	CFirePiranhaPlant* firePlant = dynamic_cast<CFirePiranhaPlant*>(e->obj);
+
 	if (e->nx != 0 || e->ny != 0) {
 		SetHurt();
 	}
