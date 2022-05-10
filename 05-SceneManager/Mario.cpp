@@ -444,11 +444,14 @@ void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
-	if (e->ny < 0) {
-		CGame::GetInstance()->SwitchToExtraScene(p->GetSceneId(), 138, 38);
-	}
-	else {
-		CGame::GetInstance()->SwitchToMainScene(p->GetSceneId(), 2323, 350);
+
+	if (e->ny != 0) {
+		if (p->GetModel() == PORTAL_TYPE_TO_EXTRA_SCENE) {
+			CGame::GetInstance()->SwitchToExtraScene(p->GetSceneId(), p->startX, p->startY);
+		}
+		if (p->GetModel() == PORTAL_TYPE_TO_MAIN_SCENE) {
+			CGame::GetInstance()->SwitchToMainScene(p->GetSceneId(), p->startX, p->startY);
+		}
 	}
 }
 

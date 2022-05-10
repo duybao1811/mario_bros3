@@ -182,8 +182,8 @@ MODEL = 1 BIG FIREPIRANHA PLANT
 #type = 1: Go in extra scene
 #type = 2: Back
 #type = 3: Portal exit
-#	x	y	r	b	types	cene_id
-50	2264	132	2296	250	1	2
+#	x	y	r	b	startX	startY	types	scene_id
+50	2264	132	2296	250	138	38	1	2
 #50	2328	360	2364	392	2	0
 
 [TILEMAP]
