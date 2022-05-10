@@ -52,7 +52,7 @@ void CKoopas::OnNoCollision(DWORD dt)
 
 void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-
+	if (!e->obj->IsBlocking()) return;
 	if (e->ny < 0)
 	{
 		vy = 0;
