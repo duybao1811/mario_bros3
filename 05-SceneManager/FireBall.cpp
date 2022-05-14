@@ -94,11 +94,13 @@ void CFireBall::SetState(int state)
 	case FIRE_BALL_STATE_FPP_SHOOT_NEAR:
 		vx = nx * FIRE_BALL_FPP_SHOOT_SPEED_X_NEAR;
 		vy = ny * FIRE_BALL_FPP_SHOOT_SPEED_Y;
+		isEnemyShoot = true;
 		ay = 0;
 		break;
 	case FIRE_BALL_STATE_FPP_SHOOT_FAR:
 		vx = nx * FIRE_BALL_FPP_SHOOT_SPEED_X_FAR;
 		vy = ny * FIRE_BALL_FPP_SHOOT_SPEED_Y;
+		isEnemyShoot = true;
 		ay = 0;
 		break;
 	case FIRE_BALL_DISAPPEAR:

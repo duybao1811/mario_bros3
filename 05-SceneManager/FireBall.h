@@ -47,6 +47,7 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
+	BOOLEAN isEnemyShoot;
 	CFireBall(float x, float y);
 	virtual void SetState(int state);
 };

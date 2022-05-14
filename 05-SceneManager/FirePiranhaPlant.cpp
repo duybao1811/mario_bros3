@@ -291,5 +291,6 @@ void CFirePiranhaPlant::ShootFire()
 			fireBall->SetState(FIRE_BALL_STATE_FPP_SHOOT_NEAR);
 		}
 	}
-	ListFire.push_back(fireBall);
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	scene->objects.push_back(fireBall);
 }

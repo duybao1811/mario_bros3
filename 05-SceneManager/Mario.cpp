@@ -400,7 +400,11 @@ void CMario::OnCollisionWithPlant(LPCOLLISIONEVENT e) {
 }
 
 void CMario::OnCollisionWithFireball(LPCOLLISIONEVENT e) {
-
+	CFireBall* fireball = dynamic_cast<CFireBall*>(e->obj);
+	if (fireball->isEnemyShoot) {
+		fireball->isDeleted = true;
+		SetHurt();
+	}
 }
 
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
