@@ -52,7 +52,6 @@ void CKoopas::OnNoCollision(DWORD dt)
 
 void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
 	if (e->ny < 0)
 	{
 		vy = 0;
@@ -71,16 +70,17 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0)
 	{
-		if (e->obj->GetType() == ENEMY) {
-			if (state == KOOPAS_STATE_IS_KICKED) {
-				CEffectAttack* effect = new CEffectAttack(x, y);
-				effect->SetState(EFFECT_ATTACK_STATE_SHOW);
-				effects.push_back(effect);
-				e->obj->SetState(ENEMY_STATE_IS_KOOPAS_ATTACKED);
-			}
-		}
-		else if (e->obj->GetType() == OBJECT || e->obj->GetType() == GOLDBRICK) {
+		if (e->obj->GetType() == OBJECT || e->obj->GetType() == GOLDBRICK) {
 			vx = -vx;
+		}
+	}
+
+	if (e->obj->GetType() == ENEMY) {
+		if (state == KOOPAS_STATE_IS_KICKED) {
+			CEffectAttack* effect = new CEffectAttack(x, y);
+			effect->SetState(EFFECT_ATTACK_STATE_SHOW);
+			effects.push_back(effect);
+			e->obj->SetState(ENEMY_STATE_IS_KOOPAS_ATTACKED);
 		}
 	}
 
