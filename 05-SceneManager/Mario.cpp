@@ -310,13 +310,10 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	}
 	else // hit by Goomba
 	{
-		if (untouchable == 0)
-		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
 				SetHurt();
 			}
-		}
 	}
 
 }
@@ -1113,16 +1110,21 @@ void CMario::SetState(int state)
 }
 
 void CMario::SetHurt() {
-	if (level > MARIO_LEVEL_SMALL)
+	if (untouchable == 0)
 	{
-		level--;
-		StartUntouchable();
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level--;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
 	}
-	else
-	{
-		DebugOut(L">>> Mario DIE >>> \n");
-		SetState(MARIO_STATE_DIE);
-	}
+	else return;
+
 }
 
 void CMario::Decelerate()
