@@ -93,6 +93,7 @@ effect.txt
 2	832	353	1
 2	880	353	1
 2	944	353	2
+2	528	369	1
 
 ############ question brick 6 #######
 #model = 2 ra item lá, nấm, hoa
