@@ -79,10 +79,6 @@ void CFirePiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		down_start = 0;
 	}
 
-	for (size_t i = 0; i < ListFire.size(); i++)
-	{
-		ListFire[i]->Update(dt, coObjects);
-	}
 	GetMarioRangeCurrent();
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -168,11 +164,6 @@ void CFirePiranhaPlant::Render()
 				}
 			}
 		}
-	}
-
-	for (int i = 0; i < ListFire.size(); i++)
-	{
-		ListFire[i]->Render();
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);

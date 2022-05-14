@@ -67,7 +67,6 @@ protected:
 	BOOLEAN isMarioSafeZone = false;
 	BOOLEAN startShoot = false, startDown = false;
 	BOOLEAN isBottom = false, isFar = false;
-	vector<LPGAMEOBJECT> ListFire;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
