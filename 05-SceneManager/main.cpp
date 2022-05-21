@@ -38,7 +38,7 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 #include "Goomba.h"
 #include "Coin.h"
 #include "Platform.h"
-
+#include "define.h"
 #include "SampleKeyEventHandler.h"
 
 #include "AssetIDs.h"
@@ -48,9 +48,6 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 #define WINDOW_ICON_PATH L"mario.ico"
 
 #define BACKGROUND_COLOR D3DXCOLOR(0.0f/255, 0.0f/255, 0.0f/255, 0.0f)
-
-#define SCREEN_WIDTH 272
-#define SCREEN_HEIGHT 256
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {

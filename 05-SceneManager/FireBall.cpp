@@ -2,6 +2,8 @@
 #include "Mario.h"
 #include "PlayScene.h"
 #include "define.h"
+#include "debug.h"
+
 CFireBall::CFireBall(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -59,6 +61,10 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
+
+	if (!checkObjectInCamera(this)) {
+		isDeleted = true;
+	}
 
 	if (isDisappear && GetTickCount64() - start_disappear > FIRE_BALL_DISAPPEAR_EFFECT_TIME_OUT) { // effect disappear
 		start_disappear = -1;

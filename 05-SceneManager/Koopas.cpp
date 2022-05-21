@@ -165,6 +165,7 @@ void CKoopas::OnCollisionWithColorBlock(LPCOLLISIONEVENT e)
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (!checkObjectInCamera(this)) return;
 	vy += ay * dt;
 	vx += ax * dt;
 	

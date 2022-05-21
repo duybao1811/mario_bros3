@@ -47,6 +47,8 @@ void CFirePiranhaPlant::OnNoCollision(DWORD dt)
 
 void CFirePiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+
+	if (!checkObjectInCamera(this)) return;
 	vy += ay * dt;
 	vx += ax * dt;
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
