@@ -1,5 +1,8 @@
 #pragma once
 
+#define SCREEN_WIDTH 272
+#define SCREEN_HEIGHT 256
+
 #define HUD_HEIGHT 32
 #define HUD_WIDTH 272
 #define TYPE_MARIO 0
@@ -27,3 +30,5 @@ enum EType {
 #define GAME_TIME_LIMIT 300
 
 #define MARIO_POWER_FULL 7
+
+#define WORLD_MAP_ID 100

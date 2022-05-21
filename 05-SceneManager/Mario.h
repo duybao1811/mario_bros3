@@ -93,6 +93,7 @@
 #define MARIO_TRANSFORM_TIME_OUT 1000
 #define MARIO_RACCOON_TRANSFORM_TIME_OUT 500
 #define MARIO_RACCON_ATTACK_TIME_OUT 500
+#define TIME_SWITCH_TO_WORLD_MAP_WHEN_MARIO_DIE 3000
 
 // Power stack
 
@@ -199,6 +200,7 @@ public:
 	ULONGLONG shoot_start = -1;
 	ULONGLONG transform_start = -1;
 	ULONGLONG attack_start = -1;
+	ULONGLONG die_start = -1;
 
 	vector<LPGAMEOBJECT> ListFire;
 	vector<LPGAMEOBJECT> ListEffect;

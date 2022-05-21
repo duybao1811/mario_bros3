@@ -172,6 +172,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		shoot_start = -1;
 		canShoot = false;
 	}
+
+	if (GetTickCount64() - die_start > TIME_SWITCH_TO_WORLD_MAP_WHEN_MARIO_DIE && state == MARIO_STATE_DIE) {
+		die_start = 0;
+		CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_ID);
+	}
 	
 	if (isGoThroughBlockColor) {
 		y -= ADJUST_MARIO_COLLISION_WITH_COLOR_BLOCK;
@@ -1125,6 +1130,7 @@ void CMario::SetHurt() {
 		{
 			DebugOut(L">>> Mario DIE >>> \n");
 			SetState(MARIO_STATE_DIE);
+			die_start = GetTickCount64();
 		}
 	}
 	else return;
