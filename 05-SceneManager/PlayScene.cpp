@@ -384,6 +384,8 @@ void CPlayScene::Unload()
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
 
+	gameTime->SetTime(0);
+
 	objects.clear();
 	delete map;
 
