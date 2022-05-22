@@ -76,11 +76,13 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 
 	if (e->obj->GetType() == ENEMY) {
-		if (state == KOOPAS_STATE_IS_KICKED) {
-			CEffectAttack* effect = new CEffectAttack(x, y);
-			effect->SetState(EFFECT_ATTACK_STATE_SHOW);
-			effects.push_back(effect);
-			e->obj->SetState(ENEMY_STATE_IS_KOOPAS_ATTACKED);
+		if (e->obj->GetState() != ENEMY_STATE_IS_KOOPAS_ATTACKED) {
+			if (state == KOOPAS_STATE_IS_KICKED) {
+				CEffectAttack* effect = new CEffectAttack(x, y);
+				effect->SetState(EFFECT_ATTACK_STATE_SHOW);
+				effects.push_back(effect);
+				e->obj->SetState(ENEMY_STATE_IS_KOOPAS_ATTACKED);
+			}
 		}
 	}
 
