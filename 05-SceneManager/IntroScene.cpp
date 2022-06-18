@@ -78,8 +78,38 @@ void CIntroScene::_ParseSection_ANIMATIONS(string line)
 	CAnimations::GetInstance()->Add(ani_id, ani);
 	if (ani_id == ANI_THREE_ID)
 		THREE = ani;
+	if (ani_id == 4)
+		Background = ani;
 }
 
+void CIntroScene::_ParseSection_OBJECTS(string line)
+{
+	vector<string> tokens = split(line);
+
+	// skip invalid lines - an object set must have at least id, x, y
+	if (tokens.size() < 2) return;
+
+	int object_type = atoi(tokens[0].c_str());
+	float x = (float)atof(tokens[1].c_str());
+	float y = (float)atof(tokens[2].c_str());
+	int model = 0;
+	if (tokens.size() >= 4) {
+		model = atoi(tokens[3].c_str());
+	}
+	CGameObject* obj = NULL;
+
+	switch (object_type)
+	{
+	default:
+		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
+		return;
+	}
+
+	// General object setup
+	obj->SetPosition(x, y);
+
+	objects.push_back(obj);
+}
 
 void CIntroScene::LoadAssets(LPCWSTR assetFile)
 {
@@ -176,8 +206,9 @@ void CIntroScene::Render()
 
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	Background->Render(128, 90);
+	THREE->Render(133, 115);
 	//hud->Render(mario, gameTimeRemain);
-	THREE->Render(112, 96);
 }
 
 /*

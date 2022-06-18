@@ -9,7 +9,7 @@ class CWorldPlayer : public CGameObject
 	float ax;
 	float ay;
 public:
-	int allowLeft = 1, allowRight = 1, allowBottom = 0, allowTop = 0;
+	int allowLeft = 0, allowRight = 1, allowBottom = 0, allowTop = 0;
 	CWorldPlayer(float x, float y);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

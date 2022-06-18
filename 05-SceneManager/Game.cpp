@@ -11,7 +11,7 @@
 #include "WorldScene.h"
 #include "IntroScene.h"
 
-CGame * CGame::__instance = NULL;
+CGame* CGame::__instance = NULL;
 
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for
@@ -104,7 +104,7 @@ void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 	//
 	//
 
-	D3D10_SAMPLER_DESC desc; 
+	D3D10_SAMPLER_DESC desc;
 	desc.Filter = D3D10_FILTER_MIN_MAG_POINT_MIP_LINEAR;
 	desc.AddressU = D3D10_TEXTURE_ADDRESS_CLAMP;
 	desc.AddressV = D3D10_TEXTURE_ADDRESS_CLAMP;
@@ -195,8 +195,8 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int s
 		sprite.TexSize.x = 1.0f;
 		sprite.TexSize.y = 1.0f;
 
-		if (spriteWidth==0) spriteWidth = tex->getWidth();
-		if (spriteHeight==0) spriteHeight = tex->getHeight();
+		if (spriteWidth == 0) spriteWidth = tex->getWidth();
+		if (spriteHeight == 0) spriteHeight = tex->getHeight();
 	}
 	else
 	{
@@ -255,7 +255,7 @@ LPTEXTURE CGame::LoadTexture(LPCWSTR texturePath)
 		return NULL;
 	}
 
-	D3DX10_IMAGE_LOAD_INFO info; 
+	D3DX10_IMAGE_LOAD_INFO info;
 	ZeroMemory(&info, sizeof(D3DX10_IMAGE_LOAD_INFO));
 	info.Width = imageInfo.Width;
 	info.Height = imageInfo.Height;
@@ -500,11 +500,11 @@ void CGame::Load(LPCWSTR gameFile)
 		if (line == "[SETTINGS]") { section = GAME_FILE_SECTION_SETTINGS; continue; }
 		if (line == "[TEXTURES]") { section = GAME_FILE_SECTION_TEXTURES; continue; }
 		if (line == "[SCENES]") { section = GAME_FILE_SECTION_SCENES; continue; }
-		if (line[0] == '[') 
-		{ 
-			section = GAME_FILE_SECTION_UNKNOWN; 
+		if (line[0] == '[')
+		{
+			section = GAME_FILE_SECTION_UNKNOWN;
 			DebugOut(L"[ERROR] Unknown section: %s\n", ToLPCWSTR(line));
-			continue; 
+			continue;
 		}
 
 		//
@@ -527,13 +527,13 @@ void CGame::Load(LPCWSTR gameFile)
 void CGame::SwitchScene()
 {
 
-	if (next_scene < 0 || next_scene == current_scene) return; 
+	if (next_scene < 0 || next_scene == current_scene) return;
 
 	if (dynamic_cast<CPlayScene*>(scenes[current_scene])) {
 		((CPlayScene*)scenes[current_scene])->BackUpPlayer();
 	}
 	scenes[current_scene]->Unload();
-	
+
 	//reset prev scene
 	if (prev_scene != -1)
 	{
