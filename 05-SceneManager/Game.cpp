@@ -9,6 +9,7 @@
 #include "PlayScene.h"
 #include "AssetIDs.h"
 #include "WorldScene.h"
+#include "IntroScene.h"
 
 CGame * CGame::__instance = NULL;
 
@@ -471,7 +472,7 @@ void CGame::_ParseSection_SCENES(string line)
 		scenes[id] = scene;
 	}
 	else if (type == INTROSCENE) {
-		LPSCENE scene = new CPlayScene(id, path);
+		LPSCENE scene = new CIntroScene(id, path);
 		scenes[id] = scene;
 	}
 }

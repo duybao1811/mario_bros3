@@ -1,10 +1,10 @@
 [SETTINGS]
-start	100
+start	0
 width	320
 height	240
 
 #id	type	file
-# type: 0: intro, 1: play scene 
+# type: 0: intro, 1: play scene, 2: world scene 
 [SCENES]
 0	intro.txt	1
 100	world-map.txt	2
@@ -28,3 +28,5 @@ height	240
 101	Textures\hud_source.png
 200	Textures\worldmapObj.png
 32	Resources\Tilemap\worldmap_bank.png
+1	Textures\title.png
+2	Textures\logo.png

@@ -175,6 +175,8 @@
     <ClCompile Include="Hammer.cpp" />
     <ClCompile Include="Help.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="IntroKey.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="main.cpp" />
@@ -230,6 +232,8 @@
     <ClInclude Include="Hammer.h" />
     <ClInclude Include="Help.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="IntroKey.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Leaf.h" />

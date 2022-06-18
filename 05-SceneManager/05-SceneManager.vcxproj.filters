@@ -40,6 +40,9 @@
     <Filter Include="WorldMap">
       <UniqueIdentifier>{d61dd034-2447-4221-a4b9-4a5816d1bf29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IntroScene">
+      <UniqueIdentifier>{21248280-97cd-491c-b2fc-860e18a3e350}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pipe.cpp">
@@ -194,6 +197,12 @@
     </ClCompile>
     <ClCompile Include="Help.cpp">
       <Filter>WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>IntroScene</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroKey.cpp">
+      <Filter>IntroScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +370,12 @@
     </ClInclude>
     <ClInclude Include="Help.h">
       <Filter>WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroKey.h">
+      <Filter>IntroScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
