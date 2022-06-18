@@ -1,7 +1,7 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 ############## ground #########
-1	0	187	256	224	1
+1	0	188	256	224	1
 
 ############# Background section 1 ##########
 
@@ -27,7 +27,7 @@
 
 ########## ARROW ####################
 
-9	51	54	58	62	2
+9	51	54	59	62	2
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

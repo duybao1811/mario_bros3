@@ -10,6 +10,7 @@ CIntroScene::CIntroScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	key_handler = new CIntroKey(this);
+	
 }
 
 #define SCENE_SECTION_UNKNOWN -1
@@ -77,9 +78,11 @@ void CIntroScene::_ParseSection_ANIMATIONS(string line)
 
 	CAnimations::GetInstance()->Add(ani_id, ani);
 	if (ani_id == ANI_THREE_ID)
-		THREE = ani;
+		three = ani;
 	if (ani_id == 4)
-		Background = ani;
+		background = ani;
+	if (ani_id == 1)
+		ground = ani;
 }
 
 void CIntroScene::_ParseSection_OBJECTS(string line)
@@ -100,6 +103,18 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+	case OBJECT_TYPE_ARROW:
+		if (arrow != NULL)
+		{
+			DebugOut(L"[ERROR] MARIO object was created before!\n");
+			return;
+		}
+		obj = new CArrow(x, y);
+		arrow = (CArrow*)obj;
+
+		DebugOut(L"[INFO] Player object has been created!\n");
+		break;
+
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
 		return;
@@ -163,6 +178,7 @@ void CIntroScene::Load()
 
 		if (line[0] == '#') continue;	// skip comment lines	
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
+		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -171,6 +187,7 @@ void CIntroScene::Load()
 		switch (section)
 		{
 		case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
+		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
 
@@ -195,6 +212,8 @@ void CIntroScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
+	if (arrow == NULL) return;
+
 	PurgeDeletedObjects();
 }
 
@@ -204,10 +223,12 @@ void CIntroScene::Render()
 	CGame* game = CGame::GetInstance();
 	//CHUD* hud = new CHUD(game->GetCamX() + HUD_WIDTH / 2, game->GetCamY() + game->GetScreenHeight() - HUD_HEIGHT / 2);
 
+
+	background->Render(128, 90);
+	ground->Render(128, 200);
+	three->Render(133, 115);
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
-	Background->Render(128, 90);
-	THREE->Render(133, 115);
 	//hud->Render(mario, gameTimeRemain);
 }
 
@@ -230,7 +251,7 @@ void CIntroScene::Unload()
 		delete objects[i];
 
 	objects.clear();
-
+	arrow = nullptr;
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }
 

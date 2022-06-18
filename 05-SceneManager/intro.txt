@@ -11,7 +11,7 @@ worldmapObj.txt
 # 6 = question brick, 7 = PIPE, 8 = piranhaplant, 9 = firePiranhaPlant
 # See OBJECT_TYPE constants in AssetIDs.h
 
-# MARIO
-0	76	350
+# Arrow
+17	70	146
 #0	120	10
 

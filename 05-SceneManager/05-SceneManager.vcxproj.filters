@@ -204,6 +204,9 @@
     <ClCompile Include="IntroKey.cpp">
       <Filter>IntroScene</Filter>
     </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>IntroScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipe.h">
@@ -375,6 +378,9 @@
       <Filter>IntroScene</Filter>
     </ClInclude>
     <ClInclude Include="IntroKey.h">
+      <Filter>IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
       <Filter>IntroScene</Filter>
     </ClInclude>
   </ItemGroup>

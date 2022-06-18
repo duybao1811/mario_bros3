@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Backup.cpp" />
     <ClCompile Include="BlockObj.cpp" />
     <ClCompile Include="Break.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Arrow.h" />
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="Backup.h" />
     <ClInclude Include="BlockObj.h" />
