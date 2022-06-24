@@ -23,8 +23,9 @@
 #define SECTION_3 3
 #define BACKGROUND_POSITION_X 128
 #define BACKGROUND_POSITION_Y 90
-#define BACKGROUND_DOWN_SPEED 5
+#define BACKGROUND_DOWN_SPEED 3
 #define SECTION_2_DURATION 2000
+
 class CIntroScene : public CScene
 {
 	CArrow* arrow = NULL;
