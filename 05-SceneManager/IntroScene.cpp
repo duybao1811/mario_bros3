@@ -79,9 +79,13 @@ void CIntroScene::_ParseSection_ANIMATIONS(string line)
 	CAnimations::GetInstance()->Add(ani_id, ani);
 	if (ani_id == ANI_THREE_ID)
 		three = ani;
-	if (ani_id == 4)
-		background = ani;
-	if (ani_id == 1)
+	if (ani_id == ANI_BACKGROUND_SECTION_1)
+		background[1] = ani;
+	if (ani_id == ANI_BACKGROUND_SECTION_2)
+		background[2] = ani;
+	if (ani_id == ANI_BACKGROUND_SECTION_3)
+		background[3] = ani;
+	if (ani_id == ANI_GROUND_INTRO)
 		ground = ani;
 }
 
@@ -201,6 +205,21 @@ void CIntroScene::Update(DWORD dt)
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
+
+	if (section == SECTION_1) {
+
+		if (point < BACKGROUND_POSITION_Y)
+			point += BACKGROUND_DOWN_SPEED;
+		else {
+			point = BACKGROUND_POSITION_Y;
+			section = SECTION_2;
+			start_section2 = GetTickCount64();
+		}
+	}
+
+	if (section == SECTION_2 && GetTickCount64() - start_section2 > SECTION_2_DURATION) {
+		section = SECTION_3;
+	}
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{
@@ -221,15 +240,18 @@ void CIntroScene::Update(DWORD dt)
 void CIntroScene::Render()
 {
 	CGame* game = CGame::GetInstance();
-	//CHUD* hud = new CHUD(game->GetCamX() + HUD_WIDTH / 2, game->GetCamY() + game->GetScreenHeight() - HUD_HEIGHT / 2);
 
+	background[section]->Render(BACKGROUND_POSITION_X, point);
 
-	background->Render(128, 90);
-	ground->Render(128, 200);
-	three->Render(133, 115);
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
-	//hud->Render(mario, gameTimeRemain);
+	ground->Render(GROUND_POSITION_X, GROUND_POSITION_Y);
+	if (section > SECTION_1) {
+		three->Render(THREE_POSITION_X, THREE_POSITION_Y);
+	}
+	if (section > SECTION_2) {
+		for (int i = 0; i < objects.size(); i++)
+			objects[i]->Render();
+	}
+
 }
 
 /*
